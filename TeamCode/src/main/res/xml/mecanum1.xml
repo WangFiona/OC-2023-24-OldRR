@@ -17,10 +17,10 @@
             <goBILDA5202SeriesMotor name="driveRF" port="1" />
             <goBILDA5202SeriesMotor name="driveRB" port="0" />
             <goBILDA5202SeriesMotor name="intake" port="2" />
-            <Servo name="intakeSmallTilt" port="1" />
-            <Servo name="intakeDoor" port="0" />
+            <Servo name="intakeSmallTilt" port="5" />
+            <Servo name="intakeDoor" port="3" />
             <Servo name="rightPixel" port="2" />
-            <Servo name="intakeBigTilt" port="3" />
+            <Servo name="intakeBigTilt" port="1" />
             <Servo name="rightHang" port="4" />
             <DigitalDevice name="limitswitch" port="5" />
             <DigitalDevice name="limitswitch2" port="4" />

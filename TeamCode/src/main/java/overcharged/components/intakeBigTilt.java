@@ -3,10 +3,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class intakeBigTilt {
     public OcServo intakeBigTilt;
-    public static final float INIT = 230f;
-    public static final float TRANSFER = 205f;
-    public static final float FLAT = 191f;
-    public static final float OUT = 82f;
+    public static final float INIT = 204f;//230f;
+    public static final float TRANSFER = 204f;
+    public static final float FLAT = 189f;
+    public static final float OUT = 83f;
 
     public intakeBigTilt(HardwareMap hardwareMap) {
         intakeBigTilt = new OcServo(hardwareMap, "intakeBigTilt", TRANSFER);

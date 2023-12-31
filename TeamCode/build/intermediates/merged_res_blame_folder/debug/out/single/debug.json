@@ -1,18 +1,18 @@
 [
     {
-        "merged": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:\\raw_readme.md.flat",
-        "source": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-main-22:\\raw\\readme.md"
+        "merged": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:/xml_teamwebcamcalibrations.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-main-22:/xml/teamwebcamcalibrations.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:/xml_mecanum1.xml.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-main-22:/xml/mecanum1.xml"
+    },
+    {
+        "merged": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:/raw_readme.md.flat",
+        "source": "/Users/fionawang/.gradle/daemon/7.5/org.firstinspires.ftc.teamcode.TeamCode-main-22:/raw/readme.md"
     },
     {
         "merged": "org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:/xml_mecanum1.xml.flat",
         "source": "org.firstinspires.ftc.teamcode.TeamCode-main-22:/xml/mecanum1.xml"
-    },
-    {
-        "merged": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:\\xml_teamwebcamcalibrations.xml.flat",
-        "source": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-main-22:\\xml\\teamwebcamcalibrations.xml"
-    },
-    {
-        "merged": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-merged_res-20:\\xml_mecanum1.xml.flat",
-        "source": "C:\\Users\\sophi\\.gradle\\daemon\\7.5\\org.firstinspires.ftc.teamcode.TeamCode-main-22:\\xml\\mecanum1.xml"
     }
 ]
