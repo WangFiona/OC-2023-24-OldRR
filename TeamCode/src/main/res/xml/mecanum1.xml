@@ -23,6 +23,7 @@
             <Servo name="intakeBigTilt" port="3" />
             <Servo name="rightHang" port="4" />
             <DigitalDevice name="limitswitch" port="5" />
+            <DigitalDevice name="limitswitch2" port="4" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
             <!--<DigitalDevice name="led_white" port="6" />
             <DigitalDevice name="led_yellow" port="4" />

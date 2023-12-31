@@ -31,6 +31,8 @@ public class RobotMecanum {
 
     public Intake intake;
     public vSlides vSlides;
+    public hslides hslides;
+
     public autoDropper dropper;
     public intakeDoor intakeDoor;
     public intakeSmallTilt intakeSmallTilt;
@@ -143,6 +145,14 @@ public class RobotMecanum {
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: vslides " + e.getMessage());
             missing = missing + ", vSlides";
+            numberMissing++;
+        }
+
+        try {
+            hslides = new hslides(hardwareMap);
+        } catch (Exception e) {
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: hslides " + e.getMessage());
+            missing = missing + ", hSlides";
             numberMissing++;
         }
 

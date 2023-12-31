@@ -271,6 +271,7 @@ Tester
         //Set all motors to FLOAT behavior while unpowered
         robot.drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.vSlides.vSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.hslides.hslides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         while (opModeIsActive()) {
             long timeStamp = System.currentTimeMillis();
@@ -280,6 +281,7 @@ Tester
 
                 robot.drive.resetPosition();
                 robot.vSlides.vSlides.resetPosition();
+                robot.hslides.hslides.resetPosition();
                 idle();
             }
             else if (gamepad1.left_stick_button && Button.BTN_BACK.canPress(timeStamp)) {

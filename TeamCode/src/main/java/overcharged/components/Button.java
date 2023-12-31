@@ -99,6 +99,9 @@ public class Button
     public static final Button BTN_SLIDE = new Button();
     public static final Button BTN_SLIDE_UP = new Button();
     public static final Button BTN_SLIDE_DOWN = new Button();
+    public static final Button BTN_SLIDE_IN = new Button();
+    public static final Button BTN_SLIDE_OUT = new Button();
+
 
     ///Assign buttons to intake controls
     public static final Button BTN_COLLECT = new Button(); //RT2

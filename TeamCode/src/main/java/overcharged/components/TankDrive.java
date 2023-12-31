@@ -1,10 +1,8 @@
 package overcharged.components;
 
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.util.RobotLog;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
-import static overcharged.config.RobotConstants.TAG_TDRV;
 
 /**
  * Drive class for OpMode.

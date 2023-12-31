@@ -14,15 +14,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-import java.util.Vector;
-
 import overcharged.components.RobotMecanum;
-import overcharged.components.SignalColors;
 import overcharged.components.propLocation;
 import overcharged.config.RobotConstants;
 import overcharged.linear.util.SelectLinear;
