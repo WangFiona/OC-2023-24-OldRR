@@ -8,6 +8,13 @@ public class intakeSmallTilt {
     public static final float FLAT = 100f;
     public static final float OUT = 27f;
 
+    //for auto intaking, will need SEVERE tuning
+    int pixelInterval = 3;
+    public final float FIFTHP = OUT+pixelInterval*4;
+    public final float FOURTHP = OUT+pixelInterval*3;
+    public final float THIRDP = OUT+pixelInterval*2;
+    public final float SECONDP = OUT+pixelInterval;
+
     public intakeSmallTilt(HardwareMap hardwareMap) {
         intakeSmallTilt = new OcServo(hardwareMap, "intakeSmallTilt", TRANSFER);
     }

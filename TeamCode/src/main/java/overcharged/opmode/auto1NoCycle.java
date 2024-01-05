@@ -29,8 +29,8 @@ import overcharged.test.HSVPipeline;
 import overcharged.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name="auto1")
-public class auto1 extends LinearOpMode {
+@Autonomous(name="auto1NoCycle")
+public class auto1NoCycle extends LinearOpMode {
 
     private RobotMecanum robot;
     SampleMecanumDrive drive;

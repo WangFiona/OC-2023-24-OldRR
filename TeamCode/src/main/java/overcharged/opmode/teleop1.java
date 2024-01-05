@@ -318,36 +318,37 @@ public class teleop1 extends OpMode {
             }
         }
 //      UNCOMMENT THIS LATER
-//        if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
-//            if(robot.vSlides.vSlides.getCurrentPosition() < 1950){
-//                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())+160, 1);
-//            }
-//        }
-//
-//        if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
-//            if(robot.vSlides.vSlides.getCurrentPosition() > 180){
-//                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())-180, 1);
-//            }
-//        }
-
-        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
-            hSlideisOut = true;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            robot.depoDoor.setClosed();
-            depoMode = DepoMode.ClOSED;
-            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
+        if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
+            if(robot.vSlides.vSlides.getCurrentPosition() < 1950){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())+160, 1);
+            }
         }
 
-        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
-            hSlideisOut = false;
+        if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
+            if(robot.vSlides.vSlides.getCurrentPosition() > 180){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())-180, 1);
+            }
+        }
+
+//        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
+//            hSlideisOut = true;
 //            robot.intake.off();
 //            intakeMode = IntakeMode.OFF;
 //            robot.depoDoor.setClosed();
 //            depoMode = DepoMode.ClOSED;
-//            robot.intake.in();
-            hSlideGoBottom = true;
-        }
+//            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
+//        }
+//
+//        if (gamepad2.a && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
+//            hSlideisOut = false;
+////            robot.intake.off();
+////            intakeMode = IntakeMode.OFF;
+////            robot.depoDoor.setClosed();
+////            depoMode = DepoMode.ClOSED;
+////            robot.intake.in();
+//              robot.hslides.in();
+//            hSlideGoBottom = true;
+//        }
 
 
 //        if (hSlideGoBottom) {
@@ -356,7 +357,7 @@ public class teleop1 extends OpMode {
 //                robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //                hSlideGoBottom = false;
 //                robot.intake.in();
-//                intakeMode = IntakeMode.IN;
+//                intakeMode = IntakeMode.OFF;
 //                RobotLog.ii(TAG_SL, "Force stopped");
 //            }
 //            else {
@@ -365,15 +366,15 @@ public class teleop1 extends OpMode {
 //            }
 //        }
 
-          if (!robot.hslides.slideIn()) {
-              robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-              robot.hslides.in();
-          } else {
-              robot.hslides.forceStop();
-              robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-              robot.intake.in();
-              intakeMode = IntakeMode.IN;
-          }
+        if (!robot.hslides.slideIn()) {
+            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.hslides.in();
+        } else {
+            robot.hslides.forceStop();
+            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//              robot.intake.in();
+//              intakeMode = IntakeMode.OFF;
+        }
 
 //        if (!robot.hslides.slideIn() && hSlideGoBottom) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
 //            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
