@@ -143,7 +143,7 @@ public class auto1NoCycle extends LinearOpMode {
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? 4: 9.5f;//-4;
-                    xYellowDump = Blue? -36: -18;//-36;
+                    xYellowDump = Blue? -34.5f: -18;//-36;
                     yYellowDump = Blue? -36: 36;
                 }
 
@@ -224,11 +224,11 @@ public class auto1NoCycle extends LinearOpMode {
             float lPixelPos = robot.leftPixel.pixelDropper.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
             RobotLog.ii(RobotConstants.TAG_R, "left pixel pos" + lPixelPos + "dump" + robot.leftPixel.DUMP);
-            while (lPixelPos > 112 && System.currentTimeMillis() - dropperTime < 1000) {
+            while (lPixelPos > 97 && System.currentTimeMillis() - dropperTime < 1000) {
                 RobotLog.ii(RobotConstants.TAG_R, "moving left pixel");
                 lPixelPos -= 3;
                 robot.leftPixel.setPosition(lPixelPos);
-                lp.waitMillis(15);
+                lp.waitMillis(9);
             }
         }
         else {
@@ -237,7 +237,7 @@ public class auto1NoCycle extends LinearOpMode {
             while (rPixelPos <= 146 && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
                 rPixelPos += 3;
                 robot.rightPixel.setPosition(rPixelPos);
-                lp.waitMillis(15);
+                lp.waitMillis(10);
             }
         }
 
