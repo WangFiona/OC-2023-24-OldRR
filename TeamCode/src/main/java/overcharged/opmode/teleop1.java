@@ -330,25 +330,25 @@ public class teleop1 extends OpMode {
             }
         }
 
-//        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
-//            hSlideisOut = true;
+        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
+            hSlideisOut = true;
+            robot.intake.off();
+            intakeMode = IntakeMode.OFF;
+            robot.depoDoor.setClosed();
+            depoMode = DepoMode.ClOSED;
+            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
+        }
+
+        if (gamepad2.a && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
+            hSlideisOut = false;
 //            robot.intake.off();
 //            intakeMode = IntakeMode.OFF;
 //            robot.depoDoor.setClosed();
 //            depoMode = DepoMode.ClOSED;
-//            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
-//        }
-//
-//        if (gamepad2.a && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
-//            hSlideisOut = false;
-////            robot.intake.off();
-////            intakeMode = IntakeMode.OFF;
-////            robot.depoDoor.setClosed();
-////            depoMode = DepoMode.ClOSED;
-////            robot.intake.in();
-//              robot.hslides.in();
-//            hSlideGoBottom = true;
-//        }
+//            robot.intake.in();
+              robot.hslides.in();
+            hSlideGoBottom = true;
+        }
 
 
 //        if (hSlideGoBottom) {
@@ -366,15 +366,15 @@ public class teleop1 extends OpMode {
 //            }
 //        }
 
-        if (!robot.hslides.slideIn()) {
-            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            robot.hslides.in();
-        } else {
-            robot.hslides.forceStop();
-            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//              robot.intake.in();
-//              intakeMode = IntakeMode.OFF;
-        }
+//        if (!robot.hslides.slideIn()) {
+//            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            robot.hslides.in();
+//        } else {
+//            robot.hslides.forceStop();
+//            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+////              robot.intake.in();
+////              intakeMode = IntakeMode.OFF;
+//        }
 
 //        if (!robot.hslides.slideIn() && hSlideGoBottom) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
 //            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -481,7 +481,7 @@ public class teleop1 extends OpMode {
 
         if(gamepad1.dpad_up && Button.BTN_LATCH_READY.canPress(timestamp)){
             if(isLocked) {
-                robot.leftHang.setHang();
+                robot.leftHang.setPosition(95f);
                 robot.rightHang.setHang();
                 isLocked = false;
             } else {

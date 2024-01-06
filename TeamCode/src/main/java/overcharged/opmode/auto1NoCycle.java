@@ -119,6 +119,9 @@ public class auto1NoCycle extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
+                robot.leftHang.setPosition(210f);
+                robot.rightHang.setIn();
+
                 robot.vSlides.reset(robot.vSlides.vSlides);
 
                 //detector.reset();

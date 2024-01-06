@@ -45,8 +45,8 @@ public class auto2FirstCycle extends LinearOpMode {
     propLocation location = propLocation.Middle;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
-    float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xPark, yPark;
-    TrajectorySequence test, dumpPurplePixel, extraForPurple, dumpYellowPixel, park, goToIntake, dumpFirstCycle;
+    float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xAdjust, xPark, yPark;
+    TrajectorySequence test, forward, adjust, dumpPurplePixel, extraForPurple, dumpYellowPixel, park, goToIntake, dumpFirstCycle;
     Pose2d start = new Pose2d();
 
     @Override
@@ -119,6 +119,9 @@ public class auto2FirstCycle extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
+                robot.leftHang.setPosition(210f);
+                robot.rightHang.setIn();
+
                 robot.vSlides.reset(robot.vSlides.vSlides);
 
                 //detector.reset();
@@ -128,31 +131,40 @@ public class auto2FirstCycle extends LinearOpMode {
                 if(location==propLocation.Middle){
                     xPurpleDump = Blue? -29: -29;
                     yPurpleDump = Blue? -3: 3;
-                    xYellowDump = Blue? -25: -25;
-                    yYellowDump = Blue? -36: 36;
+                    xYellowDump = Blue? -25: -25; //-25
+                    yYellowDump = Blue? -35: 35;//-21//-16//-36
+                    xAdjust = -20;
                 }
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? -9.5f: -4;//9.5f;
-                    xYellowDump = Blue? -18: -36;//-18;
-                    yYellowDump = Blue? -36: 36;
+                    xYellowDump = Blue? -18: -32;//-18:-36;
+                    yYellowDump = Blue? -35: 35; //-36
+                    xAdjust = -33;
                 }
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? 4: 9.5f;//-4;
-                    xYellowDump = Blue? -36: -18;//-36;
-                    yYellowDump = Blue? -36: 36;
+                    xYellowDump = Blue? -32: -18;//-32;
+                    yYellowDump = Blue? -35: 35;
+                    xAdjust = -20; //-20
                 }
 
                 xPark = -40;
                 yPark = yYellowDump+5;
 
                 //initialize trajectories
-                dumpYellowPixel = drive.trajectorySequenceBuilder(start)
-                        .splineTo(new Vector2d(xYellowDump, yYellowDump), Math.toRadians(Blue? 90 : -90))
+                forward = drive.trajectorySequenceBuilder(start)
+                        .lineTo(new Vector2d(-35, 0))
                         .build();
-                goToIntake = drive.trajectorySequenceBuilder(dumpYellowPixel.end())
-                        .lineToLinearHeading(new Pose2d(-25, Blue? 40: -40, Math.toRadians(Blue? 90 : -90)))
+                dumpYellowPixel = drive.trajectorySequenceBuilder(forward.end())
+                        .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
+                        .build();
+                adjust = drive.trajectorySequenceBuilder(dumpYellowPixel.end())
+                        .lineTo(new Vector2d(-25, yYellowDump))
+                        .build();
+                goToIntake = drive.trajectorySequenceBuilder(adjust.end())
+                        .lineToLinearHeading(new Pose2d(-25, Blue? 45: -40, Math.toRadians(Blue? 90 : -90)))
                         .build();
                 dumpPurplePixel = drive.trajectorySequenceBuilder(goToIntake.end())
                         .lineToLinearHeading(new Pose2d(xPurpleDump, yPurpleDump, Math.toRadians(Blue? 90 : -90)))
@@ -214,12 +226,14 @@ public class auto2FirstCycle extends LinearOpMode {
 
         robot.depoDoor.setClosed();
         robot.intakeDoor.setClosed();
-
+        drive.followTrajectorySequence(forward);
+        //lp.waitMillis(1000);
         //first we go to dump yellow on the board
         robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
-        lp.waitMillis(600);
+        lp.waitMillis(300);
 
         robot.depoTilt.setOut();
+
         drive.followTrajectorySequence(dumpYellowPixel);
 
         robot.depoDoor.setOpen2();
@@ -233,7 +247,7 @@ public class auto2FirstCycle extends LinearOpMode {
 
         slidesDown(lp);
         //all done dumping yellow pixel
-
+        drive.followTrajectorySequence(adjust);
         //preparing to intake, im not sure how far exactly we want to drive and extend slides, so thats something to test
         robot.intakeSmallTilt.setOut();
         robot.intakeBigTilt.setOut();

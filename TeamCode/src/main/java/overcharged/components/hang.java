@@ -9,11 +9,11 @@ public class hang {
     public hang(HardwareMap hardwareMap, boolean isRight) {
         if(isRight){
             IN = 1f;//29f;
-            HANG = 100f;
+            HANG = 126f;
             hang = new OcServo(hardwareMap, "rightHang", IN);
         } else {
-            IN = 210f;
-            HANG = 100f;
+            IN = 208f;
+            HANG = 95f;
             hang = new OcServo(hardwareMap, "leftHang", IN);
         }
     }

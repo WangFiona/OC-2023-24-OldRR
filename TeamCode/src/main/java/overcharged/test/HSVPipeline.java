@@ -18,24 +18,24 @@ public class HSVPipeline extends OpenCvPipeline {
     double x2 = 0.5;//0.4;//0.54;
     double y1 = 0.7;//0.55;
     double y2 = 0.6;//0.29;
-    double rightX1 = 0.85;//0.02;
-    double rightX2 = 0.9;//0.15;
+    double rightX1 = 0.91;//0.85;//0.02;
+    double rightX2 = 0.96;//0.9;//0.15;
     double rightY1 = 0.73;//0.8;//0.61;
-    double rightY2 = 0.6;//0.35;
+    double rightY2 = 0.63;//0.35;
 
     //blues
-    double blueX1 = 0.65;
-    double blueX2 = 0.7;
+    double blueX1 = 0.72;
+    double blueX2 = 0.77;
     double blueY1 = 0.7;
     double blueY2 = 0.6;
     double blueLeftX1 = 0.27;
     double blueLeftX2 = 0.32;
     double blueLeftY1 = 0.73;
-    double blueLeftY2 = 0.6;
+    double blueLeftY2 = 0.63;
     Scalar averageColor, rightAverageColor, blueAverageColor, blueLeftAverageColor;
     Scalar lowerRed1 = new Scalar(0, 100, 100);
     Scalar upperRed1 = new Scalar(15, 255, 255);
-    Scalar lowerRed2 = new Scalar(110, 100, 100);
+    Scalar lowerRed2 = new Scalar(111, 100, 100);
     Scalar upperRed2 = new Scalar(180, 255, 255);
     Scalar lowerBlue = new Scalar(0, 100, 70);
     Scalar upperBlue = new Scalar(25, 255, 255);

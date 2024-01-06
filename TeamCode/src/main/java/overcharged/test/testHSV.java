@@ -52,7 +52,7 @@ public class testHSV extends LinearOpMode {
 
         if (opModeIsActive()) {
             lp.waitMillis(2000);
-            location = detector.getLocation(false);
+            location = detector.getLocation(true);
             //RobotLog.ii(TAG_A, "color red?", detector.getColor());
             RobotLog.ii(TAG_A, "avg color?", detector.getAverageColor());
             RobotLog.ii(TAG_A, "location? " + location);
