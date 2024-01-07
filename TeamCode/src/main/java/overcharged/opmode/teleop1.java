@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
-
+import overcharged.components.hslides;
 
 
 @Config
@@ -105,6 +105,7 @@ public class teleop1 extends OpMode {
             robot.intakeDoor.setClosed();
             iOpen = false;
             firstLoop = false;
+            //robot.hslides.moveEncoderTo(hslides.START, 1);
         }
         robot.clearBulkCache();
         long timestamp = System.currentTimeMillis();
@@ -144,6 +145,9 @@ public class teleop1 extends OpMode {
             }
         }
 
+        /*if(!robot.hslides.switchSlideDown.isTouch()){
+            robot.hslides.moveEncoderTo(hslides.START, 1);
+        }*/
         //Intake in
         if(gamepad1.right_trigger > 0.9 && Button.INTAKE.canPress(timestamp)) {//gamepad1.right_bumper && Button.INTAKE.canPress(timestamp)){
             if (intakeMode == IntakeMode.OFF || intakeMode == IntakeMode.OUT) {
@@ -330,25 +334,27 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
-            hSlideisOut = true;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            robot.depoDoor.setClosed();
-            depoMode = DepoMode.ClOSED;
-            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
-        }
 
-        if (gamepad2.a && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
-            hSlideisOut = false;
+
+//        if (gamepad2.y && Button.BTN_SLIDE_OUT.canPress(timestamp) && !hSlideisOut) {
+//            hSlideisOut = true;
+//            robot.intake.off();
+//            intakeMode = IntakeMode.OFF;
+//            robot.depoDoor.setClosed();
+//            depoMode = DepoMode.ClOSED;
+//            robot.hslides.moveEncoderTo(robot.hslides.OUT, 1);
+//        }
+
+//        if (gamepad2.a && Button.BTN_SLIDE_OUT.canPress(timestamp) && hSlideisOut) {
+//            hSlideisOut = false;
 //            robot.intake.off();
 //            intakeMode = IntakeMode.OFF;
 //            robot.depoDoor.setClosed();
 //            depoMode = DepoMode.ClOSED;
 //            robot.intake.in();
-              robot.hslides.in();
-            hSlideGoBottom = true;
-        }
+//              robot.hslides.in();
+//            hSlideGoBottom = true;
+//        }
 
 
 //        if (hSlideGoBottom) {
@@ -479,13 +485,13 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad1.dpad_up && Button.BTN_LATCH_READY.canPress(timestamp)){
+        if(gamepad2.left_stick_button && Button.BTN_LATCH_READY.canPress(timestamp)){
             if(isLocked) {
-                robot.leftHang.setPosition(95f);
+                robot.leftHang.setPosition(217f);
                 robot.rightHang.setHang();
                 isLocked = false;
             } else {
-                robot.leftHang.setPosition(210f);
+                robot.leftHang.setPosition(19f);
                 robot.rightHang.setIn();
                 isLocked = true;
             }
@@ -504,6 +510,7 @@ public class teleop1 extends OpMode {
         telemetry.addData("driveRB", robot.driveRightBack.getCurrentPosition());
         telemetry.addData("hslideOut", robot.hslides.slideIn());
         telemetry.addData("hslidePower", robot.hslides.getPower());
+        telemetry.addData("hSlidePos", robot.hslides.hslides.getCurrentPosition());
         telemetry.update();
     }
     public void slideBottom() {

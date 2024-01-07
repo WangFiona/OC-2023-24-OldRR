@@ -29,8 +29,8 @@ import overcharged.test.HSVPipeline;
 import overcharged.trajectorysequence.TrajectorySequence;
 
 @Config
-@Autonomous(name="auto1NoCycle")
-public class auto1NoCycle extends LinearOpMode {
+@Autonomous(name="auto1NoCycleClose")
+public class auto1NoCycleClose extends LinearOpMode {
 
     private RobotMecanum robot;
     SampleMecanumDrive drive;
@@ -85,7 +85,7 @@ public class auto1NoCycle extends LinearOpMode {
             long time1 = System.currentTimeMillis();
             currentTime = System.currentTimeMillis();
             while (currentTime - time1 < detectionWaitTime) {
-                location = detector.getLocation(!Blue);
+                location = detector.getLocation(!Blue, false);
                 currentTime = System.currentTimeMillis();
             }
 
@@ -115,11 +115,11 @@ public class auto1NoCycle extends LinearOpMode {
                 time1 = System.currentTimeMillis();
                 currentTime = System.currentTimeMillis();
                 while (currentTime - time1 < detectionWaitTime) {
-                    location = detector.getLocation(!Blue);
+                    location = detector.getLocation(!Blue, false);
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.leftHang.setPosition(210f);
+                robot.leftHang.setPosition(19f);
                 robot.rightHang.setIn();
 
                 robot.vSlides.reset(robot.vSlides.vSlides);
@@ -137,7 +137,7 @@ public class auto1NoCycle extends LinearOpMode {
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? -9.5f: -4;//9.5f;
-                    xYellowDump = Blue? -18: -36;//-18;
+                    xYellowDump = Blue? -18: -34.5f;//-18;
                     yYellowDump = Blue? -36: 36;
                 }
                 else{ //right
@@ -161,7 +161,7 @@ public class auto1NoCycle extends LinearOpMode {
                         .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                         .build();
                 park = drive.trajectorySequenceBuilder(dumpYellowPixel.end())
-                        .lineTo(new Vector2d(xYellowDump, Blue? yYellowDump+5 : yYellowDump-5))
+                        .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+2:yYellowDump-2))
                         .build();
 
                 /*robot.intakeDoor.setOpen();
@@ -253,7 +253,6 @@ public class auto1NoCycle extends LinearOpMode {
         robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+500, 1);
         lp.waitMillis(250);
 
-        //drive.followTrajectorySequence(park);
         robot.depoTilt.setIn();
         lp.waitMillis(500);
 
@@ -270,6 +269,7 @@ public class auto1NoCycle extends LinearOpMode {
         robot.vSlides.reset(robot.vSlides.vSlides);
 
 
+        drive.followTrajectorySequence(park);
         //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }

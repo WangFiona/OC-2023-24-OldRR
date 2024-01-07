@@ -20,7 +20,7 @@ public class vSlides {
 
     public double start;
 
-    public static int autoLevel = 450;
+    public static int autoLevel = 500;
     public static int level1 = 805;
     public static int level2 = 1225;
     public static int level3 = 1700;

@@ -14,18 +14,18 @@ import org.opencv.imgproc.Imgproc;
 import overcharged.components.propLocation;
 
 public class HSVPipeline extends OpenCvPipeline {
-    double x1 = 0.45;//0.35;//0.42;
-    double x2 = 0.5;//0.4;//0.54;
+    double x1 = 0.47;//0.35;//0.42;
+    double x2 = 0.52;//0.4;//0.54;
     double y1 = 0.7;//0.55;
     double y2 = 0.6;//0.29;
-    double rightX1 = 0.91;//0.85;//0.02;
-    double rightX2 = 0.96;//0.9;//0.15;
+    double rightX1 = 0.93;//0.85;//0.02;
+    double rightX2 = 0.98;//0.9;//0.15;
     double rightY1 = 0.73;//0.8;//0.61;
     double rightY2 = 0.63;//0.35;
 
     //blues
-    double blueX1 = 0.72;
-    double blueX2 = 0.77;
+    double blueX1 = 0.69;
+    double blueX2 = 0.74;
     double blueY1 = 0.7;
     double blueY2 = 0.6;
     double blueLeftX1 = 0.27;
@@ -35,14 +35,18 @@ public class HSVPipeline extends OpenCvPipeline {
     Scalar averageColor, rightAverageColor, blueAverageColor, blueLeftAverageColor;
     Scalar lowerRed1 = new Scalar(0, 100, 100);
     Scalar upperRed1 = new Scalar(15, 255, 255);
-    Scalar lowerRed2 = new Scalar(111, 100, 100);
+    Scalar lowerRed2 = new Scalar(113, 100, 100);
     Scalar upperRed2 = new Scalar(180, 255, 255);
-    Scalar lowerBlue = new Scalar(0, 100, 70);
+    Scalar lowerBlue = new Scalar(0, 0, 70);
     Scalar upperBlue = new Scalar(25, 255, 255);
     boolean midColor = false;
     boolean rightColor = false;
     boolean blueMidColor = false;
     boolean blueLeftColor = false;
+    boolean closeBlueMid = false;
+    boolean closeBlueRight = false;
+    boolean closeRedMid = false;
+    boolean closeRedLeft = false;
     private propLocation location = propLocation.Middle;
 
     @Override
@@ -93,6 +97,11 @@ public class HSVPipeline extends OpenCvPipeline {
         blueMidColor = isColorInRange(blueAverageColor, lowerBlue, upperBlue);
         blueLeftColor = isColorInRange(blueLeftAverageColor, lowerBlue, upperBlue);
 
+        closeBlueMid = isColorInRange(averageColor, lowerBlue, upperBlue);
+        closeBlueRight = isColorInRange(rightAverageColor, lowerBlue, upperBlue);
+        closeRedMid =  isColorInRange(blueAverageColor, lowerRed1, upperRed1) || isColorInRange(blueAverageColor, lowerRed2, upperRed2);
+        closeRedLeft =  isColorInRange(blueLeftAverageColor, lowerRed1, upperRed1) || isColorInRange(blueLeftAverageColor, lowerRed2, upperRed2);
+
         // Release resources
         hsvImage.release();
         rightHsvImage.release();
@@ -138,8 +147,8 @@ public class HSVPipeline extends OpenCvPipeline {
         return blueLeftAverageColor;
     }
 
-    public propLocation getLocation(boolean red) {
-        if (red) {
+    public propLocation getLocation(boolean red, boolean close) {
+        if (red && !close) {
       //      midColor = isColorInRange(averageColor, lowerRed1, upperRed1) || isColorInRange(averageColor, lowerRed2, upperRed2);
         //    rightColor = isColorInRange(rightAverageColor, lowerRed1, upperRed1) || isColorInRange(rightAverageColor, lowerRed2, upperRed2);
             if (midColor)
@@ -150,7 +159,26 @@ public class HSVPipeline extends OpenCvPipeline {
                 location = propLocation.Left;
             }
         }
-        if (!red) {
+        if (red && close) {
+            if (closeRedMid)
+                location = propLocation.Middle;
+            else if (closeRedLeft)
+                location = propLocation.Left;
+            else if (!closeRedMid && !closeRedLeft) {
+                location = propLocation.Right;
+            }
+        }
+        //blue close
+        if (!red && close) {
+            if (closeBlueMid)
+                location = propLocation.Middle;
+            else if (closeBlueRight)
+                location = propLocation.Right;
+            else if (!closeBlueRight && !closeBlueMid) {
+                location = propLocation.Left;
+            }
+        }
+        if (!red&&!close) {
            // blueMidColor = isColorInRange(blueAverageColor, lowerBlue, upperBlue);
             //blueLeftColor = isColorInRange(blueLeftAverageColor, lowerBlue, upperBlue);
             if (blueMidColor)

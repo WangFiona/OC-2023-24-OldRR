@@ -300,6 +300,8 @@ Tester
                     "Mid:" + integerFormatter.format(robot.driveRightBack.getCurrentPosition()));
             telemetry.addData("Slides:",
                     "vSlides:" + integerFormatter.format(robot.vSlides.vSlides.getCurrentPosition()));
+            telemetry.addData("Slides:",
+                    "hSlides:" + integerFormatter.format(robot.hslides.hslides.getCurrentPosition()));
             telemetry.addData("Reset", "Start");
             telemetry.addData("Back", "LeftStick");
 
