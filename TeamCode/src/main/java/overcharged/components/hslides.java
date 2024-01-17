@@ -41,13 +41,13 @@ public class hslides {
         OcMotorEx slideL = null;
         OcSwitch lswitch2 = null;
         try {
-            lswitch2 = new OcSwitch(hardwareMap,"limitswitch2", true);
+            lswitch2 = new OcSwitch(hardwareMap,"hlimitswitch", true);
             boolean isSwitchNull= switchSlideDown==null ? true : false;
             switchs.add(lswitch2);
             RobotLog.ii(TAG_H, "limitSwitch(isNull)? " + isSwitchNull);
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R,  "missing: limitSwitch " + e.getMessage());
-            missing = missing + ", limitswitch2";
+            missing = missing + ", hlimitswitch";
             numberMissing++;
             boolean isSwitchNull= switchSlideDown==null ? true : false;
             RobotLog.ii(TAG_H, "limitSwitch(catch)? " + isSwitchNull);

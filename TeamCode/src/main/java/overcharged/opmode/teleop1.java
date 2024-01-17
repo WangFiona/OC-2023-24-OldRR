@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
-import overcharged.components.hslides;
 
 
 @Config
@@ -90,7 +89,7 @@ public class teleop1 extends OpMode {
             robot = new RobotMecanum(this, false, false);
             startTime = System.currentTimeMillis();
             robot.setBulkReadManual();
-            robot.vSlides.vSlides.setTargetPositionPIDFCoefficients(21,0,0,0);
+            robot.vSlides.vSlidesB.setTargetPositionPIDFCoefficients(21,0,0,0);
         } catch (Exception e){
             RobotLog.ee(TAG_T, "Teleop init failed: " + e.getMessage());
             telemetry.addData("Init Failed", e.getMessage());
@@ -285,7 +284,7 @@ public class teleop1 extends OpMode {
                 depoMode = DepoMode.ClOSED;
             }
             else{
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())+250, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+250, 1);
                 depoTiltDelay = System.currentTimeMillis();
                 dTiltIn = true;
             }
@@ -323,14 +322,14 @@ public class teleop1 extends OpMode {
         }
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
-            if(robot.vSlides.vSlides.getCurrentPosition() < 1950){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())+160, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < 1950){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+160, 1);
             }
         }
 
         if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
-            if(robot.vSlides.vSlides.getCurrentPosition() > 180){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlides.getCurrentPosition())-180, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > 180){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-180, 1);
             }
         }
 
@@ -451,7 +450,7 @@ public class teleop1 extends OpMode {
         if(gamepad1.y && Button.NOPOWER.canPress(timestamp)){
             robot.vSlides.setPower(0);
             robot.vSlides.forceStop();
-            robot.vSlides.vSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             slideGoBottom = false;
         }
 
@@ -497,9 +496,9 @@ public class teleop1 extends OpMode {
             }
         }
 
-        telemetry.addData("vSlides encoder: ", robot.vSlides.vSlides.getCurrentPosition());
+        telemetry.addData("vSlides encoder: ", robot.vSlides.vSlidesB.getCurrentPosition());
         telemetry.addData("limit switch: ", robot.vSlides.switchSlideDown.isTouch());
-        telemetry.addData("vSlide power: ", robot.vSlides.vSlides.getPower());
+        telemetry.addData("vSlide power: ", robot.vSlides.vSlidesB.getPower());
         telemetry.addData("test:", robot.hslides.hslides.getPower());
         telemetry.addData("test2: ", robot.hslides.hslides.getCurrentPosition());
         telemetry.addData("reach bottom: ", !robot.vSlides.slideReachedBottom());
@@ -515,12 +514,12 @@ public class teleop1 extends OpMode {
     }
     public void slideBottom() {
         if (!robot.vSlides.slideReachedBottom()) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
-            robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.vSlides.down();
             RobotLog.ii(TAG_SL, "Going down");
         } else {
             robot.vSlides.forceStop();
-            robot.vSlides.vSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             slideGoBottom = false;
             robot.intake.in();
             intakeMode = IntakeMode.IN;

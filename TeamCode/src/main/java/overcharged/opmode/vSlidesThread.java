@@ -56,7 +56,7 @@ public class vSlidesThread implements Runnable {
     }
 
     private boolean slideReachedBottom() {
-        return robot.vSlides.switchSlideDown.isTouch() && robot.vSlides.vSlides.getCurrentPosition() <= robot.vSlides.start;
+        return robot.vSlides.switchSlideDown.isTouch() && robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.start;
     }
 
     public void slideDown(WaitLinear lp) throws InterruptedException {
@@ -69,6 +69,6 @@ public class vSlidesThread implements Runnable {
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forceStop();
-        robot.vSlides.reset(robot.vSlides.vSlides);
+        robot.vSlides.reset(robot.vSlides.vSlidesB);
     }
 }

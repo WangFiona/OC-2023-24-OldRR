@@ -3,27 +3,28 @@
     <Webcam name="Webcam 1" serialNumber="E155DF2F" />
     <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
         <LynxModule name="Expansion Hub 2" port="2">
-            <goBILDA5202SeriesMotor name="driveLF" port="1" />
-            <goBILDA5202SeriesMotor name="driveLB" port="0" />
-            <goBILDA5202SeriesMotor name="vSlides" port="2" />
-            <goBILDA5202SeriesMotor name="hSlides" port="3" />
-            <Servo name="leftPixel" port="5" />
-            <Servo name="depoTilt" port="4" />
-            <Servo name="depoDoor" port="3" />
+            <goBILDA5202SeriesMotor name="vSlidesF" port="0" />
+            <goBILDA5202SeriesMotor name="driveRB" port="1" />
+            <goBILDA5202SeriesMotor name="driveRF" port="2" />
+            <goBILDA5202SeriesMotor name="vSlidesB" port="3" />
+            <Servo name="depoDoor" port="0" />
+            <Servo name="depoTilt" port="1" />
             <Servo name="droneShooter" port="2" />
-            <Servo name="leftHang" port="1" />
+            <Servo name="leftHang" port="3" />
+            <Servo name="leftPixel" port="4" />
         </LynxModule>
         <LynxModule name="Control Hub" port="173">
-            <goBILDA5202SeriesMotor name="driveRF" port="1" />
-            <goBILDA5202SeriesMotor name="driveRB" port="0" />
-            <goBILDA5202SeriesMotor name="intake" port="2" />
-            <Servo name="intakeSmallTilt" port="5" />
+            <goBILDA5202SeriesMotor name="driveLF" port="0" />
+            <goBILDA5202SeriesMotor name="driveLB" port="1" />
+            <goBILDA5202SeriesMotor name="hSlides" port="2" />
+            <goBILDA5202SeriesMotor name="intake" port="3" />
+            <Servo name="intakeSmallTilt" port="0" />
+            <Servo name="intakeBigTilt" port="2" />
             <Servo name="intakeDoor" port="3" />
-            <Servo name="rightPixel" port="2" />
-            <Servo name="intakeBigTilt" port="1" />
+            <Servo name="rightPixel" port="1" />
             <Servo name="rightHang" port="4" />
-            <DigitalDevice name="limitswitch" port="5" />
-            <DigitalDevice name="limitswitch2" port="4" />
+            <DigitalDevice name="vlimitswitch" port="6" />
+            <DigitalDevice name="hlimitswitch" port="7" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
             <!--<DigitalDevice name="led_white" port="6" />
             <DigitalDevice name="led_yellow" port="4" />

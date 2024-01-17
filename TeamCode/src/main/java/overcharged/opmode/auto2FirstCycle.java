@@ -8,7 +8,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -123,7 +122,7 @@ public class auto2FirstCycle extends LinearOpMode {
                 robot.leftHang.setPosition(210f);
                 robot.rightHang.setIn();
 
-                robot.vSlides.reset(robot.vSlides.vSlides);
+                robot.vSlides.reset(robot.vSlides.vSlidesB);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -342,16 +341,16 @@ public class auto2FirstCycle extends LinearOpMode {
     }
 
     public void slidesDown(WaitLinear lp) {
-        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
-            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlides.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
+            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
             robot.vSlides.setPower(-0.8f);
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forceStop();
-        robot.vSlides.reset(robot.vSlides.vSlides);
+        robot.vSlides.reset(robot.vSlides.vSlidesB);
     }
 }
