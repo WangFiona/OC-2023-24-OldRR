@@ -68,7 +68,7 @@ public class vSlidesThread implements Runnable {
             robot.vSlides.setPower(power);
         }
         robot.vSlides.setPower(0);
-        robot.vSlides.forceStop();
+        robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.vSlidesB);
     }
 }

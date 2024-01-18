@@ -280,7 +280,7 @@ public class vSlides {
      * move the slide system up/down to the specified level at a calculated power using PID
      * @param pos encoder value of the level we want to reach
      */
-    private void moveSlidesTo(int pos) {
+    public void moveEncoderTo(int pos, int p) {
         pidState = true;
         vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -478,6 +478,11 @@ public class vSlides {
     public void stopMotors(){
         vSlidesF.setPower(0f);
         vSlidesB.setPower(0f);
+    }
+
+    public void down(){
+        vSlidesF.setPower(-1f);
+        vSlidesB.setPower(-1f);
     }
 }
 

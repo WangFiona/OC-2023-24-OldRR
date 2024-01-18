@@ -449,7 +449,7 @@ public class teleop1 extends OpMode {
 
         if(gamepad1.y && Button.NOPOWER.canPress(timestamp)){
             robot.vSlides.setPower(0);
-            robot.vSlides.forceStop();
+            robot.vSlides.forcestop();
             robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             slideGoBottom = false;
         }
@@ -518,7 +518,7 @@ public class teleop1 extends OpMode {
             robot.vSlides.down();
             RobotLog.ii(TAG_SL, "Going down");
         } else {
-            robot.vSlides.forceStop();
+            robot.vSlides.forcestop();
             robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             slideGoBottom = false;
             robot.intake.in();

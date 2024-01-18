@@ -350,7 +350,7 @@ public class auto2FirstCycle extends LinearOpMode {
             robot.vSlides.setPower(-0.8f);
         }
         robot.vSlides.setPower(0);
-        robot.vSlides.forceStop();
+        robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.vSlidesB);
     }
 }

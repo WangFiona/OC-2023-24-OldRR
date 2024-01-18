@@ -67,7 +67,7 @@ public class parkAuto extends LinearOpMode {
             robot.vSlides.down();
             RobotLog.ii(TAG_SL, "Going down");
         }
-        robot.vSlides.forceStop();
+        robot.vSlides.forcestop();
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         /*robot.drive.setPower(-0.4f);
