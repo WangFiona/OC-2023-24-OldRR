@@ -285,7 +285,7 @@ public class teleop1 extends OpMode {
                 depoMode = DepoMode.ClOSED;
             }
             else{
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+250, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+80, 1);
                 depoTiltDelay = System.currentTimeMillis();
                 dTiltIn = true;
             }
@@ -323,14 +323,14 @@ public class teleop1 extends OpMode {
         }
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() < 1950){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+160, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < 400){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+50, 1);
             }
         }
 
         if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() > 180){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-180, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > 70){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-50, 1);
             }
         }
 
