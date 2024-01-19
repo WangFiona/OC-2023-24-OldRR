@@ -3,10 +3,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class intakeSmallTilt {
     public OcServo intakeSmallTilt;
-    public static final float INIT = 88f;
-    public static final float TRANSFER = 89f;//115f;
-    public static final float FLAT = 100f;
-    public static final float OUT = 27f;
+    public static final float INIT = 172f;
+    public static final float TRANSFER = 172f;//115f;
+    public static final float FLAT = 183f;
+    public static final float OUT = 105f;
 
     //for auto intaking, will need SEVERE tuning
     int pixelInterval = 4;

@@ -22,7 +22,7 @@ public class hslides {
 
     public static int autoLevel = 0;
 
-    public static final int START = -5;
+    public static final int START = 0;
     public static final int PRESET1 = 142;
     public static final int OUT = 1000;
 

@@ -4,6 +4,7 @@ import static overcharged.config.RobotConstants.TAG_H;
 import static overcharged.config.RobotConstants.TAG_SL;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
 
@@ -26,11 +27,11 @@ public class vSlides {
     /*public static int level4 = 1970;
     public static int level3 = 1470;
     public static int level2 = 880;*/
-    public static int autoLevel = 500;
-    public static int level1 = 805;
-    public static int level2 = 1225;
-    public static int level3 = 1700;
-    public static int level4 = 2000;
+    public static int autoLevel = 113;
+    public static int level1 = 200;
+    public static int level2 = 285;
+    public static int level3 = 340;
+    public static int level4 = 480;
     public static float factorR = 1;//0.957f;//0.963f;//1.015f;
     public static float factorL = 1f;
     //starting encoder reading
@@ -88,7 +89,7 @@ public class vSlides {
         OcMotorEx slideF = null;
         try {
             slideF = new OcMotorEx(hardwareMap,
-                    "slideL",
+                    "vSlidesF",
                     DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R, "missing: slideL " + e.getMessage());
@@ -100,7 +101,7 @@ public class vSlides {
         OcMotorEx slideB = null;
         try {
             slideB = new OcMotorEx(hardwareMap,
-                    "slideR",
+                    "vSlidesB",
                     DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_USING_ENCODER);
         } catch (Exception e) {
             RobotLog.ee(RobotConstants.TAG_R, "missing: slideR " + e.getMessage());
@@ -138,10 +139,6 @@ public class vSlides {
         currentPositionL = 0;
         currentPositionR = 0;
         start = vSlidesF.getCurrentPosition();
-    }
-
-    public double getCurrentPosition(){
-        return vSlidesF.getCurrentPosition();
     }
 
     public boolean isSlideSwitchPressed() {
@@ -284,11 +281,11 @@ public class vSlides {
         pidState = true;
         vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        int positionL = vSlidesF.getCurrentPosition();
-        int positionR = vSlidesB.getCurrentPosition();
-        int distanceL = getDistanceL(pos);
-        int distanceR = getDistanceR(pos);
-        if (Math.signum(distanceL) > 0) {
+        int positionF = vSlidesF.getCurrentPosition();
+        int positionB = vSlidesB.getCurrentPosition();
+        int distanceF = getDistanceL(pos);
+        int distanceB = getDistanceR(pos);
+        if (Math.signum(distanceF) > 0) {
             state = State.UP;
             if (prev_state != state) prev_state = state;
             RobotLog.ii(TAG_SL, "Move the slide level up to " + pos);
@@ -297,7 +294,7 @@ public class vSlides {
                 setPower(0f);
                 return;
             }
-            RobotLog.ii(TAG_SL, "vSlides: Slide up positionL=" + positionL + " positionR=" + positionR + " SLIDE_DISABLE_AT=" + SLIDE_DISABLE_AT);
+            RobotLog.ii(TAG_SL, "vSlides: Slide up positionL=" + positionF + " positionR=" + positionB + " SLIDE_DISABLE_AT=" + SLIDE_DISABLE_AT);
             if (isAtDisablePosition() && (switchSlideDown != null) &&
                     !switchSlideDown.isDisabled() && isSlideSwitchPressed()) {
                 /// If the slide down switch is still showing as on/isTouch() then there is a problem with the switch (not connected or broken)
@@ -318,20 +315,20 @@ public class vSlides {
                 return;
             }
         }
-        int gotoPositionL = positionL + distanceL;
+        int gotoPositionL = positionF + distanceF;
         if (gotoPositionL < 0) gotoPositionL = 0;
-        int gotoPositionR = positionR + distanceR;
+        int gotoPositionR = positionB + distanceB;
         if (gotoPositionR < 0) gotoPositionR = 0;
         float power = (float)(getPower(vSlidesF, pos));
-        RobotLog.ii(TAG_SL, "vSlides: Move the slide to position='" + pos + "' distanceL='" + distanceL + "' distanceR='" + distanceR  + "' gotoPositionL='" + gotoPositionL  + "' gotoPositionR='" + gotoPositionR  + "' power='" + power + "'");
-        vSlidesF.setTargetPosition((int)(factorL*gotoPositionL));
-        vSlidesB.setTargetPosition((int)(factorR*gotoPositionR));
+        RobotLog.ii(TAG_SL, "vSlides: Move the slide to position='" + pos + "' distanceL='" + distanceF + "' distanceR='" + distanceB  + "' gotoPositionL='" + gotoPositionL  + "' gotoPositionR='" + gotoPositionR  + "' power='" + power + "'");
+        vSlidesF.setTargetPosition(pos);
+        vSlidesB.setTargetPosition(pos);
         currentPositionL = gotoPositionL;
         currentPositionR = gotoPositionR;
         vSlidesF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         vSlidesB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        vSlidesF.setPower(power);
-        vSlidesB.setPower(power);
+        vSlidesF.setPower(p);
+        vSlidesB.setPower(p);
         RobotLog.ii(TAG_SL, "powerL " + vSlidesF.getPower() + " powerR " + vSlidesB.getPower());
     }
 

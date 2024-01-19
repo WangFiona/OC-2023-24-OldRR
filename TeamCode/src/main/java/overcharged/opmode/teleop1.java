@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
+import overcharged.components.hslides;
 
 
 @Config
@@ -104,7 +105,7 @@ public class teleop1 extends OpMode {
             robot.intakeDoor.setClosed();
             iOpen = false;
             firstLoop = false;
-            //robot.hslides.moveEncoderTo(hslides.START, 1);
+            robot.hslides.moveEncoderTo(hslides.START, 1);
         }
         robot.clearBulkCache();
         long timestamp = System.currentTimeMillis();
@@ -144,9 +145,9 @@ public class teleop1 extends OpMode {
             }
         }
 
-        /*if(!robot.hslides.switchSlideDown.isTouch()){
+        if(!robot.hslides.switchSlideDown.isTouch()){
             robot.hslides.moveEncoderTo(hslides.START, 1);
-        }*/
+        }
         //Intake in
         if(gamepad1.right_trigger > 0.9 && Button.INTAKE.canPress(timestamp)) {//gamepad1.right_bumper && Button.INTAKE.canPress(timestamp)){
             if (intakeMode == IntakeMode.OFF || intakeMode == IntakeMode.OUT) {
@@ -229,7 +230,7 @@ public class teleop1 extends OpMode {
             robot.intakeSmallTilt.setTransfer();
         }
 
-        if(intakeDDelay && System.currentTimeMillis()-intakeDoorDelay > 300){
+        if(intakeDDelay && System.currentTimeMillis()-intakeDoorDelay > 500){
             robot.intakeDoor.setOpen();
             iOpen = true;
         }
@@ -496,9 +497,12 @@ public class teleop1 extends OpMode {
             }
         }
 
-        telemetry.addData("vSlides encoder: ", robot.vSlides.vSlidesB.getCurrentPosition());
-        telemetry.addData("limit switch: ", robot.vSlides.switchSlideDown.isTouch());
-        telemetry.addData("vSlide power: ", robot.vSlides.vSlidesB.getPower());
+        telemetry.addData("vSlidesF encoder: ", robot.vSlides.vSlidesF.getCurrentPosition());
+        telemetry.addData("vSlidesB encoder: ", robot.vSlides.vSlidesB.getCurrentPosition());
+        telemetry.addData("vSlideB power: ", robot.vSlides.vSlidesB.getPower());
+        telemetry.addData("vSlideF power: ", robot.vSlides.vSlidesF.getPower());
+        telemetry.addData("v limit switch: ", robot.vSlides.switchSlideDown.isTouch());
+        telemetry.addData("h limit switch: ", robot.hslides.switchSlideDown.isTouch());
         telemetry.addData("test:", robot.hslides.hslides.getPower());
         telemetry.addData("test2: ", robot.hslides.hslides.getCurrentPosition());
         telemetry.addData("reach bottom: ", !robot.vSlides.slideReachedBottom());
@@ -513,8 +517,9 @@ public class teleop1 extends OpMode {
         telemetry.update();
     }
     public void slideBottom() {
-        if (!robot.vSlides.slideReachedBottom()) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
-            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if (!robot.vSlides.slideReachedBottom()) {
+            robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.vSlides.down();
             RobotLog.ii(TAG_SL, "Going down");
         } else {
