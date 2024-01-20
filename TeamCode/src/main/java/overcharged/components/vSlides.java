@@ -48,7 +48,7 @@ public class vSlides {
     float SLIDE_POWER_UP_PID = 1f;
     float SLIDE_POWER_DOWN_PID = -0.8f;
     public static float SLIDE_POWER_UP = 0.8f;
-    public static float SLIDE_POWER_DOWN = -0.85f;
+    public static float SLIDE_POWER_DOWN = -0.45f;
     public static float SLIDE_POWER_DOWN_OUT = -0.3f;
     private static float SLIDE_POWER_DOWN_MIN = -0.15f;
     static int SLIDE_POSITION_THRESHOLD = 5;
@@ -73,7 +73,7 @@ public class vSlides {
     public static double p = 0.3;
     public static double i = 0;
     public static double d = 0;
-    private PIDCalculator pidController = new PIDCalculator(p, i, d);
+    //private PIDCalculator pidController = new PIDCalculator(p, i, d);
     ///maintain the previous state of the slides PID or not
     private boolean pidState = false;
     //private Arm arm;
@@ -204,11 +204,11 @@ public class vSlides {
     /**
      * @return the power from the PID calculations
      */
-    public double getPidPower(int position, int level_value) {
+    /*public double getPidPower(int position, int level_value) {
         int wantedPos = position + level_value;
         int error = wantedPos - position;
         return pidController.getPID(error);
-    }
+    }*/
 
     ///Is the slide at the position where we want to check for switch is disabled
     private boolean isAtDisablePosition()
@@ -253,16 +253,16 @@ public class vSlides {
         int positionL = vSlidesF.getCurrentPosition();
         int positionR = vSlidesB.getCurrentPosition();
         RobotLog.ii(TAG_SL, "Keep the slide at current level positionL=" + positionL + " positionR=" + positionR);
-        float powerL = (float)(pidController.getPID(positionL));
-        float powerR = (float)(pidController.getPID(positionR));
+        //float powerL = (float)(pidController.getPID(positionL));
+        //float powerR = (float)(pidController.getPID(positionR));
         vSlidesF.setTargetPosition(positionL);
         vSlidesB.setTargetPosition(positionR);
         currentPositionL = positionL;
         currentPositionR = positionR;
         vSlidesF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         vSlidesB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        vSlidesF.setPower(powerL);
-        vSlidesB.setPower(powerR);
+        vSlidesF.setPower(1);
+        vSlidesB.setPower(1);
     }
 
     private boolean isInRange(int x, int y)
@@ -478,8 +478,8 @@ public class vSlides {
     }
 
     public void down(){
-        vSlidesF.setPower(-1f);
-        vSlidesB.setPower(-1f);
+        vSlidesF.setPower(-0.7f);
+        vSlidesB.setPower(-0.7f);
     }
 }
 
