@@ -2,30 +2,38 @@ package overcharged.components;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class hang {
-    public OcServo hang;
-    public static float IN = 248f;
-    public static float HANG = 59f;
+    public OcServo rightHang;
+    public OcServo leftHang;
+    public static float RIGHT_IN = 187f;
+    public static float RIGHT_HANG = 132f;
+    public static float LEFT_IN = 36f;
+    public static float LEFT_HANG = 80f;
 
     public hang(HardwareMap hardwareMap, boolean isRight) {
-        if(isRight){
-            IN = 248f;//29f;
-            HANG = 59f;
-            hang = new OcServo(hardwareMap, "rightHang", IN);
-        } else {
-            IN = 19f;//217f;
-            HANG = 217f;
-            hang = new OcServo(hardwareMap, "leftHang", IN);
-        }
+        rightHang = new OcServo(hardwareMap, "rightHang", RIGHT_IN);
+        leftHang = new OcServo(hardwareMap, "leftHang", LEFT_IN);
     }
-    public void setPosition(float pos){
-        hang.setPosition(pos);
+    public void setLeftPosition(float pos){
+        leftHang.setPosition(pos);
     }
 
-    public void setIn() {
-        hang.setPosition(IN);
+    public void setLeftIn() {
+        leftHang.setPosition(LEFT_IN);
     }
 
-    public void setHang() {
-        hang.setPosition(HANG);
+    public void setLeftHang() {
+        leftHang.setPosition(LEFT_HANG);
+    }
+
+    public void setRightPosition(float pos){
+        rightHang.setPosition(pos);
+    }
+
+    public void setRightIn() {
+        rightHang.setPosition(RIGHT_IN);
+    }
+
+    public void setRightHang() {
+        rightHang.setPosition(RIGHT_HANG);
     }
 }

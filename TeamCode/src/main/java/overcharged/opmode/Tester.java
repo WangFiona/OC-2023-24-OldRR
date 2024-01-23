@@ -137,9 +137,9 @@ Tester
         servos.add(rightPixel);
         OcServo droneShooter = robot.droneShooter.droneShooter;
         servos.add(droneShooter);
-        OcServo rightHang = robot.rightHang.hang;
+        OcServo rightHang = robot.hang.rightHang;
         servos.add(rightHang);
-        OcServo leftHang = robot.leftHang.hang;
+        OcServo leftHang = robot.hang.leftHang;
         servos.add(leftHang);
 
 
@@ -181,12 +181,12 @@ Tester
                         robot.droneShooter.SHOOT),
                 new ServoTestInfo(
                         rightHang,
-                        robot.rightHang.IN,
-                        robot.rightHang.HANG),
+                        robot.hang.RIGHT_IN,
+                        robot.hang.RIGHT_HANG),
                 new ServoTestInfo(
                         leftHang,
-                        robot.leftHang.IN,
-                        robot.leftHang.HANG)
+                        robot.hang.LEFT_IN,
+                        robot.hang.LEFT_HANG)
         };
 
         int testCounter = 0;

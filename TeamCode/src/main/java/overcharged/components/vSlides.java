@@ -30,7 +30,7 @@ public class vSlides {
     public static int autoLevel = 113;
     public static int level1 = 200;
     public static int level2 = 285;
-    public static int level3 = 340;
+    public static int level3 = 380;
     public static int level4 = 480;
     public static float factorR = 1;//0.957f;//0.963f;//1.015f;
     public static float factorL = 1f;

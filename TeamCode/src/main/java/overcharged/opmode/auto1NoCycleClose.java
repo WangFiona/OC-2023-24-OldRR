@@ -119,8 +119,8 @@ public class auto1NoCycleClose extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.leftHang.setPosition(19f);
-                robot.rightHang.setIn();
+                robot.hang.setLeftIn();
+                robot.hang.setRightIn();
 
                 robot.vSlides.reset(robot.vSlides.vSlidesB);
 

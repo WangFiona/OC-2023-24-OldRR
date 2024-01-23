@@ -119,8 +119,8 @@ public class auto3NoCycleFar extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.leftHang.setPosition(19f);
-                robot.rightHang.setIn();
+                robot.hang.setLeftIn();
+                robot.hang.setRightIn();
 
                 robot.vSlides.reset(robot.vSlides.vSlidesB);
 
@@ -154,6 +154,7 @@ public class auto3NoCycleFar extends LinearOpMode {
 
                 //initialize trajectories
                 dumpPurplePixel = drive.trajectorySequenceBuilder(start)
+                        //.lineTo(new Vector2d(50, 0))
                         .lineToLinearHeading(new Pose2d(xPurpleDump, yPurpleDump, Math.toRadians(Blue? 90 : -90)))
                         .build();
                 extraForPurple = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
@@ -282,17 +283,6 @@ public class auto3NoCycleFar extends LinearOpMode {
                 lp.waitMillis(9);
             }
         }
-
-        robot.intake.in();
-        robot.intakeSmallTilt.setOut();
-        robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
-        //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
-        drive.followTrajectorySequence(goToIntake);
-        lp.waitMillis(500);
-        /*robot.intakeBigTilt.setTransfer();
-        robot.intakeSmallTilt.setTransfer();
-
-        robot.intakeDoor.setOpen();*/
 
         robot.intake.off();
         robot.intakeBigTilt.setTransfer();

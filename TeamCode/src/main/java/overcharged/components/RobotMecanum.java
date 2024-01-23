@@ -42,6 +42,7 @@ public class RobotMecanum {
     public pixelDropper leftPixel;
     public pixelDropper rightPixel;
     public droneShooter droneShooter;
+    public hang hang;
     public hang leftHang;
     public hang rightHang;
 
@@ -217,6 +218,14 @@ public class RobotMecanum {
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: droneShooter " + e.getMessage());
             missing = missing + ", droneShooter";
+            numberMissing++;
+        }
+
+        try {
+            hang = new hang(hardwareMap, false);
+        } catch (Exception e){
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: hang " + e.getMessage());
+            missing = missing + ", hang";
             numberMissing++;
         }
 

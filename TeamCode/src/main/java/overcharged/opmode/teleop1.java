@@ -444,9 +444,12 @@ public class teleop1 extends OpMode {
 
         // vSlides down
         if((gamepad2.left_trigger > 0.9 || gamepad1.dpad_down) && Button.BTN_SLIDE_DOWN.canPress(timestamp)){
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-40){
+                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+100,1);
+            }
             robot.intake.in();
             slideGoBottom = true;
-            robot.depoTilt.setIn();
+            //robot.depoTilt.setIn();
             robot.depoDoor.setOpen2();
             depoMode = DepoMode.OPEN2;
             dTilt = false;
@@ -496,9 +499,16 @@ public class teleop1 extends OpMode {
         }
 
         if(slideGoBottom)  {
-            if((robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
-                    || (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+            if(System.currentTimeMillis() - depoTiltInDelay > 500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+                    //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                robot.depoTilt.setIn();
+                dTilt = false;
+            }
+        }
 
+        if(slideGoBottom)  {
+            if(System.currentTimeMillis() - depoTiltInDelay > 650){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+                //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
                 slideBottom();
             }
         }
@@ -540,30 +550,30 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad2.left_stick_button && Button.BTN_LATCH_READY.canPress(timestamp)){
+        if(gamepad2.right_stick_button && Button.BTN_LATCH_READY.canPress(timestamp)){
             if(isLocked) {
-                robot.leftHang.setPosition(217f);
-                robot.rightHang.setHang();
+                robot.hang.setLeftHang();
+                robot.hang.setRightHang();
                 isLocked = false;
             } else {
-                robot.leftHang.setPosition(19f);
-                robot.rightHang.setIn();
+                robot.hang.setLeftIn();
+                robot.hang.setRightIn();
                 isLocked = true;
             }
         }
 
-        if(gamepad2.right_stick_y > 0.1 && !robot.vSlides.slideReachedBottom()){
+        if(gamepad2.left_stick_y > 0.1 && !robot.vSlides.slideReachedBottom()){
             robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.vSlides.vSlidesB.setPower(-gamepad2.right_stick_y/2);
-            robot.vSlides.vSlidesF.setPower(-gamepad2.right_stick_y/2);
+            robot.vSlides.vSlidesB.setPower(-gamepad2.left_stick_y/2);
+            robot.vSlides.vSlidesF.setPower(-gamepad2.left_stick_y/2);
         }
 
-        if(gamepad2.right_stick_y < -0.1 && robot.vSlides.vSlidesB.getCurrentPosition() < 480){
+        if(gamepad2.left_stick_y < -0.1 && robot.vSlides.vSlidesB.getCurrentPosition() < 480){
             robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.vSlides.vSlidesB.setPower(-gamepad2.right_stick_y/2);
-            robot.vSlides.vSlidesF.setPower(-gamepad2.right_stick_y/2);
+            robot.vSlides.vSlidesB.setPower(-gamepad2.left_stick_y/2);
+            robot.vSlides.vSlidesF.setPower(-gamepad2.left_stick_y/2);
         }
 
 
