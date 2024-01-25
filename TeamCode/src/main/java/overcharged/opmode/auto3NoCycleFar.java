@@ -162,7 +162,7 @@ public class auto3NoCycleFar extends LinearOpMode {
                         .lineTo(new Vector2d(xPurpleDump, Blue? yPurpleDump-15 : yPurpleDump+18))
                         .build();
                 goToIntake = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
-                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -18, Math.toRadians(Blue? 90:-90)))
+                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 15: -15, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
                         .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18, Math.toRadians(Blue? 90:-90)))

@@ -251,7 +251,7 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+100, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+180, 1);
         lp.waitMillis(250);
 
         robot.depoTilt.setIn();
