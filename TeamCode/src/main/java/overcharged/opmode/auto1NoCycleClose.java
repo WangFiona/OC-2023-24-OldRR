@@ -123,6 +123,7 @@ public class auto1NoCycleClose extends LinearOpMode {
                 robot.hang.setRightIn();
 
                 robot.vSlides.reset(robot.vSlides.vSlidesB);
+                robot.vSlides.reset(robot.vSlides.vSlidesF);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -250,24 +251,25 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+500, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+100, 1);
         lp.waitMillis(250);
 
         robot.depoTilt.setIn();
         lp.waitMillis(500);
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
             RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-            robot.vSlides.setPower(-0.8f);
+            robot.vSlides.moveToBottom();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.vSlidesB);
-
+        robot.vSlides.reset(robot.vSlides.vSlidesF);
 
         drive.followTrajectorySequence(park);
         //lowerSlidesThread(lp);

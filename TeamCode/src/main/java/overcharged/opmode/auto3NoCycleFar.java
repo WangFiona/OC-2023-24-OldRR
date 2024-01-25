@@ -123,6 +123,7 @@ public class auto3NoCycleFar extends LinearOpMode {
                 robot.hang.setRightIn();
 
                 robot.vSlides.reset(robot.vSlides.vSlidesB);
+                robot.vSlides.reset(robot.vSlides.vSlidesF);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -267,7 +268,7 @@ public class auto3NoCycleFar extends LinearOpMode {
             float lPixelPos = robot.leftPixel.pixelDropper.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
             RobotLog.ii(RobotConstants.TAG_R, "left pixel pos" + lPixelPos + "dump" + robot.leftPixel.DUMP);
-            while (lPixelPos > 97 && System.currentTimeMillis() - dropperTime < 1000) {
+            while (lPixelPos > robot.leftPixel.DUMP && System.currentTimeMillis() - dropperTime < 1000) {
                 RobotLog.ii(RobotConstants.TAG_R, "moving left pixel");
                 lPixelPos -= 3;
                 robot.leftPixel.setPosition(lPixelPos);
@@ -277,12 +278,19 @@ public class auto3NoCycleFar extends LinearOpMode {
         else {
             float rPixelPos = robot.rightPixel.pixelDropper.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
-            while (rPixelPos <= 146 && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
+            while (rPixelPos <= robot.rightPixel.DUMP && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
                 rPixelPos += 3;
                 robot.rightPixel.setPosition(rPixelPos);
                 lp.waitMillis(9);
             }
         }
+
+        robot.intake.in();
+        robot.intakeSmallTilt.setOut();
+        robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
+        //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
+        drive.followTrajectorySequence(goToIntake);
+        lp.waitMillis(500);
 
         robot.intake.off();
         robot.intakeBigTilt.setTransfer();
@@ -305,25 +313,26 @@ public class auto3NoCycleFar extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+800, 1);
-        lp.waitMillis(400);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+150, 1);
+        lp.waitMillis(500);
 
         //drive.followTrajectorySequence(park);
         robot.depoTilt.setIn();
         lp.waitMillis(500);
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
             RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-            robot.vSlides.setPower(-0.8f);
+            robot.vSlides.moveToBottom();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.vSlidesB);
-
+        robot.vSlides.reset(robot.vSlides.vSlidesF);
 
         //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
