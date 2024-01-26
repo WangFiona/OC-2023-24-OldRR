@@ -208,7 +208,7 @@ public class auto4OneCycleFar extends LinearOpMode {
                         .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -17, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
-                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18, Math.toRadians(Blue? 90:-90)))
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 17: -17, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(70, Math.PI * 2, DriveConstants.TRACK_WIDTH))
@@ -357,7 +357,7 @@ public class auto4OneCycleFar extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(250);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+100, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+150, 1);
         lp.waitMillis(300);
 
         //drive.followTrajectorySequence(park);
@@ -398,7 +398,7 @@ public class auto4OneCycleFar extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+100, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+180, 1);
         lp.waitMillis(200);
         robot.depoTilt.setIn();
 
