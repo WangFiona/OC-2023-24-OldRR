@@ -47,7 +47,7 @@ public class auto4OneCycleFar extends LinearOpMode {
     MultipleTelemetry telems;
     float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xPark, yPark, xIntake;
     TrajectorySequence test, dumpPurplePixel, extraForPurple, dumpYellowPixel1, dumpYellowPixel2,
-            dumpYellowPixel3, park, goToIntake, cycleIntake1, cycleIntake2, cycleIntake3;
+            dumpYellowPixel3, park, goToIntake, cycleIntake1, cycleIntake2, additionalCycleDump, cycleIntake3;
     Pose2d start = new Pose2d();
 
     @Override
@@ -58,6 +58,47 @@ public class auto4OneCycleFar extends LinearOpMode {
             drive = new SampleMecanumDrive(hardwareMap);
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
+
+            //initialize trajectories
+            /*dumpPurplePixel = drive.trajectorySequenceBuilder(start)
+                    //.lineTo(new Vector2d(50, 0))
+                    .lineToLinearHeading(new Pose2d(xPurpleDump, yPurpleDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            extraForPurple = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
+                    .lineTo(new Vector2d(xPurpleDump, Blue? yPurpleDump-15 : yPurpleDump+18))
+                    .build();
+            goToIntake = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
+                    .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -17, Math.toRadians(Blue? 90:-90)))
+                    .build();
+            dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18, Math.toRadians(Blue? 90:-90)))
+                    .build();
+            dumpYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
+                    .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48))
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? 10:-10), () -> {
+                        robot.intakeSmallTilt.setTransfer();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? 7:-7), () -> {
+                        robot.intakeDoor.setOpen();
+                        robot.depoDoor.setOpen2();
+                        robot.intake.in();
+                    })
+                    .build();
+            dumpYellowPixel3 = drive.trajectorySequenceBuilder(dumpYellowPixel2.end())
+                    .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? -35:35), () -> {
+                        robot.depoTilt.setOut();
+                    })
+                    .build();
+            cycleIntake1 = drive.trajectorySequenceBuilder(dumpYellowPixel3.end())
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            cycleIntake2 = drive.trajectorySequenceBuilder(cycleIntake1.end())
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-19, Blue ? -15: 15, Math.toRadians(Blue? 90 : -95)))
+                    .build();
+            additionalCycleDump = drive.trajectorySequenceBuilder(cycleIntake2.end())
+                    .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48))
+                    .build();*/
 
             Blue = sl.selectAlliance();
 
@@ -130,7 +171,7 @@ public class auto4OneCycleFar extends LinearOpMode {
                 telemetry.addData("Blue alliance", Blue);
                 telemetry.addData("Prop location", location);
                 telemetry.update();
-                yYellowDump = Blue? -90: 90;
+                yYellowDump = Blue? -90: 92;
                 xIntake = -27;
                 if(location==propLocation.Middle){
                     xPurpleDump = Blue? -29: -29;
@@ -147,7 +188,7 @@ public class auto4OneCycleFar extends LinearOpMode {
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? 6.5f: 0f;//-4;
-                    xYellowDump = Blue? -26f: -20f;//-36;
+                    xYellowDump = Blue? -26f: -14f;//-36;
                     //yYellowDump = Blue? -36: 36;
                 }
 
@@ -163,13 +204,13 @@ public class auto4OneCycleFar extends LinearOpMode {
                         .lineTo(new Vector2d(xPurpleDump, Blue? yPurpleDump-15 : yPurpleDump+18))
                         .build();
                 goToIntake = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
-                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -18, Math.toRadians(Blue? 90:-90)))
+                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -17, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
                         .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
-                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-23,Blue? -48:48))
+                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48))
                         .addSpatialMarker(new Vector2d(xIntake, Blue? 10:-10), () -> {
                             robot.intakeSmallTilt.setTransfer();
                         })
@@ -178,18 +219,6 @@ public class auto4OneCycleFar extends LinearOpMode {
                             robot.depoDoor.setOpen2();
                             robot.intake.in();
                         })
-                        /*.addSpatialMarker(new Vector2d(xIntake, Blue? -40:40), () -> {
-                            robot.depoDoor.setClosed();
-                            robot.intake.off();
-                            robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
-                        })
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -45:45), () -> {
-                            robot.depoTilt.setOut();
-                        })
-                        .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -35:35), () -> {
-                            robot.depoTilt.setOut();
-                        })*/
                         .build();
                 dumpYellowPixel3 = drive.trajectorySequenceBuilder(dumpYellowPixel2.end())
                         .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
@@ -198,35 +227,17 @@ public class auto4OneCycleFar extends LinearOpMode {
                         })
                         .build();
                 cycleIntake1 = drive.trajectorySequenceBuilder(dumpYellowPixel3.end())
-                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23,Blue? -48:48, Math.toRadians(Blue? 90 : -90)))
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48, Math.toRadians(Blue? 90 : -90)))
                         .build();
                 cycleIntake2 = drive.trajectorySequenceBuilder(cycleIntake1.end())
-                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18))
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-19, Blue ? -15: 15, Math.toRadians(Blue? 90 : -88.5)))
                         .build();
-                cycleIntake3 = drive.trajectorySequenceBuilder(cycleIntake1.end())
+                additionalCycleDump = drive.trajectorySequenceBuilder(cycleIntake2.end())
+                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-21,Blue? -48:48))
+                        .build();
+
+                cycleIntake3 = drive.trajectorySequenceBuilder(cycleIntake2.end())
                         .lineToLinearHeading(new Pose2d(xIntake, Blue? 18: -18, Math.toRadians(Blue? 90:-90)))
-                        .build();
-                /*dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
-                        .lineToLinearHeading(new Pose2d(xIntake, Blue? -55:55, Math.toRadians(Blue? 90 : -90)))
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -50:50), () -> {
-                            robot.intakeSmallTilt.setOut();
-                        })
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -40:40), () -> {
-                            robot.intakeBigTilt.setTransfer();
-                        })
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -30:30), () -> {
-                            robot.intakeSmallTilt.setTransfer();
-                        })
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -10:10), () -> {
-                            robot.intakeDoor.setOpen();
-                            robot.intake.off();
-                        })
-                        .build();
-                dumpYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
-                        .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                        .build();*/
-                park = drive.trajectorySequenceBuilder(dumpYellowPixel2.end())
-                        .lineTo(new Vector2d(xYellowDump, Blue? yYellowDump+5 : yYellowDump-5))
                         .build();
 
                 /*robot.intakeDoor.setOpen();
@@ -312,7 +323,7 @@ public class auto4OneCycleFar extends LinearOpMode {
         robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
         //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
         drive.followTrajectorySequence(goToIntake);
-        lp.waitMillis(500);
+        lp.waitMillis(250);
 
         robot.intake.off();
         robot.intakeBigTilt.setTransfer();
@@ -342,16 +353,20 @@ public class auto4OneCycleFar extends LinearOpMode {
         //drive.followTrajectorySequence(park);
         robot.depoTilt.setIn();
         //lp.waitMillis(500);
+        robot.intakeSmallTilt.setOut();
+        robot.intakeDoor.setClosed();
+        robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
         drive.followTrajectorySequence(cycleIntake1);
+        robot.hslides.moveEncoderTo(2250, 1);
+        robot.intake.in();
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
             RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-            robot.vSlides.moveToBottom();
+            robot.vSlides.move(-0.9f);
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
@@ -360,14 +375,34 @@ public class auto4OneCycleFar extends LinearOpMode {
 
         drive.followTrajectorySequence(cycleIntake2);
 
-        robot.intake.in();
-        robot.intakeSmallTilt.setOut();
+        lp.waitMillis(100);
         robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FOURTH);
-        //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
-        drive.followTrajectorySequence(cycleIntake3);
+        lp.waitMillis(250);
+
+        robot.hslides.moveEncoderTo(robot.hslides.START, -1);
+        robot.intake.off();
+        robot.intakeBigTilt.setTransfer();
+        robot.intakeSmallTilt.setTransfer();
+        drive.followTrajectorySequence(additionalCycleDump);
+        //transfer code
+        robot.intake.in();
+        robot.intakeDoor.setOpen();
+        robot.depoDoor.setOpen2();
+        lp.waitMillis(400);
+        robot.depoDoor.setClosed();
+        robot.intake.off();
+        robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+        lp.waitMillis(250);
+        robot.depoTilt.setOut();
+        drive.followTrajectorySequence(dumpYellowPixel3);
+
+        robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        //lowerSlidesThread(lp);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+150, 1);
+        lp.waitMillis(500);
+        robot.depoTilt.setIn();
+
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 

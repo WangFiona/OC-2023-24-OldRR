@@ -51,6 +51,8 @@ public class teleop1 extends OpMode {
     boolean intakeTransfer = false;
     boolean intakeOutDelay = false;
     long intakeOutTime;
+    boolean stayIn = true;
+    boolean isOut = false;
 
     boolean hSlideGoBottom = false;
 
@@ -150,7 +152,7 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(!robot.hslides.switchSlideDown.isTouch()){
+        if(stayIn && !robot.hslides.switchSlideDown.isTouch()){
             robot.hslides.moveEncoderTo(hslides.START, 1);
         }
         //Intake in
@@ -199,6 +201,7 @@ public class teleop1 extends OpMode {
         }*/
 
         if(gamepad2.right_bumper && Button.TRANSFER.canPress(timestamp)){//bumper && Button.INTAKEOUT.canPress(timestamp)){
+            stayIn = true;
             if(!intakeTransfer) {
                 robot.intakeBigTilt.setTransfer();
                 intakeDDelay = true;
@@ -363,7 +366,7 @@ public class teleop1 extends OpMode {
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < 400){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+50, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+65, 1);
             }
         }
 
@@ -445,7 +448,7 @@ public class teleop1 extends OpMode {
         // vSlides down
         if((gamepad2.left_trigger > 0.9 || gamepad1.dpad_down) && Button.BTN_SLIDE_DOWN.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-40){
-                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+100,1);
+                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+120,1);
             }
             robot.intake.in();
             slideGoBottom = true;
@@ -576,7 +579,16 @@ public class teleop1 extends OpMode {
             robot.vSlides.vSlidesF.setPower(-gamepad2.left_stick_y/2);
         }
 
-
+        if(gamepad2.left_stick_button && Button.BTN_HORIZONTAL.canPress(timestamp)){
+            if(isOut){
+                stayIn = true;
+                isOut = false;
+            } else{
+                stayIn = false;
+                robot.hslides.moveEncoderTo(400, 1);
+                isOut = true;
+            }
+        }
 
         telemetry.addData("vSlidesF encoder: ", robot.vSlides.vSlidesF.getCurrentPosition());
         telemetry.addData("vSlidesB encoder: ", robot.vSlides.vSlidesB.getCurrentPosition());
