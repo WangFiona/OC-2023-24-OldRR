@@ -52,7 +52,7 @@ public class testHSV extends LinearOpMode {
 
         if (opModeIsActive()) {
             lp.waitMillis(2000);
-            location = detector.getLocation(true, true);
+            location = detector.getLocation(true, false);
             //RobotLog.ii(TAG_A, "color red?", detector.getColor());
             RobotLog.ii(TAG_A, "avg color?", detector.getAverageColor());
             RobotLog.ii(TAG_A, "location? " + location);
@@ -61,7 +61,11 @@ public class testHSV extends LinearOpMode {
             telemetry.addLine("r avg color? " + detector.getRightAverageColor());
             telemetry.addLine("b avg color? " + detector.getBlueAverageColor());
             telemetry.addLine("bl avg color? " + detector.getBlueLeftAverageColor());
-            telemetry.addLine("location? " + location);
+            telemetry.addLine("red far location? " + location);
+            telemetry.addLine("red close location? " + detector.getLocation(true, true));
+            telemetry.addLine("blue far location? " + detector.getLocation(false, false));
+            telemetry.addLine("blue close location? " + detector.getLocation(false, true));
+
             telemetry.update();
             lp.waitMillis(5000);
         }

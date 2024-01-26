@@ -3,6 +3,7 @@ package overcharged.opmode;
 import static overcharged.config.RobotConstants.TAG_A;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import overcharged.components.RobotMecanum;
@@ -60,15 +61,20 @@ public class vSlidesThread implements Runnable {
     }
 
     public void slideDown(WaitLinear lp) throws InterruptedException {
+
+        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         slideDownTime = System.currentTimeMillis();
-        RobotLog.ii(RobotConstants.TAG_R, "entered thread");
-        RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + slideReachedBottom() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-        while(!slideReachedBottom() && System.currentTimeMillis() - slideDownTime < 1000){
-            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + slideReachedBottom() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-            robot.vSlides.setPower(power);
+        RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
+        while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
+            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
+            robot.vSlides.moveToBottom();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
         robot.vSlides.reset(robot.vSlides.vSlidesB);
+        robot.vSlides.reset(robot.vSlides.vSlidesF);
+
     }
 }

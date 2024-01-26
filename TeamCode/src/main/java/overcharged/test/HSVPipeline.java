@@ -35,9 +35,9 @@ public class HSVPipeline extends OpenCvPipeline {
     Scalar averageColor, rightAverageColor, blueAverageColor, blueLeftAverageColor;
     Scalar lowerRed1 = new Scalar(0, 100, 100);
     Scalar upperRed1 = new Scalar(15, 255, 255);
-    Scalar lowerRed2 = new Scalar(113, 100, 100);
+    Scalar lowerRed2 = new Scalar(113, 100, 70);
     Scalar upperRed2 = new Scalar(180, 255, 255);
-    Scalar lowerBlue = new Scalar(0, 0, 70);
+    Scalar lowerBlue = new Scalar(0, 0, 40);
     Scalar upperBlue = new Scalar(25, 255, 255);
     boolean midColor = false;
     boolean rightColor = false;

@@ -8,7 +8,7 @@ public class intakeBigTilt {
     public static final float FLAT = 158f;
     public static final float OUT = 52f;
     public static final float FIFTH = 69f;
-    public static final float FOURTH = 66f;
+    public static final float FOURTH = 61f;
 
     public intakeBigTilt(HardwareMap hardwareMap) {
         intakeBigTilt = new OcServo(hardwareMap, "intakeBigTilt", TRANSFER);
