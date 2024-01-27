@@ -3,8 +3,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class intakeSmallTilt {
     public OcServo intakeSmallTilt;
-    public static final float INIT = 172f;
-    public static final float TRANSFER = 172f;//115f;
+    public static final float INIT = 174f;
+    public static final float TRANSFER = 174f;//115f;
     public static final float FLAT = 183f;
     public static final float OUT = 105f;
 

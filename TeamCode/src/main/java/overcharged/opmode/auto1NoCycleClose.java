@@ -42,6 +42,7 @@ public class auto1NoCycleClose extends LinearOpMode {
     OpenCvWebcam webcam;
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
     boolean Blue = true;
+    double waitTime = 0;
     propLocation location = propLocation.Middle;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
@@ -59,6 +60,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
 
             Blue = sl.selectAlliance();
+            waitTime = sl.adjustDelay();
 
             this.detector = new HSVPipeline();
             //this.detector.useDefaults();
@@ -137,13 +139,13 @@ public class auto1NoCycleClose extends LinearOpMode {
                 }
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? -9.5f: -4;//9.5f;
-                    xYellowDump = Blue? -18: -34.5f;//-18;
+                    yPurpleDump = Blue? -10.5f: -4;//9.5f;
+                    xYellowDump = Blue? -18: -33f;//-18;
                     yYellowDump = Blue? -36: 36;
                 }
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? 4: 9.5f;//-4;
+                    yPurpleDump = Blue? 4: 10.5f;//-4;
                     xYellowDump = Blue? -34.5f: -18;//-36;
                     yYellowDump = Blue? -36: 36;
                 }
@@ -210,6 +212,8 @@ public class auto1NoCycleClose extends LinearOpMode {
         telemetry.update();
         RobotLog.ii(RobotConstants.TAG_R, "running auto body");
 
+        lp.waitMillis(waitTime);
+
         robot.depoDoor.setClosed();
 
         drive.followTrajectorySequence(dumpPurplePixel);
@@ -242,7 +246,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             }
         }
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel-40, 1);
         lp.waitMillis(600);
 
         robot.depoTilt.setOut();
@@ -251,7 +255,7 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+180, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+140, 1);
         lp.waitMillis(250);
 
         robot.depoTilt.setIn();

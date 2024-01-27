@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class hang {
     public OcServo rightHang;
     public OcServo leftHang;
-    public static float RIGHT_IN = 187f;
-    public static float RIGHT_HANG = 132f;
+    public static float RIGHT_IN = 192f;
+    public static float RIGHT_HANG = 150f;
     public static float LEFT_IN = 36f;
-    public static float LEFT_HANG = 73f;
+    public static float LEFT_HANG = 79f;
 
     public hang(HardwareMap hardwareMap, boolean isRight) {
         rightHang = new OcServo(hardwareMap, "rightHang", RIGHT_IN);

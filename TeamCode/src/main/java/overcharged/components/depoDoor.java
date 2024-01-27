@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class depoDoor {
     public OcServo depoDoor;
-    public static final float CLOSED = 139f;
+    public static final float CLOSED = 143f;
     public static float OPEN1 = 145f;
     public static float OPEN2 = 172f;
 

@@ -26,6 +26,7 @@
             <DigitalDevice name="vlimitswitch" port="6" />
             <DigitalDevice name="hlimitswitch" port="7" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
+            <Analog name="intakeVolt" port="1" />
             <!--<DigitalDevice name="led_white" port="6" />
             <DigitalDevice name="led_yellow" port="4" />
             <DigitalDevice name="led_red" port="2" />

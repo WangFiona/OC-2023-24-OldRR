@@ -230,7 +230,7 @@ public class teleop1 extends OpMode {
             //intakeDDelay = false;
         }
 
-        if(intakeDDelay && System.currentTimeMillis()-intakeDoorDelay > 500){
+        if(intakeDDelay && System.currentTimeMillis()-intakeDoorDelay > 650){
             robot.intakeDoor.setOpen();
             iOpen = true;
             intakeDDelay = false;
@@ -371,7 +371,7 @@ public class teleop1 extends OpMode {
         }
 
         if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() > 70){
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > 55){
                 robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-50, 1);
             }
         }
@@ -465,6 +465,8 @@ public class teleop1 extends OpMode {
             intakeMode = IntakeMode.OFF;
             robot.depoDoor.setClosed();
             depoMode = DepoMode.ClOSED;
+            robot.intakeDoor.setClosed();
+            iOpen = false;
             robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
         }
         //Slide height 2
@@ -474,6 +476,8 @@ public class teleop1 extends OpMode {
             intakeMode = IntakeMode.OFF;
             robot.depoDoor.setClosed();
             depoMode = DepoMode.ClOSED;
+            robot.intakeDoor.setClosed();
+            iOpen = false;
             robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
         }
         //Slide height 3
@@ -483,6 +487,8 @@ public class teleop1 extends OpMode {
             intakeMode = IntakeMode.OFF;
             robot.depoDoor.setClosed();
             depoMode = DepoMode.ClOSED;
+            robot.intakeDoor.setClosed();
+            iOpen = false;
             robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
         }
         //Slide height 4
@@ -492,6 +498,8 @@ public class teleop1 extends OpMode {
             intakeMode = IntakeMode.OFF;
             robot.depoDoor.setClosed();
             depoMode = DepoMode.ClOSED;
+            robot.intakeDoor.setClosed();
+            iOpen = false;
             robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
         }
 
@@ -517,10 +525,11 @@ public class teleop1 extends OpMode {
         }
 
         if(gamepad1.y && Button.NOPOWER.canPress(timestamp)){
-            robot.vSlides.setPower(0);
+            slideGoBottom = false;
+            robot.vSlides.stopMotors();
             robot.vSlides.forcestop();
             robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            slideGoBottom = false;
+            robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
 
         if(gamepad1.x && Button.LEFTPIXEL.canPress(timestamp)){
@@ -543,7 +552,7 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad2.x && Button.DRONESHOOTER.canPress(timestamp)){
+        if(gamepad1.a && Button.DRONESHOOTER.canPress(timestamp)){
             if(!shooting){
                 robot.droneShooter.setShoot();
                 shooting = true;
@@ -553,7 +562,7 @@ public class teleop1 extends OpMode {
             }
         }
 
-        if(gamepad2.right_stick_button && Button.BTN_LATCH_READY.canPress(timestamp)){
+        if(gamepad2.x && Button.BTN_LATCH_READY.canPress(timestamp)){
             if(isLocked) {
                 robot.hang.setLeftHang();
                 robot.hang.setRightHang();
@@ -579,7 +588,7 @@ public class teleop1 extends OpMode {
             robot.vSlides.vSlidesF.setPower(-gamepad2.left_stick_y/2);
         }
 
-        if(gamepad2.left_stick_button && Button.BTN_HORIZONTAL.canPress(timestamp)){
+        if(gamepad2.right_stick_button && Button.BTN_HORIZONTAL.canPress(timestamp)){
             if(isOut){
                 stayIn = true;
                 isOut = false;

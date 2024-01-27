@@ -3,18 +3,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class pixelDropper {
     public OcServo pixelDropper;
-    public static float IN = 127f;
-    public static float DUMP = 192f;
+    public static float IN = 100f;
+    public static float DUMP = 100f;
 
     public pixelDropper(HardwareMap hardwareMap, boolean isRight) {
         if(isRight){
-            IN = 127f;
-            DUMP = 192f;
-            pixelDropper = new OcServo(hardwareMap, "rightPixel", 100f);
+            IN = 86f;
+            DUMP = 148f;
+            pixelDropper = new OcServo(hardwareMap, "rightPixel", IN);
         } else {
-            IN = 123f;
-            DUMP = 68f;
-            pixelDropper = new OcServo(hardwareMap, "leftPixel", 156f);
+            IN = 170f;
+            DUMP = 110f;
+            pixelDropper = new OcServo(hardwareMap, "leftPixel", IN);
         }
     }
     public void setPosition(float pos){
