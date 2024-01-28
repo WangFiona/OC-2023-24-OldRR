@@ -164,7 +164,7 @@ public class auto1NoCycleClose extends LinearOpMode {
                         .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                         .build();
                 park = drive.trajectorySequenceBuilder(dumpYellowPixel.end())
-                        .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+2:yYellowDump-2))
+                        .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+5:yYellowDump-2))
                         .build();
 
                 /*robot.intakeDoor.setOpen();

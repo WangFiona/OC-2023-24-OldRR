@@ -333,6 +333,9 @@ public class teleop1 extends OpMode {
             }
         }
         if(dTiltIn && System.currentTimeMillis() - depoTiltDelay > 120){
+            robot.depoDoor.setClosed();
+            depoMode = DepoMode.ClOSED;
+
             robot.depoTilt.setIn();
             dOpen = false;
             dTilt = false;
@@ -512,6 +515,8 @@ public class teleop1 extends OpMode {
         if(slideGoBottom)  {
             if(System.currentTimeMillis() - depoTiltInDelay > 500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
                     //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                robot.depoDoor.setClosed();
+                depoMode = DepoMode.ClOSED;
                 robot.depoTilt.setIn();
                 dTilt = false;
             }
