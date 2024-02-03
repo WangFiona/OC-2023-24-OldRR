@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class depoDoor {
     public OcServo depoDoor;
     public static final float CLOSED = 143f;
-    public static float OPEN1 = 145f;
-    public static float OPEN2 = 172f;
+    public static float OPEN1 = 153f;
+    public static float OPEN2 = 170f;
 
     public depoDoor(HardwareMap hardwareMap) {
         depoDoor = new OcServo(hardwareMap, "depoDoor", OPEN2);

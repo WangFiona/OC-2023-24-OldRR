@@ -112,7 +112,6 @@ public class teleop1 extends OpMode {
             robot.intakeDoor.setClosed();
             iOpen = false;
             firstLoop = false;
-            robot.hslides.moveEncoderTo(hslides.START, 1);
         }
         robot.clearBulkCache();
         long timestamp = System.currentTimeMillis();
@@ -417,15 +416,15 @@ public class teleop1 extends OpMode {
 //            }
 //        }
 
-//        if (!robot.hslides.slideIn()) {
-//            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            robot.hslides.in();
-//        } else {
-//            robot.hslides.forceStop();
-//            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-////              robot.intake.in();
-////              intakeMode = IntakeMode.OFF;
-//        }
+        if (!robot.hslides.slideIn()) {
+            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.hslides.in();
+        } else {
+            robot.hslides.forceStop();
+            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//              robot.intake.in();
+//              intakeMode = IntakeMode.OFF;
+        }
 
 //        if (!robot.hslides.slideIn() && hSlideGoBottom) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
 //            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
