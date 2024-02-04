@@ -112,7 +112,6 @@ public class teleop1 extends OpMode {
             robot.intakeDoor.setClosed();
             iOpen = false;
             firstLoop = false;
-            robot.hslides.moveEncoderTo(hslides.START, 1);
         }
         robot.clearBulkCache();
         long timestamp = System.currentTimeMillis();
@@ -333,6 +332,9 @@ public class teleop1 extends OpMode {
             }
         }
         if(dTiltIn && System.currentTimeMillis() - depoTiltDelay > 120){
+            robot.depoDoor.setClosed();
+            depoMode = DepoMode.ClOSED;
+
             robot.depoTilt.setIn();
             dOpen = false;
             dTilt = false;
@@ -414,15 +416,15 @@ public class teleop1 extends OpMode {
 //            }
 //        }
 
-//        if (!robot.hslides.slideIn()) {
-//            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            robot.hslides.in();
-//        } else {
-//            robot.hslides.forceStop();
-//            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-////              robot.intake.in();
-////              intakeMode = IntakeMode.OFF;
-//        }
+        if (!robot.hslides.slideIn()) {
+            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.hslides.in();
+        } else {
+            robot.hslides.forceStop();
+            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//              robot.intake.in();
+//              intakeMode = IntakeMode.OFF;
+        }
 
 //        if (!robot.hslides.slideIn() && hSlideGoBottom) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
 //            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -511,7 +513,9 @@ public class teleop1 extends OpMode {
 
         if(slideGoBottom)  {
             if(System.currentTimeMillis() - depoTiltInDelay > 500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
-                    //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                robot.depoDoor.setClosed();
+                depoMode = DepoMode.ClOSED;
                 robot.depoTilt.setIn();
                 dTilt = false;
             }

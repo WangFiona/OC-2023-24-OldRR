@@ -175,7 +175,7 @@ public class auto4OneCycleFar extends LinearOpMode {
                 telemetry.addData("Blue alliance", Blue);
                 telemetry.addData("Prop location", location);
                 telemetry.update();
-                yYellowDump = Blue? -90f: 89;
+                yYellowDump = Blue? -88.5f: 88.5f;
                 xIntake = -26;
                 if(location==propLocation.Middle){
                     xPurpleDump = Blue? -29: -29;
@@ -186,7 +186,7 @@ public class auto4OneCycleFar extends LinearOpMode {
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? -2f: -5;//9.5f;
-                    xYellowDump = Blue? -15: -25f;//-18;
+                    xYellowDump = Blue? -18: -25f;//-18;
                     //yYellowDump = Blue? -36: 36;
                 }
                 else{ //right
@@ -235,17 +235,17 @@ public class auto4OneCycleFar extends LinearOpMode {
                         .build();
                 cycleIntake1 = drive.trajectorySequenceBuilder(dumpYellowPixel3.end())
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                        .lineToLinearHeading(new Pose2d(Blue? xIntake-21 :xIntake-22.5,Blue? -63:63, Math.toRadians(Blue? 90 : -90)))
-                        .addSpatialMarker(new Vector2d(Blue? xIntake-21 :xIntake-22,Blue? -55:55), () -> {
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-22.5 :xIntake-22.5,Blue? -63:63, Math.toRadians(Blue? 90 : -90)))
+                        .addSpatialMarker(new Vector2d(Blue? xIntake-22.5 :xIntake-22,Blue? -55:55), () -> {
                             slidesDown(lp);
                         })
                         .build();
                 cycleIntake2 = drive.trajectorySequenceBuilder(cycleIntake1.end())
-                        .lineToLinearHeading(new Pose2d(Blue? xIntake-24 :xIntake-22, Blue ? -10: 10, Math.toRadians(Blue? 94  : -90)))
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-25 :xIntake-22, Blue ? -10: 10, Math.toRadians(Blue? 94  : -90)))
                         .build();
                 additionalCycleDump = drive.trajectorySequenceBuilder(cycleIntake2.end())
                         .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-22,Blue? -63:63))
+                        .lineTo(new Vector2d(Blue? xIntake-24 :xIntake-22,Blue? -63:63))
                         .build();
                 additionalCycleDump2 = drive.trajectorySequenceBuilder(dumpYellowPixel2.end())
                         //.splineTo(new Vector2d(xYellowDump, yYellowDump), Math.toRadians(Blue? 90 : -90))
