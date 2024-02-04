@@ -130,23 +130,23 @@ public class auto3NoCycleFar extends LinearOpMode {
                 telemetry.addData("Prop location", location);
                 telemetry.update();
                 yYellowDump = Blue? -90: 90;
-                xIntake = -27;
+                xIntake = Blue?-27:-27.5f;
                 if(location==propLocation.Middle){
                     xPurpleDump = Blue? -29: -29;
-                    yPurpleDump = Blue? -2: -0.5f;
-                    xYellowDump = Blue? -26: -26;
+                    yPurpleDump = Blue? -2: 1f;//-2: -0.5f;
+                    xYellowDump = Blue? -23: -22;//-26: -26;
                     //yYellowDump = Blue? -36: 36;
                 }
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? -2f: -5;//9.5f;
-                    xYellowDump = Blue? -18: -26.5f;//-18;
+                    xYellowDump = Blue?  -18: -25f;//-18: -26.5f;//-18;
                     //yYellowDump = Blue? -36: 36;
                 }
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? 6.5f: 0f;//-4;
-                    xYellowDump = Blue? -26f: -20f;//-36;
+                    yPurpleDump = Blue? 5.5f: 0f;//-4;
+                    xYellowDump = Blue? -27f: -13.75f;//-26f: -20f;//-36;
                     //yYellowDump = Blue? -36: 36;
                 }
 
@@ -162,13 +162,13 @@ public class auto3NoCycleFar extends LinearOpMode {
                         .lineTo(new Vector2d(xPurpleDump, Blue? yPurpleDump-15 : yPurpleDump+18))
                         .build();
                 goToIntake = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
-                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 15: -15, Math.toRadians(Blue? 90:-90)))
+                        .lineToLinearHeading(new Pose2d(xIntake, Blue? 15: -17, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
-                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 18: -18, Math.toRadians(Blue? 90:-90)))
+                        .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 17: -17, Math.toRadians(Blue? 90:-90)))
                         .build();
                 dumpYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
-                        .lineTo(new Vector2d(Blue? xIntake-23 :xIntake-23,Blue? -48:48))
+                        .lineTo(new Vector2d(Blue? xIntake-21 :xIntake-21,Blue? -48:48))
                         .addSpatialMarker(new Vector2d(xIntake, Blue? 10:-10), () -> {
                             robot.intakeSmallTilt.setTransfer();
                         })
@@ -180,7 +180,7 @@ public class auto3NoCycleFar extends LinearOpMode {
                         .build();
                 dumpYellowPixel3 = drive.trajectorySequenceBuilder(dumpYellowPixel2.end())
                         .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                        .addSpatialMarker(new Vector2d(xIntake, Blue? -35:35), () -> {
+                        .addSpatialMarker(new Vector2d(xIntake, Blue? -35:36), () -> {
                             robot.depoTilt.setOut();
                         })
                         .build();
