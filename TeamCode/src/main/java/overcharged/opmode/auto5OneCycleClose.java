@@ -223,26 +223,26 @@ public class auto5OneCycleClose extends LinearOpMode {
 
         //robot.leftPixel.setDump();
         //lp.waitMillis(500);
-        RobotLog.ii(RobotConstants.TAG_R, "left pixel isBlue" + Blue + "dump" + robot.leftPixel.DUMP);
+        RobotLog.ii(RobotConstants.TAG_R, "left pixel isBlue" + Blue + "dump" + robot.pixel.LEFT_DUMP);
 
         if(Blue) {
-            float lPixelPos = robot.leftPixel.pixelDropper.getPosition();//153f;
+            float lPixelPos = robot.pixel.leftPixelDropper.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
-            RobotLog.ii(RobotConstants.TAG_R, "left pixel pos" + lPixelPos + "dump" + robot.leftPixel.DUMP);
-            while (lPixelPos > 97 && System.currentTimeMillis() - dropperTime < 1000) {
+            while (lPixelPos >= robot.pixel.LEFT_DUMP && System.currentTimeMillis() - dropperTime < 1000) {
+                RobotLog.ii(RobotConstants.TAG_R, "left pixel pos" + lPixelPos + "dump" + robot.pixel.LEFT_DUMP);
                 RobotLog.ii(RobotConstants.TAG_R, "moving left pixel");
                 lPixelPos -= 3;
-                robot.leftPixel.setPosition(lPixelPos);
-                lp.waitMillis(9);
+                robot.pixel.setLeftPosition(lPixelPos);
+                lp.waitMillis(7);
             }
         }
         else {
-            float rPixelPos = robot.rightPixel.pixelDropper.getPosition();//153f;
+            float rPixelPos = robot.pixel.rightPixelDropper.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
-            while (rPixelPos <= 146 && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
+            while (rPixelPos <= robot.pixel.RIGHT_DUMP && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
                 rPixelPos += 3;
-                robot.rightPixel.setPosition(rPixelPos);
-                lp.waitMillis(10);
+                robot.pixel.setRightPosition(rPixelPos);
+                lp.waitMillis(7);
             }
         }
 

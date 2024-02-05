@@ -2,26 +2,30 @@ package overcharged.components;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class pixelDropper {
-    public OcServo pixelDropper;
-    public static float IN = 100f;
-    public static float DUMP = 100f;
+    public OcServo leftPixelDropper;
+    public OcServo rightPixelDropper;
+    public static float LEFT_IN = 169f;
+    public static float LEFT_DUMP = 111f;
+    public static float RIGHT_IN = 88f;
+    public static float RIGHT_DUMP = 148f;
 
     public pixelDropper(HardwareMap hardwareMap, boolean isRight) {
-        if(isRight){
-            IN = 86f;
-            DUMP = 148f;
-            pixelDropper = new OcServo(hardwareMap, "rightPixel", IN);
-        } else {
-            IN = 170f;
-            DUMP = 110f;
-            pixelDropper = new OcServo(hardwareMap, "leftPixel", IN);
-        }
+        leftPixelDropper = new OcServo(hardwareMap, "leftPixel", LEFT_IN);
+        rightPixelDropper = new OcServo(hardwareMap, "rightPixel", RIGHT_IN);
     }
-    public void setPosition(float pos){
-        pixelDropper.setPosition(pos);
+    public void setLeftPosition(float pos){
+        leftPixelDropper.setPosition(pos);
     }
 
-    public void setIn() { pixelDropper.setPosition(IN); }
+    public void setLeftIn() { leftPixelDropper.setPosition(LEFT_IN); }
 
-    public void setDump() { pixelDropper.setPosition(DUMP); }
+    public void setLeftDump() { leftPixelDropper.setPosition(LEFT_DUMP); }
+
+    public void setRightPosition(float pos){
+        rightPixelDropper.setPosition(pos);
+    }
+
+    public void setRightIn() { rightPixelDropper.setPosition(RIGHT_IN); }
+
+    public void setRightDump() { rightPixelDropper.setPosition(RIGHT_DUMP); }
 }

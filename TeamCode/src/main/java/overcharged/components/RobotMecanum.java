@@ -39,6 +39,7 @@ public class RobotMecanum {
     public intakeBigTilt intakeBigTilt;
     public depoDoor depoDoor;
     public depoTilt depoTilt;
+    public pixelDropper pixel;
     public pixelDropper leftPixel;
     public pixelDropper rightPixel;
     public droneShooter droneShooter;
@@ -198,10 +199,18 @@ public class RobotMecanum {
         }
 
         try {
-            leftPixel = new pixelDropper(hardwareMap, false);
+            pixel = new pixelDropper(hardwareMap, false);
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: leftPixel " + e.getMessage());
             missing = missing + ", leftPixel";
+            numberMissing++;
+        }
+
+        try {
+            leftPixel = new pixelDropper(hardwareMap, false);
+        } catch (Exception e){
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: pixels " + e.getMessage());
+            missing = missing + ", pixels";
             numberMissing++;
         }
 
