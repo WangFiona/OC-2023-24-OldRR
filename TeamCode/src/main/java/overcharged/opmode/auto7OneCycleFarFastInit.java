@@ -53,7 +53,8 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
     propLocation location = propLocation.Middle;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
-    TrajectorySequence dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, goToIntake, dumpYellowPixel1, dumpMYellowPixel2, dumpLYellowPixel2, dumpRYellowPixel2, extraMPush, extraLPush, extraRPush, cycleIntake1, cycleIntake2, additionalCycleDump, extraPush2;
+    TrajectorySequence dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, goToIntake,
+            bridgeGoToIntake, dumpYellowPixel1, dumpMYellowPixel2, dumpLYellowPixel2, dumpRYellowPixel2, extraMPush, extraLPush, extraRPush, cycleIntake1, cycleIntake2, additionalCycleDump, extraPush2;
     //float xPurpleDump, yPurpleDump, xYellowDump, xPark, yPark;
     //TrajectorySequence test, dumpPurplePixel, extraForPurple, dumpYellowPixel1, dumpYellowPixel2,
             //dumpYellowPixel3, extraPush, park, goToIntake, cycleIntake1, cycleIntake2, additionalCycleDump, additionalCycleDump2, extraPush2;
@@ -85,7 +86,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             //LEFT
             float xLPurpleDump = Blue? -25: -26;
             float yLPurpleDump = Blue? -2f: -4;//9.5f;
-            float xLYellowDump = Blue? -20f: -28.5f;//-18;
+            float xLYellowDump = Blue? -19f: -28.5f;//-18;
 
             //RIGHT
             float xRPurpleDump = Blue? -26: -25;
@@ -110,17 +111,22 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     .lineTo(new Vector2d(Blue? xLPurpleDump : xRPurpleDump, Blue? yLPurpleDump-16 : yRPurpleDump+19))
                     .build();
             goToIntake = drive.trajectorySequenceBuilder(Blue? dumpRPurplePixel.end() : dumpLPurplePixel.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToLinearHeading(new Pose2d(xIntake, Blue? 17: -16.5, Math.toRadians(Blue? 90:-90)))
+                    .build();
+            bridgeGoToIntake = drive.trajectorySequenceBuilder(extraForPurple.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(40, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xIntake, Blue? 17: -16.5, Math.toRadians(Blue? 90:-90)))
                     .build();
             dumpYellowPixel1 = drive.trajectorySequenceBuilder(goToIntake.end())
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                    .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 17: -17, Math.toRadians(Blue? 90:-90)))
+                    .lineToConstantHeading(new Vector2d(Blue? xIntake-23 :xIntake-23, Blue ? 17: -17))
                     .addSpatialMarker(new Vector2d(Blue? xIntake-4 :xIntake-4, Blue? 10:-10), () -> {
                         robot.intake.out();
                         //robot.intakeSmallTilt.setPosition(intakeSmallTilt.DUMP_EXTRA);
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
                     })
-                    .addSpatialMarker(new Vector2d(Blue? xIntake-5 :xIntake-5, Blue? 10:-10), () -> {
+                    .addSpatialMarker(new Vector2d(Blue? xIntake-4.7 :xIntake-4.7, Blue? 10:-10), () -> {
                         robot.intake.off();
                         //robot.intakeSmallTilt.setPosition(intakeSmallTilt.DUMP_EXTRA);
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
@@ -205,19 +211,19 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     .build();
             extraMPush = drive.trajectorySequenceBuilder(dumpMYellowPixel2.end())
                     .lineToLinearHeading(new Pose2d(xMYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-11) : yYellowDump-11), () -> {
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
                     })
                     .build();
             extraLPush = drive.trajectorySequenceBuilder(dumpLYellowPixel2.end())
                     .lineToLinearHeading(new Pose2d(xLYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                    .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-11) : yYellowDump-11), () -> {
+                    .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
                     })
                     .build();
             extraRPush = drive.trajectorySequenceBuilder(dumpRYellowPixel2.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                    .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-11) : yYellowDump-11), () -> {
+                    .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
                     })
                     .build();
@@ -229,7 +235,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     })
                     .build();
             cycleIntake2 = drive.trajectorySequenceBuilder(cycleIntake1.end())
-                    .lineToLinearHeading(new Pose2d(Blue? xIntake-25 :xIntake-22, Blue ? -10: 10, Math.toRadians(Blue? 90  : -90)))
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-25 :xIntake-22, Blue ? -10: 10, Math.toRadians(Blue? 91  : -90)))
                     .build();
             additionalCycleDump = drive.trajectorySequenceBuilder(cycleIntake2.end())
                     .lineTo(new Vector2d(Blue? xIntake-24 :xIntake-22,Blue? -63:63),
@@ -416,8 +422,12 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         robot.intakeSmallTilt.setOut();
         robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
         //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
-        drive.followTrajectorySequence(goToIntake);
-        lp.waitMillis(75);
+        if((location == propLocation.Right && !Blue) || (location == propLocation.Left && Blue))
+            drive.followTrajectorySequence(bridgeGoToIntake);
+        else
+            drive.followTrajectorySequence(goToIntake);
+
+        lp.waitMillis(125);
 
 
         robot.hslides.moveEncoderTo(hslides.START,-1);
