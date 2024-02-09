@@ -138,6 +138,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
                     })
                     .build();*/
+
             dumpMYellowPixel2 = drive.trajectorySequenceBuilder(Blue? dumpRPurplePixel.end() : dumpLPurplePixel.end())
                     .lineToLinearHeading(new Pose2d(xMYellowDump,Blue? -yYellowDump:yYellowDump),
                             SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -174,6 +175,7 @@ public class auto8OneCycleNear extends LinearOpMode {
             extraRPush = drive.trajectorySequenceBuilder(dumpRYellowPixel2.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .build();
+
             cycleIntake1 = drive.trajectorySequenceBuilder(Blue? dumpRYellowPixel2.end() : dumpLYellowPixel2.end())
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .splineToConstantHeading(new Vector2d(Blue? xIntake-22.5 :xIntake-22.5,Blue? 20:-20), Math.toRadians(Blue? 90 : -90))
@@ -221,7 +223,9 @@ public class auto8OneCycleNear extends LinearOpMode {
                         robot.depoTilt.setOut();
                     })
                     .build();
-            park = drive.trajectorySequenceBuilder(additionalCycleDump.end())
+
+
+            park = drive.trajectorySequenceBuilder(extraPush2.end())
                     .splineToConstantHeading(new Vector2d(0, Blue? yYellowDump-2:yYellowDump+2), Math.toRadians(Blue? 90 : -90))
                     .build();
 
@@ -440,6 +444,7 @@ public class auto8OneCycleNear extends LinearOpMode {
             slidesDown(lp);
             //lowerSlidesThread(lp);
         }
+
         drive.followTrajectorySequence(park);
 
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
