@@ -367,7 +367,7 @@ public class teleop1 extends OpMode {
         }
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() < 400){
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < 460){
                 robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+65, 1);
             }
         }
@@ -449,7 +449,7 @@ public class teleop1 extends OpMode {
 
         // vSlides down
         if((gamepad2.left_trigger > 0.9 || gamepad1.dpad_down) && Button.BTN_SLIDE_DOWN.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-40){
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-20){
                 robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+120,1);
             }
             robot.intake.in();
@@ -513,7 +513,7 @@ public class teleop1 extends OpMode {
 
         if(slideGoBottom)  {
             if(System.currentTimeMillis() - depoTiltInDelay > 500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
-                    //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
                 robot.depoDoor.setClosed();
                 depoMode = DepoMode.ClOSED;
                 robot.depoTilt.setIn();
@@ -539,20 +539,20 @@ public class teleop1 extends OpMode {
         if(gamepad1.x && Button.LEFTPIXEL.canPress(timestamp)){
             if(lPixelOpen){
                 lPixelOpen = false;
-                robot.leftPixel.setIn();
+                robot.pixel.setLeftIn();
             } else if(!lPixelOpen){
                 lPixelOpen = true;
-                robot.leftPixel.setDump();
+                robot.pixel.setLeftDump();
             }
         }
 
         if(gamepad1.b && Button.RIGHTPIXEL.canPress(timestamp)){
             if(rPixelOpen){
                 rPixelOpen = false;
-                robot.rightPixel.setIn();
+                robot.pixel.setRightIn();
             } else if (!rPixelOpen){
                 rPixelOpen = true;
-                robot.rightPixel.setDump();
+                robot.pixel.setRightDump();
             }
         }
 

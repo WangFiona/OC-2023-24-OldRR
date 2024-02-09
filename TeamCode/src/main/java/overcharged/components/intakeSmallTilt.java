@@ -7,6 +7,7 @@ public class intakeSmallTilt {
     public static final float TRANSFER = 174f;//115f;
     public static final float FLAT = 183f;
     public static final float OUT = 105f;
+    public static final float DUMP_EXTRA = 190f;
 
     //for auto intaking, will need SEVERE tuning
     int pixelInterval = 4;

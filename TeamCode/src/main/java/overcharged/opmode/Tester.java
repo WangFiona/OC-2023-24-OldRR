@@ -131,9 +131,9 @@ Tester
         servos.add(depoDoor);
         OcServo depoTilt = robot.depoTilt.depoTilt;
         servos.add(depoTilt);
-        OcServo leftPixel = robot.leftPixel.pixelDropper;
+        OcServo leftPixel = robot.pixel.leftPixelDropper;
         servos.add(leftPixel);
-        OcServo rightPixel = robot.rightPixel.pixelDropper;
+        OcServo rightPixel = robot.pixel.rightPixelDropper;
         servos.add(rightPixel);
         OcServo droneShooter = robot.droneShooter.droneShooter;
         servos.add(droneShooter);
@@ -169,12 +169,12 @@ Tester
                         robot.depoTilt.OUT),
                 new ServoTestInfo(
                         leftPixel,
-                        robot.leftPixel.IN,
-                        robot.leftPixel.DUMP),
+                        robot.pixel.LEFT_IN,
+                        robot.pixel.LEFT_DUMP),
                 new ServoTestInfo(
                         rightPixel,
-                        robot.rightPixel.IN,
-                        robot.rightPixel.DUMP),
+                        robot.pixel.RIGHT_IN,
+                        robot.pixel.RIGHT_DUMP),
                 new ServoTestInfo(
                         droneShooter,
                         robot.droneShooter.INIT,
