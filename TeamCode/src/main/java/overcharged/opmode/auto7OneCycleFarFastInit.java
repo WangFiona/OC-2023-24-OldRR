@@ -54,7 +54,9 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
     TrajectorySequence dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, goToIntake,
-            bridgeGoToIntake, dumpYellowPixel1, dumpMYellowPixel2, dumpLYellowPixel2, dumpRYellowPixel2, extraMPush, extraLPush, extraRPush, cycleIntake1, cycleIntake2, additionalCycleDump, extraPush2;
+            bridgeGoToIntake, dumpYellowPixel1, dumpMYellowPixel2, dumpLYellowPixel2, dumpRYellowPixel2,
+            extraMPush, extraLPush, extraRPush, cycleIntake1, cycleIntake2, additionalCycleDump, extraPush2,
+            turnCorrection1, turnCorrection2M, turnCorrection2L, turnCorrection2R,turnCorrection3M, turnCorrection3L, turnCorrection3R;
     //float xPurpleDump, yPurpleDump, xYellowDump, xPark, yPark;
     //TrajectorySequence test, dumpPurplePixel, extraForPurple, dumpYellowPixel1, dumpYellowPixel2,
             //dumpYellowPixel3, extraPush, park, goToIntake, cycleIntake1, cycleIntake2, additionalCycleDump, additionalCycleDump2, extraPush2;
@@ -68,6 +70,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             drive = new SampleMecanumDrive(hardwareMap);
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
+            robot.hang.setRightIn();
 
             //initialize trajectories
 
@@ -90,7 +93,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
             //RIGHT
             float xRPurpleDump = Blue? -26: -25;
-            float yRPurpleDump = Blue? 5.5f: 0f;//-4;
+            float yRPurpleDump = Blue? 4.5f: 0f;//-4;
             float xRYellowDump = Blue? -27f: -17f;//-36;
 
             //initialize trajectories
@@ -126,7 +129,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                         //robot.intakeSmallTilt.setPosition(intakeSmallTilt.DUMP_EXTRA);
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
                     })
-                    .addSpatialMarker(new Vector2d(Blue? xIntake-4.7 :xIntake-4.7, Blue? 10:-10), () -> {
+                    .addSpatialMarker(new Vector2d(Blue? xIntake-4.4 :xIntake-4.4, Blue? 10:-10), () -> {
                         robot.intake.off();
                         //robot.intakeSmallTilt.setPosition(intakeSmallTilt.DUMP_EXTRA);
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
@@ -137,7 +140,10 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                         //robot.intakeBigTilt.setPosition(intakeBigTilt.DUMP_EXTRA);
                     })
                     .build();
-            dumpMYellowPixel2 = drive.trajectorySequenceBuilder(dumpYellowPixel1.end())
+            turnCorrection1 = drive.trajectorySequenceBuilder(new Pose2d(dumpYellowPixel1.end().getX()+1, Blue? dumpYellowPixel1.end().getY()+1: dumpYellowPixel1.end().getY()-1, Math.toRadians(Blue? 90 : -90)))
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-23 :xIntake-23, Blue ? 17: -17, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            dumpMYellowPixel2 = drive.trajectorySequenceBuilder(turnCorrection1.end())
                     .lineTo(new Vector2d(Blue? xIntake-21 :xIntake-21,Blue? -63:63),
                             SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
@@ -209,19 +215,28 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
                     .build();
-            extraMPush = drive.trajectorySequenceBuilder(dumpMYellowPixel2.end())
+            turnCorrection2M = drive.trajectorySequenceBuilder(new Pose2d(dumpMYellowPixel2.end().getX()+1, Blue? dumpMYellowPixel2.end().getY()+1: dumpMYellowPixel2.end().getY()-1, Math.toRadians(Blue? 90 : -90)))
+                    .lineToLinearHeading(new Pose2d(xMYellowDump, Blue? -(yYellowDump-13) : yYellowDump-13, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            turnCorrection2L = drive.trajectorySequenceBuilder(new Pose2d(dumpLYellowPixel2.end().getX()+1, Blue? dumpLYellowPixel2.end().getY()+1: dumpLYellowPixel2.end().getY()-1, Math.toRadians(Blue? 90 : -90)))
+                    .lineToLinearHeading(new Pose2d(xLYellowDump, Blue? -(yYellowDump-13) : yYellowDump-13, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            turnCorrection2R = drive.trajectorySequenceBuilder(new Pose2d(dumpRYellowPixel2.end().getX()+1, Blue? dumpRYellowPixel2.end().getY()+1: dumpRYellowPixel2.end().getY()-1, Math.toRadians(Blue? 90 : -90)))
+                    .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -(yYellowDump-13) : yYellowDump-13, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            extraMPush = drive.trajectorySequenceBuilder(turnCorrection2M.end())
                     .lineToLinearHeading(new Pose2d(xMYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
                     })
                     .build();
-            extraLPush = drive.trajectorySequenceBuilder(dumpLYellowPixel2.end())
+            extraLPush = drive.trajectorySequenceBuilder(turnCorrection2L.end())
                     .lineToLinearHeading(new Pose2d(xLYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
                     })
                     .build();
-            extraRPush = drive.trajectorySequenceBuilder(dumpRYellowPixel2.end())
+            extraRPush = drive.trajectorySequenceBuilder(turnCorrection2R.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
                         robot.depoTilt.setOut();
@@ -235,7 +250,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     })
                     .build();
             cycleIntake2 = drive.trajectorySequenceBuilder(cycleIntake1.end())
-                    .lineToLinearHeading(new Pose2d(Blue? xIntake-25 :xIntake-22, Blue ? -10: 10, Math.toRadians(Blue? 91  : -90)))
+                    .lineToLinearHeading(new Pose2d(Blue? xIntake-25 :xIntake-22, Blue ? -11f: 10, Math.toRadians(Blue? 91  : -90)))
                     .build();
             additionalCycleDump = drive.trajectorySequenceBuilder(cycleIntake2.end())
                     .lineTo(new Vector2d(Blue? xIntake-24 :xIntake-22,Blue? -63:63),
@@ -420,14 +435,14 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
         robot.intake.in();
         robot.intakeSmallTilt.setOut();
-        robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
+        robot.intakeBigTilt.setPosition(Blue? robot.intakeBigTilt.FIFTH+2:robot.intakeBigTilt.FIFTH);
         //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
         if((location == propLocation.Right && !Blue) || (location == propLocation.Left && Blue))
             drive.followTrajectorySequence(bridgeGoToIntake);
         else
             drive.followTrajectorySequence(goToIntake);
 
-        lp.waitMillis(125);
+        lp.waitMillis(175);
 
 
         robot.hslides.moveEncoderTo(hslides.START,-1);
@@ -435,10 +450,16 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         robot.intakeBigTilt.setTransfer();
         robot.intakeSmallTilt.setTransfer();
         drive.followTrajectorySequence(dumpYellowPixel1);
+        drive.followTrajectorySequence(turnCorrection1);
         robot.intakeSmallTilt.setOut();
         if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMYellowPixel2);}
         else if(location == propLocation.Left) { drive.followTrajectorySequence(dumpLYellowPixel2);}
         else { drive.followTrajectorySequence(dumpRYellowPixel2); }
+
+        if(location == propLocation.Middle) { drive.followTrajectorySequence(turnCorrection2M);}
+        else if(location == propLocation.Left) { drive.followTrajectorySequence(turnCorrection2L);}
+        else { drive.followTrajectorySequence(turnCorrection2R); }
+
         /*robot.intakeDoor.setClosed();
         robot.depoDoor.setClosed();
         robot.intake.off();
@@ -511,6 +532,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             lp.waitMillis(250);
 
             slidesDown(lp);
+            robot.hang.setRightIn();
             //lowerSlidesThread(lp);
         }
 

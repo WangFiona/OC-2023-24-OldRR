@@ -58,6 +58,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             drive = new SampleMecanumDrive(hardwareMap);
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
+            robot.hang.setRightIn();
 
             Blue = sl.selectAlliance();
             waitTime = sl.adjustDelay();
@@ -139,7 +140,7 @@ public class auto1NoCycleClose extends LinearOpMode {
                 }
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? -10.5f: -4;//9.5f;
+                    yPurpleDump = Blue? -10.5f: -3;//9.5f;
                     xYellowDump = Blue? -18: -33f;//-18;
                     yYellowDump = Blue? -36: 36;
                 }
@@ -246,8 +247,8 @@ public class auto1NoCycleClose extends LinearOpMode {
             }
         }
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel-40, 1);
-        lp.waitMillis(600);
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
+        lp.waitMillis(700);
 
         robot.depoTilt.setOut();
         drive.followTrajectorySequence(dumpYellowPixel);
@@ -255,7 +256,7 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.depoDoor.setOpen2();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+140, 1);
+        robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
         lp.waitMillis(250);
 
         robot.depoTilt.setIn();
@@ -268,7 +269,7 @@ public class auto1NoCycleClose extends LinearOpMode {
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
             RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
-            robot.vSlides.moveToBottom();
+            robot.vSlides.down();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
@@ -276,6 +277,7 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.vSlides.reset(robot.vSlides.vSlidesF);
 
         drive.followTrajectorySequence(park);
+        robot.hang.setRightIn();
         //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
