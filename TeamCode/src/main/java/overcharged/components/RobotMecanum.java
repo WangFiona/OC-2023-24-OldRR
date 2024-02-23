@@ -46,6 +46,7 @@ public class RobotMecanum {
     public hang hang;
     public hang leftHang;
     public hang rightHang;
+    public newDepo depo;
 
     public MecanumDrive drive;
 
@@ -235,6 +236,14 @@ public class RobotMecanum {
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: hang " + e.getMessage());
             missing = missing + ", hang";
+            numberMissing++;
+        }
+
+        try {
+            depo = new newDepo(hardwareMap);
+        } catch (Exception e){
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: depo " + e.getMessage());
+            missing = missing + ", depo";
             numberMissing++;
         }
 

@@ -7,11 +7,16 @@
             <goBILDA5202SeriesMotor name="driveRB" port="1" />
             <goBILDA5202SeriesMotor name="driveRF" port="2" />
             <goBILDA5202SeriesMotor name="vSlidesB" port="3" />
-            <Servo name="depoDoor" port="0" />
+            <!--<Servo name="depoDoor" port="0" />
             <Servo name="depoTilt" port="1" />
-            <Servo name="rightPixel" port="2" />
+            <Servo name="rightPixel" port="2" />-->
             <Servo name="droneShooter" port="3" />
             <Servo name="rightHang" port="5" />
+
+            <Servo name="frontClaw" port="4" />
+            <Servo name="backClaw" port="6" />
+            <Servo name="wrist" port="2" />
+            <Servo name="arm" port="1" />
         </LynxModule>
         <LynxModule name="Control Hub" port="173">
             <goBILDA5202SeriesMotor name="driveLF" port="0" />

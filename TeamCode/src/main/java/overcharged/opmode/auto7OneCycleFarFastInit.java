@@ -88,7 +88,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
             //LEFT
             float xLPurpleDump = Blue? -25: -26;
-            float yLPurpleDump = Blue? -2f: -4;//9.5f;
+            float yLPurpleDump = Blue? -2f: -3;//9.5f;
             float xLYellowDump = Blue? -19f: -28.5f;//-18;
 
             //RIGHT
@@ -322,6 +322,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             //detector.reset();
             telemetry.addData("Prop Location", location);
             telemetry.addData("Blue?", Blue);
+            telemetry.addData("Wait time", waitTime);
             telemetry.update();
 
             if (isStopRequested()) {
@@ -435,7 +436,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
         robot.intake.in();
         robot.intakeSmallTilt.setOut();
-        robot.intakeBigTilt.setPosition(Blue? robot.intakeBigTilt.FIFTH+2:robot.intakeBigTilt.FIFTH);
+        robot.intakeBigTilt.setPosition(Blue? robot.intakeBigTilt.FIFTH:robot.intakeBigTilt.FIFTH);
         //robot.intakeSmallTilt.setPosition(robot.intakeSmallTilt.FIFTHP);
         if((location == propLocation.Right && !Blue) || (location == propLocation.Left && Blue))
             drive.followTrajectorySequence(bridgeGoToIntake);
@@ -489,12 +490,12 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         //drive.followTrajectorySequence(park);
         robot.depoTilt.setIn();
         lp.waitMillis(200);
-        robot.intakeSmallTilt.setOut();
-        robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
-        robot.intakeDoor.setClosed();
         //lowerSlidesThread(lp);
 
         if(waitTime < 2000) {
+            robot.intakeSmallTilt.setOut();
+            robot.intakeBigTilt.setPosition(robot.intakeBigTilt.FIFTH);
+            robot.intakeDoor.setClosed();
             drive.followTrajectorySequence(cycleIntake1);
             keepHSlidesIn(lp, false);
             robot.hslides.moveEncoderTo(1900, 1);
@@ -531,10 +532,14 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             robot.depoTilt.setIn();
             lp.waitMillis(250);
 
-            slidesDown(lp);
-            robot.hang.setRightIn();
             //lowerSlidesThread(lp);
+        } else{
+            robot.intakeBigTilt.setTransfer();
+            robot.intakeSmallTilt.setTransfer();
         }
+        lp.waitMillis(200);
+        slidesDown(lp);
+        robot.hang.setRightIn();
 
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }

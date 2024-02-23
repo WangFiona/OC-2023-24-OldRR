@@ -142,6 +142,14 @@ Tester
         OcServo leftHang = robot.hang.leftHang;
         servos.add(leftHang);
 
+        OcServo frontClaw = robot.depo.frontClaw;
+        servos.add(frontClaw);
+        OcServo backClaw = robot.depo.backClaw;
+        servos.add(backClaw);
+        OcServo wrist = robot.depo.wrist;
+        servos.add(wrist);
+        OcServo arm = robot.depo.arm;
+        servos.add(arm);
 
         servoTestInfos = new ServoTestInfo[]{
                 // claw
@@ -186,7 +194,24 @@ Tester
                 new ServoTestInfo(
                         leftHang,
                         robot.hang.LEFT_IN,
-                        robot.hang.LEFT_HANG)
+                        robot.hang.LEFT_HANG),
+                new ServoTestInfo(
+                        frontClaw,
+                        robot.depo.FRONT_OPEN,
+                        robot.depo.FRONT_CLOSE),
+                new ServoTestInfo(
+                        backClaw,
+                        robot.depo.BACK_OPEN,
+                        robot.depo.BACK_CLOSE),
+                new ServoTestInfo(
+                        wrist,
+                        robot.depo.WRIST_FLAT,
+                        robot.depo.WRIST_P_DIAG,
+                        robot.depo.WRIST_N_DIAG),
+                new ServoTestInfo(
+                        arm,
+                        robot.depo.ARM_IN,
+                        robot.depo.ARM_OUT),
         };
 
         int testCounter = 0;
