@@ -14,9 +14,10 @@
             <Servo name="rightHang" port="5" />
 
             <Servo name="frontClaw" port="4" />
-            <Servo name="backClaw" port="6" />
-            <Servo name="wrist" port="2" />
+            <Servo name="backClaw" port="2" />
+            <Servo name="wrist" port="0" />
             <Servo name="arm" port="1" />
+            <AnalogInput name="armVolt" port="0" />
         </LynxModule>
         <LynxModule name="Control Hub" port="173">
             <goBILDA5202SeriesMotor name="driveLF" port="0" />
@@ -26,7 +27,8 @@
             <Servo name="intakeSmallTilt" port="0" />
             <Servo name="intakeBigTilt" port="2" />
             <Servo name="intakeDoor" port="3" />
-            <Servo name="leftPixel" port="4" />
+            <!--<Servo name="leftPixel" port="4" />-->
+            <Servo name="pixel" port="4" />
             <Servo name="leftHang" port="5" />
             <DigitalDevice name="vlimitswitch" port="6" />
             <DigitalDevice name="hlimitswitch" port="7" />

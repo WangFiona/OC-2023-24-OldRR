@@ -61,6 +61,9 @@ public class auto1NoCycleClose extends LinearOpMode {
             robot.hang.setRightIn();
 
             Blue = sl.selectAlliance();
+            if(Blue){robot.pixel.setLeftIn();}
+            else{robot.pixel.setRightIn();}
+
             waitTime = sl.adjustDelay();
 
             this.detector = new HSVPipeline();
@@ -136,19 +139,19 @@ public class auto1NoCycleClose extends LinearOpMode {
                     xPurpleDump = Blue? -29: -29;
                     yPurpleDump = Blue? -3: 3;
                     xYellowDump = Blue? -25: -25;
-                    yYellowDump = Blue? -36: 36;
+                    yYellowDump = Blue? -38: 38;
                 }
                 else if(location==propLocation.Left){
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? -10.5f: -3;//9.5f;
                     xYellowDump = Blue? -18: -33f;//-18;
-                    yYellowDump = Blue? -36: 36;
+                    yYellowDump = Blue? -38: 38;
                 }
                 else{ //right
                     xPurpleDump = Blue? -26: -26;
                     yPurpleDump = Blue? 4: 10.5f;//-4;
                     xYellowDump = Blue? -34.5f: -18;//-36;
-                    yYellowDump = Blue? -36: 36;
+                    yYellowDump = Blue? -38: 38;
                 }
 
                 xPark = -40;
@@ -215,7 +218,8 @@ public class auto1NoCycleClose extends LinearOpMode {
 
         lp.waitMillis(waitTime);
 
-        robot.depoDoor.setClosed();
+        //robot.depoDoor.setClosed();
+        robot.depo.setBothClawsClose();
 
         drive.followTrajectorySequence(dumpPurplePixel);
 
@@ -227,39 +231,42 @@ public class auto1NoCycleClose extends LinearOpMode {
         RobotLog.ii(RobotConstants.TAG_R, "left pixel isBlue" + Blue + "dump" + robot.pixel.LEFT_DUMP);
 
         if(Blue) {
-            float lPixelPos = robot.pixel.leftPixelDropper.getPosition();//153f;
+            float lPixelPos = robot.pixel.pixel.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
-            while (lPixelPos >= robot.pixel.LEFT_DUMP && System.currentTimeMillis() - dropperTime < 1000) {
+            while (lPixelPos >= robot.pixel.LEFT_OUT && System.currentTimeMillis() - dropperTime < 1000) {
                 RobotLog.ii(RobotConstants.TAG_R, "left pixel pos" + lPixelPos + "dump" + robot.pixel.LEFT_DUMP);
                 RobotLog.ii(RobotConstants.TAG_R, "moving left pixel");
                 lPixelPos -= 3;
-                robot.pixel.setLeftPosition(lPixelPos);
-                lp.waitMillis(7);
+                robot.pixel.setPos(lPixelPos);
+                lp.waitMillis(5);
             }
         }
         else {
-            float rPixelPos = robot.pixel.rightPixelDropper.getPosition();//153f;
+            float rPixelPos = robot.pixel.pixel.getPosition();//153f;
             long dropperTime = System.currentTimeMillis();
-            while (rPixelPos <= robot.pixel.RIGHT_DUMP && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
+            while (rPixelPos <= robot.pixel.RIGHT_OUT && System.currentTimeMillis() - dropperTime < 500) {//hSlidesOut >= hSlides.MIN+10) {
                 rPixelPos += 3;
-                robot.pixel.setRightPosition(rPixelPos);
-                lp.waitMillis(7);
+                robot.pixel.setPos(rPixelPos);
+                lp.waitMillis(5);
             }
         }
 
         robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
         lp.waitMillis(700);
 
-        robot.depoTilt.setOut();
+        //robot.depoTilt.setOut();
+        robot.depo.setArmPos(robot.depo.ARM_OUT);
         drive.followTrajectorySequence(dumpYellowPixel);
 
-        robot.depoDoor.setOpen2();
+        //robot.depoDoor.setOpen2();
+        robot.depo.setBothClawsOpen();
         lp.waitMillis(500);
 
         robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
         lp.waitMillis(250);
 
-        robot.depoTilt.setIn();
+        //robot.depoTilt.setIn();
+        robot.depo.setArmPos(robot.depo.ARM_IN);
         lp.waitMillis(500);
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

@@ -540,7 +540,7 @@ public class teleop1 extends OpMode {
         if(gamepad1.x && Button.LEFTPIXEL.canPress(timestamp)){
             if(lPixelOpen){
                 lPixelOpen = false;
-                robot.pixel.setLeftIn();
+                robot.pixel.setLeftPixelIn();
             } else if(!lPixelOpen){
                 lPixelOpen = true;
                 robot.pixel.setLeftDump();
@@ -550,7 +550,7 @@ public class teleop1 extends OpMode {
         if(gamepad1.b && Button.RIGHTPIXEL.canPress(timestamp)){
             if(rPixelOpen){
                 rPixelOpen = false;
-                robot.pixel.setRightIn();
+                robot.pixel.setRightPixelIn();
             } else if (!rPixelOpen){
                 rPixelOpen = true;
                 robot.pixel.setRightDump();

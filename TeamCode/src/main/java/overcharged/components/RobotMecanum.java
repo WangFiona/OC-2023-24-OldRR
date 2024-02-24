@@ -200,26 +200,10 @@ public class RobotMecanum {
         }
 
         try {
-            pixel = new pixelDropper(hardwareMap, false);
+            pixel = new pixelDropper(hardwareMap);
         } catch (Exception e){
-            RobotLog.ee(RobotConstants.TAG_R,  "missing: leftPixel " + e.getMessage());
-            missing = missing + ", leftPixel";
-            numberMissing++;
-        }
-
-        try {
-            leftPixel = new pixelDropper(hardwareMap, false);
-        } catch (Exception e){
-            RobotLog.ee(RobotConstants.TAG_R,  "missing: pixels " + e.getMessage());
-            missing = missing + ", pixels";
-            numberMissing++;
-        }
-
-        try {
-            rightPixel = new pixelDropper(hardwareMap, true);
-        } catch (Exception e){
-            RobotLog.ee(RobotConstants.TAG_R,  "missing: rightPixel " + e.getMessage());
-            missing = missing + ", rightPixel";
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: pixel " + e.getMessage());
+            missing = missing + ", pixel";
             numberMissing++;
         }
 
@@ -244,22 +228,6 @@ public class RobotMecanum {
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: depo " + e.getMessage());
             missing = missing + ", depo";
-            numberMissing++;
-        }
-
-        try {
-            leftHang = new hang(hardwareMap, false);
-        } catch (Exception e){
-            RobotLog.ee(RobotConstants.TAG_R,  "missing: leftHang " + e.getMessage());
-            missing = missing + ", leftHang";
-            numberMissing++;
-        }
-
-        try {
-            rightHang = new hang(hardwareMap, true);
-        } catch (Exception e){
-            RobotLog.ee(RobotConstants.TAG_R,  "missing: rightHang " + e.getMessage());
-            missing = missing + ", rightHang";
             numberMissing++;
         }
 

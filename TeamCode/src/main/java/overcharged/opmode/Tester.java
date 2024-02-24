@@ -127,14 +127,14 @@ Tester
         servos.add(intakeBigTilt);
         OcServo intakeSmallTilt = robot.intakeSmallTilt.intakeSmallTilt;
         servos.add(intakeSmallTilt);
-        OcServo depoDoor = robot.depoDoor.depoDoor;
+        /*OcServo depoDoor = robot.depoDoor.depoDoor;
         servos.add(depoDoor);
         OcServo depoTilt = robot.depoTilt.depoTilt;
-        servos.add(depoTilt);
-        OcServo leftPixel = robot.pixel.leftPixelDropper;
+        servos.add(depoTilt);*/
+        /*OcServo leftPixel = robot.pixel.leftPixelDropper;
         servos.add(leftPixel);
         OcServo rightPixel = robot.pixel.rightPixelDropper;
-        servos.add(rightPixel);
+        servos.add(rightPixel);*/
         OcServo droneShooter = robot.droneShooter.droneShooter;
         servos.add(droneShooter);
         OcServo rightHang = robot.hang.rightHang;
@@ -142,10 +142,13 @@ Tester
         OcServo leftHang = robot.hang.leftHang;
         servos.add(leftHang);
 
-        OcServo frontClaw = robot.depo.frontClaw;
-        servos.add(frontClaw);
-        OcServo backClaw = robot.depo.backClaw;
-        servos.add(backClaw);
+        OcServo pixel = robot.pixel.pixel;
+        servos.add(pixel);
+
+        OcServo bClaw = robot.depo.backClaw;
+        servos.add(bClaw);
+        OcServo fClaw = robot.depo.frontClaw;
+        servos.add(fClaw);
         OcServo wrist = robot.depo.wrist;
         servos.add(wrist);
         OcServo arm = robot.depo.arm;
@@ -167,23 +170,6 @@ Tester
                         robot.intakeSmallTilt.TRANSFER,
                         robot.intakeSmallTilt.OUT),
                 new ServoTestInfo(
-                        depoDoor,
-                        robot.depoDoor.OPEN1,
-                        robot.depoDoor.OPEN2,
-                        robot.depoDoor.CLOSED),
-                new ServoTestInfo(
-                        depoTilt,
-                        robot.depoTilt.IN,
-                        robot.depoTilt.OUT),
-                new ServoTestInfo(
-                        leftPixel,
-                        robot.pixel.LEFT_IN,
-                        robot.pixel.LEFT_DUMP),
-                new ServoTestInfo(
-                        rightPixel,
-                        robot.pixel.RIGHT_IN,
-                        robot.pixel.RIGHT_DUMP),
-                new ServoTestInfo(
                         droneShooter,
                         robot.droneShooter.INIT,
                         robot.droneShooter.SHOOT),
@@ -196,18 +182,22 @@ Tester
                         robot.hang.LEFT_IN,
                         robot.hang.LEFT_HANG),
                 new ServoTestInfo(
-                        frontClaw,
-                        robot.depo.FRONT_OPEN,
+                        pixel,
+                        robot.pixel.MIDDLE,
+                        robot.pixel.LEFT_OUT),
+                new ServoTestInfo(
+                        fClaw,
+                        robot.depo.FRONT_DUMP,
                         robot.depo.FRONT_CLOSE),
                 new ServoTestInfo(
-                        backClaw,
-                        robot.depo.BACK_OPEN,
+                        bClaw,
+                        robot.depo.BACK_DUMP,
                         robot.depo.BACK_CLOSE),
                 new ServoTestInfo(
                         wrist,
                         robot.depo.WRIST_FLAT,
-                        robot.depo.WRIST_P_DIAG,
-                        robot.depo.WRIST_N_DIAG),
+                        robot.depo.WRIST_R_DIAG,
+                        robot.depo.WRIST_L_DIAG),
                 new ServoTestInfo(
                         arm,
                         robot.depo.ARM_IN,
