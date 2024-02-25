@@ -10,10 +10,10 @@ public class newDepo {
     public OcServo arm;
     public AnalogInput armVolt;
 
-    public static float FRONT_CLOSE = 28f;
+    public static float FRONT_CLOSE = 7f;
     public static float FRONT_DUMP = 151f;
     //public static float FRONT_OPEN = 151f;
-    public static float BACK_CLOSE = 219f;
+    public static float BACK_CLOSE = 250f;
     public static float BACK_DUMP = 98f;
     //public static float BACK_OPEN = 98f;
 

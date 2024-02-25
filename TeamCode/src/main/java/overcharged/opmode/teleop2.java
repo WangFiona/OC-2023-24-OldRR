@@ -692,7 +692,7 @@ public class teleop2 extends OpMode {
                 isOut = false;
             } else{
                 stayIn = false;
-                robot.hslides.moveEncoderTo(400, 1);
+                robot.hslides.moveEncoderTo(800, 1);
                 isOut = true;
             }
         }
