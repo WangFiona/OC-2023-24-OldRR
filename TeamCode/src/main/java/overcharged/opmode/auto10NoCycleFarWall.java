@@ -99,6 +99,47 @@ public class auto10NoCycleFarWall extends LinearOpMode {
             float yRPurpleDump = Blue? 4.5f: 0f;//-4;
             float xRYellowDump = Blue? -27f: -17f;//-36;
 
+            this.detector = new HSVPipeline();
+            //this.detector.useDefaults();
+            webcam.setPipeline(detector);
+            //detector.isLeft(Top);
+
+            try {
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+            } catch (Exception e) {
+                try {
+                    this.detector = new HSVPipeline();
+                    //this.detector.useDefaults();
+                    webcam.setPipeline(detector);
+                    webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
+                } catch (Exception f) {
+                    telemetry.addLine("Error");
+                    telemetry.update();
+                    location = propLocation.Middle;
+                }
+            }
+
+            telemetry.update();
+
+            long time1 = System.currentTimeMillis();
+            currentTime = System.currentTimeMillis();
+            while (currentTime - time1 < detectionWaitTime) {
+                location = detector.getLocation(!Blue, true);
+                currentTime = System.currentTimeMillis();
+            }
+
+            //detector.reset();
+            telemetry.addData("Prop Location", location);
+            telemetry.addData("Blue?", Blue);
+            telemetry.addData("Wait time", waitTime);
+            telemetry.update();
+
+            if (isStopRequested()) {
+                return;
+            }
+
+            waitForStart();
+
             //initialize trajectories
             dumpMPurplePixel = drive.trajectorySequenceBuilder(start)
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
@@ -299,47 +340,6 @@ public class auto10NoCycleFarWall extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(Blue? xIntake-25 :xIntake-22, Blue? yYellowDump-5:yYellowDump+5))
                     .build();
 
-            this.detector = new HSVPipeline();
-            //this.detector.useDefaults();
-            webcam.setPipeline(detector);
-            //detector.isLeft(Top);
-
-            try {
-                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
-            } catch (Exception e) {
-                try {
-                    this.detector = new HSVPipeline();
-                    //this.detector.useDefaults();
-                    webcam.setPipeline(detector);
-                    webcam.startStreaming(320, 240, OpenCvCameraRotation.UPSIDE_DOWN);
-                } catch (Exception f) {
-                    telemetry.addLine("Error");
-                    telemetry.update();
-                    location = propLocation.Middle;
-                }
-            }
-
-            telemetry.update();
-
-            long time1 = System.currentTimeMillis();
-            currentTime = System.currentTimeMillis();
-            while (currentTime - time1 < detectionWaitTime) {
-                location = detector.getLocation(!Blue, true);
-                currentTime = System.currentTimeMillis();
-            }
-
-            //detector.reset();
-            telemetry.addData("Prop Location", location);
-            telemetry.addData("Blue?", Blue);
-            telemetry.addData("Wait time", waitTime);
-            telemetry.update();
-
-            if (isStopRequested()) {
-                return;
-            }
-
-            waitForStart();
-
             if (opModeIsActive()) {
                 robot.clearBulkCache();
                 telemetry.addLine("running");
@@ -475,21 +475,39 @@ public class auto10NoCycleFarWall extends LinearOpMode {
         robot.intake.off();
         robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);*/
         //drive.followTrajectorySequence(dumpYellowPixel3);
-        robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
-        //lp.waitMillis(500);
+
+        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
+        lp.waitMillis(700);
+
         if(location == propLocation.Middle) { drive.followTrajectorySequence(extraMPush);}
         else if(location == propLocation.Left) { drive.followTrajectorySequence(extraLPush);}
         else { drive.followTrajectorySequence(extraRPush); }
+
+        //robot.depoTilt.setOut();
+        robot.depo.setArmPos(robot.depo.ARM_OUT);
+
+        //robot.depoDoor.setOpen2();
+        robot.depo.setBothClawsOpen();
+        lp.waitMillis(500);
+
+        robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+        lp.waitMillis(250);
+
+        //robot.depoTilt.setIn();
+        robot.depo.setArmPos(robot.depo.ARM_IN);
+        lp.waitMillis(500);
+//        robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
+        //lp.waitMillis(500);
         //robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
         //lp.waitMillis(600);
 
         //robot.depoTilt.setOut();
         //drive.followTrajectorySequence(dumpYellowPixel2);
 
-        robot.depoDoor.setOpen2();
-        lp.waitMillis(100);
-
-        robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+//        robot.depoDoor.setOpen2();
+//        lp.waitMillis(100);
+//
+//        robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
         /*robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.vSlides.vSlidesB.setPower(1);
@@ -497,7 +515,7 @@ public class auto10NoCycleFarWall extends LinearOpMode {
         lp.waitMillis(250);
 
         //drive.followTrajectorySequence(park);
-        robot.depoTilt.setIn();
+//        robot.depoTilt.setIn();
         drive.followTrajectorySequence(wallPark);
         //lowerSlidesThread(lp);
         robot.intakeBigTilt.setTransfer();
