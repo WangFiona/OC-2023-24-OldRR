@@ -496,6 +496,7 @@ public class auto10NoCycleFarWall extends LinearOpMode {
         //robot.depoTilt.setIn();
         robot.depo.setArmPos(robot.depo.ARM_IN);
         lp.waitMillis(500);
+
 //        robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
         //lp.waitMillis(500);
         //robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
