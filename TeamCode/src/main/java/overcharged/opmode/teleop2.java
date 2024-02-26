@@ -60,6 +60,11 @@ public class teleop2 extends OpMode {
     boolean dGoFlat = false;
     boolean dGoVert = false;
     WristMode wristMode = WristMode.VERT_IN;
+    boolean hSlideGoIn = false;
+    long hSlideInDelay;
+    int vSlideLevel = 1;
+    long delayForClaw;
+    boolean firstTime = false;
 
     boolean hSlideGoBottom = false;
 
@@ -547,6 +552,9 @@ public class teleop2 extends OpMode {
         //Slide height 1
         if(gamepad2.dpad_left && Button.BTN_LEVEL1.canPress(timestamp)){
             depoTiltOutDelay = true;
+            delayForClaw = System.currentTimeMillis();
+            firstTime = true;
+            vSlideLevel = 1;
             robot.intake.off();
             intakeMode = IntakeMode.OFF;
             robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
@@ -555,11 +563,14 @@ public class teleop2 extends OpMode {
             bClawClosed = true;
             robot.intakeDoor.setClosed();
             iOpen = false;
-            robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+            //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
         }
         //Slide height 2
         if(gamepad2.dpad_down && Button.BTN_LEVEL2.canPress(timestamp)){
             depoTiltOutDelay = true;
+            delayForClaw = System.currentTimeMillis();
+            firstTime = true;
+            vSlideLevel = 2;
             robot.intake.off();
             intakeMode = IntakeMode.OFF;
             robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
@@ -568,11 +579,14 @@ public class teleop2 extends OpMode {
             bClawClosed = true;
             robot.intakeDoor.setClosed();
             iOpen = false;
-            robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
+            //robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
         }
         //Slide height 3
         if(gamepad2.dpad_right && Button.BTN_LEVEL3.canPress(timestamp)){
             depoTiltOutDelay = true;
+            delayForClaw = System.currentTimeMillis();
+            firstTime = true;
+            vSlideLevel = 3;
             robot.intake.off();
             intakeMode = IntakeMode.OFF;
             robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
@@ -581,11 +595,14 @@ public class teleop2 extends OpMode {
             bClawClosed = true;
             robot.intakeDoor.setClosed();
             iOpen = false;
-            robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
+            //robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
         }
         //Slide height 4
         if(gamepad2.dpad_up && Button.BTN_LEVEL4.canPress(timestamp)){
             depoTiltOutDelay = true;
+            delayForClaw = System.currentTimeMillis();
+            firstTime = true;
+            vSlideLevel = 4;
             robot.intake.off();
             intakeMode = IntakeMode.OFF;
             robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
@@ -594,9 +611,16 @@ public class teleop2 extends OpMode {
             bClawClosed = true;
             robot.intakeDoor.setClosed();
             iOpen = false;
-            robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+            //robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
         }
 
+        if(firstTime && depoTiltOutDelay && System.currentTimeMillis() - delayForClaw > 250){
+            if(vSlideLevel == 1){ robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);}
+            else if(vSlideLevel == 2){ robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);}
+            else if(vSlideLevel == 3){ robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);}
+            else {robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);}
+            firstTime = false;
+        }
         if(depoTiltOutDelay && robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1 - 10 ){
             robot.depo.setArmPos(robot.depo.ARM_OUT);
             dGoFlat = true;
@@ -606,7 +630,7 @@ public class teleop2 extends OpMode {
         }
 
         if(slideGoBottom){
-            if(System.currentTimeMillis() - depoTiltInDelay > 400){
+            if(System.currentTimeMillis() - depoTiltInDelay > 225){
                 robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
                 wristMode = WristMode.VERT_IN;
             }
@@ -627,7 +651,7 @@ public class teleop2 extends OpMode {
         }
 
         if(slideGoBottom)  {
-            if(System.currentTimeMillis() - depoTiltInDelay > 650){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+            if(System.currentTimeMillis() - depoTiltInDelay > 1000){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
                 //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
                 slideBottom();
             }
@@ -688,14 +712,30 @@ public class teleop2 extends OpMode {
 
         if(gamepad2.right_stick_button && Button.BTN_HORIZONTAL.canPress(timestamp)){
             if(isOut){
+                //hSlideGoIn = true;
+                //hSlideInDelay = System.currentTimeMillis();
                 stayIn = true;
                 isOut = false;
             } else{
                 stayIn = false;
-                robot.hslides.moveEncoderTo(800, 1);
+                robot.hslides.moveEncoderTo(400, 1);
                 isOut = true;
             }
         }
+
+        /*if(hSlideGoIn && System.currentTimeMillis()-hSlideInDelay > 350){
+            robot.intakeBigTilt.setTransfer();
+            intakeDDelay = true;
+            intakeDoorDelay = System.currentTimeMillis();
+            //robot.intakeDoor.setOpen();
+            //robot.depoDoor.setOpen2();
+            robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
+            robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
+            fClawClosed = false;
+            bClawClosed = false;
+            intakeTransfer = true;
+            hSlideGoIn = false;
+        }*/
 
         if(gamepad2.left_stick_button && Button.BTN_HANG.canPress(timestamp)){
             if(isLocked) {

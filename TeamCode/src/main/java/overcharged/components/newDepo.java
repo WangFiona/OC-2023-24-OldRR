@@ -24,7 +24,7 @@ public class newDepo {
     public static float WRIST_L_DIAG = 88f;
 
     public static float ARM_IN = 172f;
-    public static float ARM_OUT = 72f;
+    public static float ARM_OUT = 70f;
 
     public newDepo(HardwareMap hardwareMap) {
         frontClaw = new OcServo(hardwareMap, "frontClaw", FRONT_DUMP);
