@@ -80,7 +80,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             DropHeight = sl.selectDropHeight(); //true = low, false = high drop
             waitTime = sl.adjustDelay();
 
-            float yYellowDump = 91f;
+            float yYellowDump = 92f;//91f;
             float xIntake = Blue ? -27.5f : -26;
 
             //MIDDLE
@@ -155,12 +155,14 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                         //robot.vSlides.moveEncoderTo(100, 1);
                         //robot.hslides.moveEncoderTo(hslides.START,1);
                         robot.intakeDoor.setOpen();
-                        robot.depoDoor.setOpen2();
+                        //robot.depoDoor.setOpen2();
+                        robot.depo.setBothClawsOpen();
                         robot.intake.in();
                     })
                     .addSpatialMarker(new Vector2d(Blue? xIntake-21 :xIntake-21, Blue? -55:55), () -> {
                         robot.intakeDoor.setClosed();
-                        robot.depoDoor.setClosed();
+                        //robot.depoDoor.setClosed();
+                        robot.depo.setBothClawsClose();
                         robot.intake.off();
                         //robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
                     })
@@ -179,12 +181,14 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                         //robot.vSlides.moveEncoderTo(100, 1);
                         //robot.hslides.moveEncoderTo(hslides.START,1);
                         robot.intakeDoor.setOpen();
-                        robot.depoDoor.setOpen2();
+                        //robot.depoDoor.setOpen2();
+                        robot.depo.setBothClawsOpen();
                         robot.intake.in();
                     })
                     .addSpatialMarker(new Vector2d(Blue? xIntake-21 :xIntake-21, Blue? -55:55), () -> {
                         robot.intakeDoor.setClosed();
-                        robot.depoDoor.setClosed();
+                      //  robot.depoDoor.setClosed();
+                        robot.depo.setBothClawsClose();
                         robot.intake.off();
                         //robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
                     })
@@ -203,12 +207,14 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                         //robot.vSlides.moveEncoderTo(100, 1);
                         //robot.hslides.moveEncoderTo(hslides.START,1);
                         robot.intakeDoor.setOpen();
-                        robot.depoDoor.setOpen2();
+                        //robot.depoDoor.setOpen2();
+                        robot.depo.setBothClawsOpen();
                         robot.intake.in();
                     })
                     .addSpatialMarker(new Vector2d(Blue? xIntake-21 :xIntake-21, Blue? -55:55), () -> {
                         robot.intakeDoor.setClosed();
-                        robot.depoDoor.setClosed();
+                        //robot.depoDoor.setClosed();
+                        robot.depo.setBothClawsClose();
                         robot.intake.off();
                         //robot.vSlides.moveEncoderTo(DropHeight ? robot.vSlides.autoLevel : robot.vSlides.autoLevel+50, 1);
                     })
@@ -229,19 +235,32 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             extraMPush = drive.trajectorySequenceBuilder(turnCorrection2M.end())
                     .lineToLinearHeading(new Pose2d(xMYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                        robot.depoTilt.setOut();
+                      //  robot.depoTilt.setOut();
+                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    })
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
+                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                     })
                     .build();
             extraLPush = drive.trajectorySequenceBuilder(turnCorrection2L.end())
                     .lineToLinearHeading(new Pose2d(xLYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                        robot.depoTilt.setOut();
+                      //  robot.depoTilt.setOut();
+                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    })
+                    .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
+                        //robot.depoTilt.setOut();
+                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                     })
                     .build();
             extraRPush = drive.trajectorySequenceBuilder(turnCorrection2R.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                        robot.depoTilt.setOut();
+                       // robot.depoTilt.setOut();
+                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    })
+                    .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
+                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                     })
                     .build();
             cycleIntake1 = drive.trajectorySequenceBuilder(Blue? dumpRYellowPixel2.end() : dumpLYellowPixel2.end())
@@ -272,11 +291,13 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     .addSpatialMarker(new Vector2d(Blue? xIntake-25 :xIntake-22, Blue? -30:30), () -> {
                         robot.intake.in();
                         robot.intakeDoor.setOpen();
-                        robot.depoDoor.setOpen2();
+                       // robot.depoDoor.setOpen2();
+                        robot.depo.setBothClawsOpen();
                     })
                     .addSpatialMarker(new Vector2d(Blue? xIntake-25 :xIntake-22, Blue? -60:60), () -> {
                         robot.intakeDoor.setClosed();
-                        robot.depoDoor.setClosed();
+                       // robot.depoDoor.setClosed();
+                        robot.depo.setBothClawsClose();
                         robot.intake.off();
                         //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
                     })
@@ -288,7 +309,11 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             extraPush2 = drive.trajectorySequenceBuilder(additionalCycleDump.end())
                     .lineToLinearHeading(new Pose2d(Blue? -25: -18, Blue? -yYellowDump : yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(Blue? -25: -18, Blue? -(yYellowDump-11) : yYellowDump-11), () -> {
-                        robot.depoTilt.setOut();
+                    //    robot.depoTilt.setOut();
+                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    })
+                    .addSpatialMarker(new Vector2d(Blue? -25: -18, Blue? -(yYellowDump-8) : yYellowDump-8), () -> {
+                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                     })
                     .build();
 
@@ -401,7 +426,8 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
         lp.waitMillis(waitTime);
 
-        robot.depoDoor.setClosed();
+        //robot.depoDoor.setClosed();
+        robot.depo.setBothClawsClose();
         robot.intakeDoor.setClosed();
 
         if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMPurplePixel);}
@@ -479,7 +505,8 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         //robot.depoTilt.setOut();
         //drive.followTrajectorySequence(dumpYellowPixel2);
 
-        robot.depoDoor.setOpen2();
+        //robot.depoDoor.setOpen2();
+        robot.depo.setBothClawsOpen();
         lp.waitMillis(100);
 
         robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
@@ -490,7 +517,9 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         lp.waitMillis(250);
 
         //drive.followTrajectorySequence(park);
-        robot.depoTilt.setIn();
+       // robot.depoTilt.setIn();
+        robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+        robot.depo.setArmPos(robot.depo.ARM_IN);
         lp.waitMillis(200);
         //lowerSlidesThread(lp);
 
@@ -524,14 +553,17 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);*/
             //drive.followTrajectorySequence(additionalCycleDump2);
 
-            robot.depoDoor.setOpen2();
+            //robot.depoDoor.setOpen2();
+            robot.depo.setBothClawsOpen();
             lp.waitMillis(100);
 
             robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
             /*robot.vSlides.vSlidesB.setPower(1);
             robot.vSlides.vSlidesF.setPower(1);*/
             lp.waitMillis(250);
-            robot.depoTilt.setIn();
+           // robot.depoTilt.setIn();
+            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+            robot.depo.setArmPos(robot.depo.ARM_IN);
             lp.waitMillis(250);
 
             //lowerSlidesThread(lp);

@@ -32,6 +32,7 @@
             <Servo name="leftHang" port="5" />
             <DigitalDevice name="vlimitswitch" port="6" />
             <DigitalDevice name="hlimitswitch" port="7" />
+
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />
             <Analog name="intakeVolt" port="1" />
             <!--<DigitalDevice name="led_white" port="6" />
