@@ -51,6 +51,8 @@ public class RobotMecanum {
     public MecanumDrive drive;
 
     public OcBnoGyro2 gyroSensor;
+    public RevColorSensorV3 sensorR;
+    public RevColorSensorV3 sensorL;
     public RevColorSensorV3 sensorF;
 
     ///Led indicator components
@@ -228,6 +230,27 @@ public class RobotMecanum {
         } catch (Exception e){
             RobotLog.ee(RobotConstants.TAG_R,  "missing: depo " + e.getMessage());
             missing = missing + ", depo";
+            numberMissing++;
+        }
+
+        try {
+            sensorR = hardwareMap.get(RevColorSensorV3.class, "sensorR");
+        } catch (Exception e) {
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: sensorR" + e.getMessage());
+            numberMissing++;
+        }
+
+        try {
+            sensorL = hardwareMap.get(RevColorSensorV3.class, "sensorL");
+        } catch (Exception e) {
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: sensorL" + e.getMessage());
+            numberMissing++;
+        }
+
+        try {
+            sensorF = hardwareMap.get(RevColorSensorV3.class, "sensorF");
+        } catch (Exception e) {
+            RobotLog.ee(RobotConstants.TAG_R,  "missing: sensorF" + e.getMessage());
             numberMissing++;
         }
 

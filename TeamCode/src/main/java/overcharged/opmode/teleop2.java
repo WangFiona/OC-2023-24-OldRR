@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
 import overcharged.components.hslides;
@@ -130,6 +132,7 @@ public class teleop2 extends OpMode {
             robot.intakeSmallTilt.setOut();
             robot.intakeBigTilt.setOut();
             robot.intakeDoor.setClosed();
+            //robot.hslides.moveEncoderTo(0,1);
             iOpen = false;
             firstLoop = false;
             robot.hang.setRightIn();
@@ -173,8 +176,14 @@ public class teleop2 extends OpMode {
         }
 
         if(stayIn && !robot.hslides.switchSlideDown.isTouch()){
-            robot.hslides.moveEncoderTo(hslides.START, 1);
-        }
+            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.hslides.in();
+        }/* else {
+            robot.hslides.hslides.resetPosition();
+            robot.hslides.forceStop();
+            robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }*/
+
         //Intake in
         if(gamepad1.right_trigger > 0.9 && Button.INTAKE.canPress(timestamp)) {//gamepad1.right_bumper && Button.INTAKE.canPress(timestamp)){
             if (intakeMode == IntakeMode.OFF || intakeMode == IntakeMode.OUT) {
@@ -718,6 +727,7 @@ public class teleop2 extends OpMode {
                 isOut = false;
             } else{
                 stayIn = false;
+                robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.hslides.moveEncoderTo(400, 1);
                 isOut = true;
             }
@@ -749,6 +759,9 @@ public class teleop2 extends OpMode {
             }
         }
 
+        telemetry.addData("sensorR: ", robot.sensorR.getDistance(DistanceUnit.CM));
+        telemetry.addData("sensorR: ", robot.sensorL.getDistance(DistanceUnit.CM));
+        telemetry.addData("sensorF: ", robot.sensorF.getDistance(DistanceUnit.CM));
         telemetry.addData("armVolt: ", robot.depo.getArmVolt());
         telemetry.addData("vSlidesF encoder: ", robot.vSlides.vSlidesF.getCurrentPosition());
         telemetry.addData("vSlidesB encoder: ", robot.vSlides.vSlidesB.getCurrentPosition());

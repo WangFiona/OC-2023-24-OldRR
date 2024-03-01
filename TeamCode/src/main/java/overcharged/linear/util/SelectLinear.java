@@ -141,6 +141,16 @@ public class SelectLinear
         return index == 0;
     }
 
+    public boolean selctParkingLocation ()
+            throws InterruptedException {
+        RobotLog.i("entered parking side selection");
+
+        String[] height = new String[] {"Wall", "Center"};
+        int index = select(height,
+                "Parking Location");
+        return index == 0;
+    }
+
     public boolean selectExtraDistance ()
             throws InterruptedException {
         RobotLog.i("entered alliance selection");

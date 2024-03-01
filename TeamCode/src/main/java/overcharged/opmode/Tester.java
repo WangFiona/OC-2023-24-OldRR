@@ -709,15 +709,15 @@ Tester
             // convert the RGB values to HSV values.
             // multiply by the SCALE_FACTOR.
             // then cast it back to int (SCALE_FACTOR is a double)
-            Color.RGBToHSV((int) (robot.sensorF.red() * SCALE_FACTOR),
-                    (int) (robot.sensorF.green() * SCALE_FACTOR),
-                    (int) (robot.sensorF.blue() * SCALE_FACTOR),
+            Color.RGBToHSV((int) (robot.sensorR.red() * SCALE_FACTOR),
+                    (int) (robot.sensorR.green() * SCALE_FACTOR),
+                    (int) (robot.sensorR.blue() * SCALE_FACTOR),
                     sensorFColorHsvValues);
 
             telemetry.addData("Test", "Sensors");
 
 
-            telemetry.addData("Front mm", decimalFormatter.format(robot.sensorF.getDistance(DistanceUnit.MM)));
+            telemetry.addData("Front mm", decimalFormatter.format(robot.sensorR.getDistance(DistanceUnit.MM)));
             telemetry.addData("Hue Front Color", integerFormatter.format(sensorFColorHsvValues[0]));
 
             telemetry.addData("Back", "LeftStick");
