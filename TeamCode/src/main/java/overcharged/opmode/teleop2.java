@@ -178,7 +178,7 @@ public class teleop2 extends OpMode {
         if(stayIn && !robot.hslides.switchSlideDown.isTouch()){
             robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.hslides.in();
-        }/* else {
+        } /*else {
             robot.hslides.hslides.resetPosition();
             robot.hslides.forceStop();
             robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -417,8 +417,8 @@ public class teleop2 extends OpMode {
         }
 
         if(dGoFlat && robot.depo.getArmVolt() > 3.3-((robot.depo.ARM_OUT+45)*(3.3/255))){
-            robot.depo.setWristPos(robot.depo.WRIST_FLAT);
-            wristMode = WristMode.FLAT;
+            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+            wristMode = WristMode.VERT_IN;
             dGoFlat = false;
         }
 
@@ -450,6 +450,21 @@ public class teleop2 extends OpMode {
             }
         }
 
+        if(gamepad1.x && Button.DEPODOOR.canPress(timestamp)){
+            if(bClawClosed && fClawClosed){
+                robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
+                robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
+                bClawClosed = false;
+                fClawClosed = false;
+            }
+            else{
+                robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+                robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+                bClawClosed = true;
+                fClawClosed = true;
+            }
+        }
+
         if(gamepad1.left_bumper && Button.DEPODOOR.canPress(timestamp)){
             if(fClawClosed){
                 robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
@@ -460,6 +475,7 @@ public class teleop2 extends OpMode {
                 fClawClosed = true;
             }
         }
+
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < 460){
@@ -572,7 +588,7 @@ public class teleop2 extends OpMode {
             bClawClosed = true;
             robot.intakeDoor.setClosed();
             iOpen = false;
-            //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+           //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
         }
         //Slide height 2
         if(gamepad2.dpad_down && Button.BTN_LEVEL2.canPress(timestamp)){
@@ -728,7 +744,7 @@ public class teleop2 extends OpMode {
             } else{
                 stayIn = false;
                 robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.hslides.moveEncoderTo(400, 1);
+                robot.hslides.moveEncoderTo(1200, 1);
                 isOut = true;
             }
         }

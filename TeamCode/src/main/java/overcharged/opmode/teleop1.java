@@ -68,7 +68,8 @@ public class teleop1 extends OpMode {
     public enum DepoMode {
         ClOSED,
         OPEN1,
-        OPEN2;
+        OPEN2,
+        OPEN3;
     }
 
     public enum IntakeMode {

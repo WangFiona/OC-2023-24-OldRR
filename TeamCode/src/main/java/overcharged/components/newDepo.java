@@ -20,7 +20,7 @@ public class newDepo {
     public static float WRIST_IN_VERT = 53f;
     public static float WRIST_OPP_VERT = 237f;
     public static float WRIST_FLAT = 142f;
-    public static float WRIST_R_DIAG= 197f;
+    public static float WRIST_R_DIAG= 107f;
     public static float WRIST_L_DIAG = 88f;
 
     public static float ARM_IN = 172f;
