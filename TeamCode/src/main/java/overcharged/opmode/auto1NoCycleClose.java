@@ -21,6 +21,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 import overcharged.components.RobotMecanum;
 import overcharged.components.propLocation;
 import overcharged.config.RobotConstants;
+import overcharged.drive.DriveConstants;
 import overcharged.linear.util.SelectLinear;
 import overcharged.linear.util.WaitLinear;
 import overcharged.drive.SampleMecanumDrive;
@@ -43,11 +44,12 @@ public class auto1NoCycleClose extends LinearOpMode {
     EasyOpenCVExample.RingDeterminationPipeline pipeline;
     boolean Blue = true;
     double waitTime = 0;
+    boolean DropHeight = true;
     propLocation location = propLocation.Middle;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
     float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xPark, yPark;
-    TrajectorySequence test, dumpPurplePixel, extraForPurple, dumpYellowPixel, park;
+    TrajectorySequence test, dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, dumpMYellowPixel, dumpLYellowPixel, dumpRYellowPixel, park;
     Pose2d start = new Pose2d();
 
     @Override
@@ -59,12 +61,65 @@ public class auto1NoCycleClose extends LinearOpMode {
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
             robot.hang.setRightIn();
+            robot.intakeDoor.setOpen();
 
             Blue = sl.selectAlliance();
             if(Blue){robot.pixel.setLeftIn();}
             else{robot.pixel.setRightIn();}
-
+            DropHeight = sl.selectDropHeight(); //true = low, false = high drop
             waitTime = sl.adjustDelay();
+
+            float yYellowDump = Blue? -38f:38;//91f;
+            float xIntake = Blue ? -27.5f : -26;
+
+            //MIDDLE
+            float xMPurpleDump = Blue? -29: -29;
+            float yMPurpleDump = Blue? -3: 3f;
+            float xMYellowDump = Blue? -25: -25;
+
+            //LEFT
+            float xLPurpleDump = Blue? -26: -26;
+            float yLPurpleDump = Blue? -10.5f: -3;//9.5f;
+            float xLYellowDump = Blue? -18f: -33f;//-18;
+
+            //RIGHT
+            float xRPurpleDump = Blue? -26: -26;
+            float yRPurpleDump = Blue? 4f: 10.5f;//-4;
+            float xRYellowDump = Blue? -33.5f: -18f;//-36;
+
+            //initialize trajectories
+            dumpMPurplePixel = drive.trajectorySequenceBuilder(start)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToLinearHeading(new Pose2d(xMPurpleDump, yMPurpleDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            dumpLPurplePixel = drive.trajectorySequenceBuilder(start)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToLinearHeading(new Pose2d(xLPurpleDump, yLPurpleDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            dumpRPurplePixel = drive.trajectorySequenceBuilder(start)
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToLinearHeading(new Pose2d(xRPurpleDump, yRPurpleDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            extraForPurple = drive.trajectorySequenceBuilder(Blue? dumpRPurplePixel.end() : dumpLPurplePixel.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineTo(new Vector2d(Blue? xRPurpleDump : xLPurpleDump, Blue? yRPurpleDump+8.5 : yLPurpleDump-9))
+                    .build();
+            dumpMYellowPixel = drive.trajectorySequenceBuilder(dumpMPurplePixel.end())
+                    .lineToLinearHeading(new Pose2d(xMYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            dumpLYellowPixel = drive.trajectorySequenceBuilder(dumpLPurplePixel.end())
+                    .lineToLinearHeading(new Pose2d(xLYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            dumpRYellowPixel = drive.trajectorySequenceBuilder(dumpRPurplePixel.end())
+                    .lineToLinearHeading(new Pose2d(xRYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
+                    .build();
+            park = drive.trajectorySequenceBuilder(new Pose2d(Blue? dumpLYellowPixel.end().getX() : dumpRYellowPixel.end().getX(), Blue ? dumpLYellowPixel.end().getY()+5 : dumpRYellowPixel.end().getY()-5, Math.toRadians(Blue? 90 : -90)))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+5:yYellowDump-2))
+                    .addSpatialMarker(new Vector2d(3, Blue? yYellowDump+3:yYellowDump), () -> {
+                        robot.depo.setArmPos(robot.depo.ARM_IN);
+                    })
+                    .build();
 
             this.detector = new HSVPipeline();
             //this.detector.useDefaults();
@@ -135,41 +190,6 @@ public class auto1NoCycleClose extends LinearOpMode {
                 telemetry.addData("Blue alliance", Blue);
                 telemetry.addData("Prop location", location);
                 telemetry.update();
-                if(location==propLocation.Middle){
-                    xPurpleDump = Blue? -29: -29;
-                    yPurpleDump = Blue? -3: 3;
-                    xYellowDump = Blue? -25: -25;
-                    yYellowDump = Blue? -38: 38;
-                }
-                else if(location==propLocation.Left){
-                    xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? -10.5f: -3;//9.5f;
-                    xYellowDump = Blue? -18: -33f;//-18;
-                    yYellowDump = Blue? -38: 38;
-                }
-                else{ //right
-                    xPurpleDump = Blue? -26: -26;
-                    yPurpleDump = Blue? 4: 10.5f;//-4;
-                    xYellowDump = Blue? -34.5f: -18;//-36;
-                    yYellowDump = Blue? -38: 38;
-                }
-
-                xPark = -40;
-                yPark = yYellowDump+5;
-
-                //initialize trajectories
-                dumpPurplePixel = drive.trajectorySequenceBuilder(start)
-                        .lineToLinearHeading(new Pose2d(xPurpleDump, yPurpleDump, Math.toRadians(Blue? 90 : -90)))
-                        .build();
-                extraForPurple = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
-                        .lineTo(new Vector2d(xPurpleDump, Blue? yPurpleDump+8.5 : yPurpleDump-9))
-                        .build();
-                dumpYellowPixel = drive.trajectorySequenceBuilder(dumpPurplePixel.end())
-                        .lineToLinearHeading(new Pose2d(xYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                        .build();
-                park = drive.trajectorySequenceBuilder(dumpYellowPixel.end())
-                        .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+5:yYellowDump-2))
-                        .build();
 
                 /*robot.intakeDoor.setOpen();
                 lp.waitMillis(500);
@@ -221,7 +241,9 @@ public class auto1NoCycleClose extends LinearOpMode {
         //robot.depoDoor.setClosed();
         robot.depo.setBothClawsClose();
 
-        drive.followTrajectorySequence(dumpPurplePixel);
+        if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMPurplePixel);}
+        else if(location == propLocation.Left) { drive.followTrajectorySequence(dumpLPurplePixel);}
+        else { drive.followTrajectorySequence(dumpRPurplePixel); }
 
         if((location == propLocation.Right && Blue) || (location == propLocation.Left && !Blue))
             drive.followTrajectorySequence(extraForPurple);
@@ -256,18 +278,24 @@ public class auto1NoCycleClose extends LinearOpMode {
 
         //robot.depoTilt.setOut();
         robot.depo.setArmPos(robot.depo.ARM_OUT);
-        drive.followTrajectorySequence(dumpYellowPixel);
-
+        if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMYellowPixel);}
+        else if(location == propLocation.Left) { drive.followTrajectorySequence(dumpLYellowPixel);}
+        else { drive.followTrajectorySequence(dumpRYellowPixel); }
         //robot.depoDoor.setOpen2();
         robot.depo.setBothClawsOpen();
         lp.waitMillis(500);
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
-        lp.waitMillis(250);
 
+
+
+
+
+        //robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+        //lp.waitMillis(250);
+
+        drive.followTrajectorySequence(park);
+        lp.waitMillis(200);
         //robot.depoTilt.setIn();
-        robot.depo.setArmPos(robot.depo.ARM_IN);
-        lp.waitMillis(500);
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -283,7 +311,6 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.vSlides.reset(robot.vSlides.vSlidesB);
         robot.vSlides.reset(robot.vSlides.vSlidesF);
 
-        drive.followTrajectorySequence(park);
         robot.hang.setRightIn();
         //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);

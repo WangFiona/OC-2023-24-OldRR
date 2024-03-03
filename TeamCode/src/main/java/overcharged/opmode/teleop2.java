@@ -74,6 +74,7 @@ public class teleop2 extends OpMode {
 
     public enum WristMode{
         FLAT,
+        FLAT_OPP,
         VERT_IN,
         VERT_OPP,
         R_DIAG,
@@ -346,7 +347,21 @@ public class teleop2 extends OpMode {
 
         //WristRIGHT
         if(gamepad2.x && Button.INTAKEDOOR.canPress(timestamp)){
-            if(wristMode == WristMode.FLAT){
+            if(wristMode == WristMode.VERT_IN){
+                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
+                wristMode = WristMode.L_DIAG;
+            } else if(wristMode == WristMode.L_DIAG){
+                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                wristMode = WristMode.FLAT;
+            } else if(wristMode == WristMode.FLAT_OPP){
+                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
+                wristMode = WristMode.R_DIAG;
+            } else if(wristMode == WristMode.R_DIAG){
+                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+                wristMode = WristMode.VERT_IN;
+            }
+
+            /*if(wristMode == WristMode.FLAT){
                 robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
                 wristMode = WristMode.L_DIAG;
             } else if(wristMode == WristMode.L_DIAG){
@@ -358,7 +373,7 @@ public class teleop2 extends OpMode {
             } else if(wristMode == WristMode.R_DIAG){
                 robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                 wristMode = WristMode.FLAT;
-            }
+            }*/
 
             /*if(!wristR){
                 robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
@@ -373,7 +388,21 @@ public class teleop2 extends OpMode {
 
         //WristLEFT
         if(gamepad2.b && Button.BTN_LATCH_READY.canPress(timestamp)){
-            if(wristMode == WristMode.FLAT){
+            if(wristMode == WristMode.VERT_IN){
+                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
+                wristMode = WristMode.R_DIAG;
+            } else if(wristMode == WristMode.R_DIAG){
+                robot.depo.setWristPos(robot.depo.WRIST_OPP_FLAT);
+                wristMode = WristMode.FLAT_OPP;
+            } else if(wristMode == WristMode.FLAT){
+                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
+                wristMode = WristMode.L_DIAG;
+            } else if(wristMode == WristMode.L_DIAG){
+                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+                wristMode = WristMode.VERT_IN;
+            }
+
+            /*if(wristMode == WristMode.FLAT){
                 robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
                 wristMode = WristMode.R_DIAG;
             } else if(wristMode == WristMode.R_DIAG){
@@ -385,7 +414,7 @@ public class teleop2 extends OpMode {
             } else if(wristMode == WristMode.L_DIAG){
                 robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                 wristMode = WristMode.FLAT;
-            }
+            }*/
             /*if(!wristL){
                 robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
                 wristR = false;

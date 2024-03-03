@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -28,7 +29,7 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.HSVPipeline;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Config
+@Disabled
 @Autonomous(name="auto5OneCycleClose")
 public class auto5OneCycleClose extends LinearOpMode {
 

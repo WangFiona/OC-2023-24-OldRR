@@ -195,9 +195,8 @@ Tester
                         robot.depo.BACK_CLOSE),
                 new ServoTestInfo(
                         wrist,
-                        robot.depo.WRIST_FLAT,
-                        robot.depo.WRIST_R_DIAG,
-                        robot.depo.WRIST_L_DIAG),
+                        robot.depo.WRIST_IN_VERT,
+                        robot.depo.WRIST_FLAT),
                 new ServoTestInfo(
                         arm,
                         robot.depo.ARM_IN,
