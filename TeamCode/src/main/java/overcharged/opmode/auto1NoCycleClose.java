@@ -117,7 +117,8 @@ public class auto1NoCycleClose extends LinearOpMode {
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+5:yYellowDump-2))
                     .addSpatialMarker(new Vector2d(3, Blue? yYellowDump+3:yYellowDump), () -> {
-                        robot.depo.setArmPos(robot.depo.ARM_IN);
+                        //robot.depo.setArmPos(robot.depo.ARM_IN);
+                        robot.depo.setDepoIn();
                     })
                     .build();
 
@@ -160,10 +161,6 @@ public class auto1NoCycleClose extends LinearOpMode {
             }
 
             waitForStart();
-
-            /*test = drive.actionBuilder(drive.pose)
-                    .lineToY(10)
-                    .build();*/
 
 
             if (opModeIsActive()) {
@@ -238,7 +235,6 @@ public class auto1NoCycleClose extends LinearOpMode {
 
         lp.waitMillis(waitTime);
 
-        //robot.depoDoor.setClosed();
         robot.depo.setBothClawsClose();
 
         if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMPurplePixel);}
@@ -248,8 +244,6 @@ public class auto1NoCycleClose extends LinearOpMode {
         if((location == propLocation.Right && Blue) || (location == propLocation.Left && !Blue))
             drive.followTrajectorySequence(extraForPurple);
 
-        //robot.leftPixel.setDump();
-        //lp.waitMillis(500);
         RobotLog.ii(RobotConstants.TAG_R, "left pixel isBlue" + Blue + "dump" + robot.pixel.LEFT_DUMP);
 
         if(Blue) {
@@ -276,26 +270,15 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
         lp.waitMillis(700);
 
-        //robot.depoTilt.setOut();
-        robot.depo.setArmPos(robot.depo.ARM_OUT);
+        robot.depo.setDepoOutVert();
         if(location == propLocation.Middle) { drive.followTrajectorySequence(dumpMYellowPixel);}
         else if(location == propLocation.Left) { drive.followTrajectorySequence(dumpLYellowPixel);}
         else { drive.followTrajectorySequence(dumpRYellowPixel); }
-        //robot.depoDoor.setOpen2();
         robot.depo.setBothClawsOpen();
         lp.waitMillis(500);
 
-
-
-
-
-
-        //robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
-        //lp.waitMillis(250);
-
         drive.followTrajectorySequence(park);
         lp.waitMillis(200);
-        //robot.depoTilt.setIn();
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -312,7 +295,6 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.vSlides.reset(robot.vSlides.vSlidesF);
 
         robot.hang.setRightIn();
-        //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 

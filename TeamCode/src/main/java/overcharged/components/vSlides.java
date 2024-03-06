@@ -27,7 +27,7 @@ public class vSlides {
     /*public static int level4 = 1970;
     public static int level3 = 1470;
     public static int level2 = 880;*/
-    public static int autoLevel = 100;
+    public static int autoLevel = 300;
     public static int level1 = 300;//200;
     public static int level2 = 515;
     public static int level3 = 861;////380;
@@ -478,8 +478,8 @@ public class vSlides {
     }
 
     public void down(){
-        vSlidesF.setPower(-0.9f);
-        vSlidesB.setPower(-0.9f);
+        vSlidesF.setPower(-1f);
+        vSlidesB.setPower(-1f);
     }
 }
 

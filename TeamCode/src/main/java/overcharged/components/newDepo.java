@@ -10,7 +10,7 @@ public class newDepo {
     public OcServo depoR;
     public AnalogInput armVolt;
 
-    public static float FRONT_CLOSE = 27f;
+    public static float FRONT_CLOSE = 31f;
     public static float FRONT_DUMP = 151f;
     //public static float FRONT_OPEN = 151f;
     public static float BACK_CLOSE = 216f;
@@ -24,8 +24,8 @@ public class newDepo {
     public static float WRIST_R_DIAG= 117f;//107f;
     public static float WRIST_L_DIAG = 181f;//88f;
 
-    public static float LEFT_IN = 132f;
-    public static float RIGHT_IN = 23f;
+    public static float LEFT_IN = 127f;
+    public static float RIGHT_IN = 18f;
 
     public static float L_VERT = 47f;
     public static float R_VERT = 106f;

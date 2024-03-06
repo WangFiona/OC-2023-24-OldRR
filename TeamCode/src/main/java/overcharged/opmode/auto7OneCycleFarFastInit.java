@@ -235,32 +235,34 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             extraMPush = drive.trajectorySequenceBuilder(turnCorrection2M.end())
                     .lineToLinearHeading(new Pose2d(xMYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                      //  robot.depoTilt.setOut();
-                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        //robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        robot.depo.setDepoOutVert();
                     })
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
-                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        //robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        robot.depo.setDepoOutFlat();
                     })
                     .build();
             extraLPush = drive.trajectorySequenceBuilder(turnCorrection2L.end())
                     .lineToLinearHeading(new Pose2d(xLYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                    .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                      //  robot.depoTilt.setOut();
-                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
+                        //robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        robot.depo.setDepoOutVert();
                     })
-                    .addSpatialMarker(new Vector2d(xLYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
-                        //robot.depoTilt.setOut();
-                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
+                        //robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        robot.depo.setDepoOutFlat();
                     })
                     .build();
             extraRPush = drive.trajectorySequenceBuilder(turnCorrection2R.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, Blue? -yYellowDump: yYellowDump, Math.toRadians(Blue? 90 : -90)))
-                    .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
-                       // robot.depoTilt.setOut();
-                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-7) : yYellowDump-7), () -> {
+                        //robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        robot.depo.setDepoOutVert();
                     })
-                    .addSpatialMarker(new Vector2d(xRYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
-                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                    .addSpatialMarker(new Vector2d(xMYellowDump, Blue? -(yYellowDump-4) : yYellowDump-4), () -> {
+                        //robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        robot.depo.setDepoOutFlat();
                     })
                     .build();
             cycleIntake1 = drive.trajectorySequenceBuilder(Blue? dumpRYellowPixel2.end() : dumpLYellowPixel2.end())
@@ -309,11 +311,12 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             extraPush2 = drive.trajectorySequenceBuilder(additionalCycleDump.end())
                     .lineToLinearHeading(new Pose2d(Blue? -25: -18, Blue? -yYellowDump : yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(Blue? -25: -18, Blue? -(yYellowDump-11) : yYellowDump-11), () -> {
-                    //    robot.depoTilt.setOut();
-                        robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        //robot.depo.setArmPos(robot.depo.ARM_OUT);
+                        robot.depo.setDepoOutVert();
                     })
                     .addSpatialMarker(new Vector2d(Blue? -25: -18, Blue? -(yYellowDump-8) : yYellowDump-8), () -> {
-                        robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        //robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+                        robot.depo.setDepoOutFlat();
                     })
                     .build();
 
@@ -510,18 +513,11 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         lp.waitMillis(100);
 
         robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
-        /*robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.vSlides.vSlidesB.setPower(1);
-        robot.vSlides.vSlidesF.setPower(1);*/
-        lp.waitMillis(250);
-
-        //drive.followTrajectorySequence(park);
-       // robot.depoTilt.setIn();
-        robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-        robot.depo.setArmPos(robot.depo.ARM_IN);
+        lp.waitMillis(100);
+        robot.depo.setDepoOutVert();
+        lp.waitMillis(100);
+        robot.depo.setDepoIn();
         lp.waitMillis(200);
-        //lowerSlidesThread(lp);
 
         if(waitTime < 2000) {
             robot.intakeSmallTilt.setOut();
@@ -558,15 +554,12 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             lp.waitMillis(100);
 
             robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
-            /*robot.vSlides.vSlidesB.setPower(1);
-            robot.vSlides.vSlidesF.setPower(1);*/
-            lp.waitMillis(250);
-           // robot.depoTilt.setIn();
-            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-            robot.depo.setArmPos(robot.depo.ARM_IN);
-            lp.waitMillis(250);
+            lp.waitMillis(100);
+            robot.depo.setDepoOutVert();
+            lp.waitMillis(100);
+            robot.depo.setDepoIn();
+            lp.waitMillis(500);
 
-            //lowerSlidesThread(lp);
         } else{
             robot.intakeBigTilt.setTransfer();
             robot.intakeSmallTilt.setTransfer();

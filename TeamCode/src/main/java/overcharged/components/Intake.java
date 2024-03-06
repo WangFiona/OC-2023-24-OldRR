@@ -20,6 +20,11 @@ public class Intake {
         intake.setPower(1);
     }
 
+    public void slowIn(){
+        intake.setPower(0.7f);
+    }
+
+
     public void off(){
         intake.setPower(0);
     }
