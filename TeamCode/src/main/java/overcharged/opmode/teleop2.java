@@ -16,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import overcharged.components.Button;
 import overcharged.components.RobotMecanum;
-import overcharged.components.hslides;
 
 
 @Config
@@ -61,24 +60,26 @@ public class teleop2 extends OpMode {
     boolean wristR = false;
     boolean dGoFlat = false;
     boolean dGoVert = false;
-    WristMode wristMode = WristMode.VERT_IN;
+    WristMode wristMode = WristMode.IN;
     boolean hSlideGoIn = false;
     long hSlideInDelay;
     int vSlideLevel = 1;
     long delayForClaw;
     boolean firstTime = false;
+    int counter = 0;
 
     boolean hSlideGoBottom = false;
 
     boolean hSlideisOut = false;
 
     public enum WristMode{
+        IN,
         FLAT,
-        FLAT_OPP,
-        VERT_IN,
-        VERT_OPP,
-        R_DIAG,
-        L_DIAG;
+        OPP_FLAT,
+        VERT,
+        OPP_VERT,
+        N_DIAG,
+        P_DIAG;
     }
 
     public enum SlowMode {
@@ -177,13 +178,13 @@ public class teleop2 extends OpMode {
         }
 
         if(stayIn && !robot.hslides.switchSlideDown.isTouch()){
-            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.hslides.hslides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.hslides.in();
-        } /*else {
+        } else if(stayIn && robot.hslides.switchSlideDown.isTouch()){
             robot.hslides.hslides.resetPosition();
             robot.hslides.forceStop();
             robot.hslides.hslides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }*/
+        }
 
         //Intake in
         if(gamepad1.right_trigger > 0.9 && Button.INTAKE.canPress(timestamp)) {//gamepad1.right_bumper && Button.INTAKE.canPress(timestamp)){
@@ -347,89 +348,45 @@ public class teleop2 extends OpMode {
 
         //WristRIGHT
         if(gamepad2.x && Button.INTAKEDOOR.canPress(timestamp)){
-            if(wristMode == WristMode.VERT_IN){
-                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
-                wristMode = WristMode.L_DIAG;
-            } else if(wristMode == WristMode.L_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
+            if(wristMode == WristMode.FLAT){
+                robot.depo.setDepoOutPDiag();
+                wristMode = WristMode.P_DIAG;
+            } else if(wristMode == WristMode.P_DIAG){
+                robot.depo.setDepoOutVert();
+                wristMode = WristMode.VERT;
+            } else if(wristMode == WristMode.OPP_VERT){
+                robot.depo.setDepoOutNDiag();
+                wristMode = WristMode.N_DIAG;
+            } else if(wristMode == WristMode.N_DIAG){
+                robot.depo.setDepoOutFlat();
                 wristMode = WristMode.FLAT;
-            } else if(wristMode == WristMode.FLAT_OPP){
-                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
-                wristMode = WristMode.R_DIAG;
-            } else if(wristMode == WristMode.R_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-                wristMode = WristMode.VERT_IN;
             }
-
-            /*if(wristMode == WristMode.FLAT){
-                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
-                wristMode = WristMode.L_DIAG;
-            } else if(wristMode == WristMode.L_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-                wristMode = WristMode.VERT_IN;
-            } else if(wristMode == WristMode.VERT_OPP){
-                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
-                wristMode = WristMode.R_DIAG;
-            } else if(wristMode == WristMode.R_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
-                wristMode = WristMode.FLAT;
-            }*/
-
-            /*if(!wristR){
-                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
-                wristR = true;
-                wristL = false;
-            } else {
-                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
-                wristR = false;
-                wristL = false;
-            }*/
         }
 
         //WristLEFT
         if(gamepad2.b && Button.BTN_LATCH_READY.canPress(timestamp)){
-            if(wristMode == WristMode.VERT_IN){
-                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
-                wristMode = WristMode.R_DIAG;
-            } else if(wristMode == WristMode.R_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_OPP_FLAT);
-                wristMode = WristMode.FLAT_OPP;
-            } else if(wristMode == WristMode.FLAT){
-                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
-                wristMode = WristMode.L_DIAG;
-            } else if(wristMode == WristMode.L_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-                wristMode = WristMode.VERT_IN;
+            if(wristMode == WristMode.FLAT){
+                robot.depo.setDepoOutNDiag();
+                wristMode = WristMode.N_DIAG;
+            } else if(wristMode == WristMode.N_DIAG){
+                robot.depo.setDepoOutOppVert();
+                wristMode = WristMode.OPP_VERT;
+            } else if(wristMode == WristMode.VERT){
+                robot.depo.setDepoOutPDiag();
+                wristMode = WristMode.P_DIAG;
+            } else if(wristMode == WristMode.P_DIAG){
+                robot.depo.setDepoOutFlat();
+                wristMode = WristMode.FLAT;
             }
 
-            /*if(wristMode == WristMode.FLAT){
-                robot.depo.setWristPos(robot.depo.WRIST_R_DIAG);
-                wristMode = WristMode.R_DIAG;
-            } else if(wristMode == WristMode.R_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_OPP_VERT);
-                wristMode = WristMode.VERT_OPP;
-            } else if(wristMode == WristMode.VERT_IN){
-                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
-                wristMode = WristMode.L_DIAG;
-            } else if(wristMode == WristMode.L_DIAG){
-                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
-                wristMode = WristMode.FLAT;
-            }*/
-            /*if(!wristL){
-                robot.depo.setWristPos(robot.depo.WRIST_L_DIAG);
-                wristR = false;
-                wristL = true;
-            } else {
-                robot.depo.setWristPos(robot.depo.WRIST_FLAT);
-                wristR = false;
-                wristL = false;
-            }*/
         }
 
         //DepoTilt
         if(gamepad2.left_bumper && Button.DEPOTILT.canPress(timestamp)){
             if(!dTilt){
-                robot.depo.setArmPos(robot.depo.ARM_OUT);
+                robot.depo.setDepoOutVert();
+                wristMode = WristMode.VERT;
+                //robot.depo.setArmPos(robot.depo.ARM_OUT);
                 dGoFlat = true;
                 //robot.depoDoor.setClosed();
                 robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
@@ -445,23 +402,28 @@ public class teleop2 extends OpMode {
             }
         }
 
-        if(dGoFlat && robot.depo.getArmVolt() > 3.3-((robot.depo.ARM_OUT+45)*(3.3/255))){
-            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-            wristMode = WristMode.VERT_IN;
+        if(dGoFlat && robot.depo.getArmVolt() > 2.3){
+            robot.depo.setDepoOutFlat();
+            wristMode = WristMode.FLAT;
             dGoFlat = false;
         }
 
         if(dTiltIn && System.currentTimeMillis() - depoTiltDelay > 120){
+            robot.depo.setDepoOutVert();
+            wristMode = WristMode.IN;
+        }
+
+        if(dTiltIn && System.currentTimeMillis() - depoTiltDelay > 250){
             //robot.depoDoor.setClosed();
             robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
             robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
 
             fClawClosed = false;
             bClawClosed = false;
-            //robot.depoTilt.setIn();
-            robot.depo.setArmPos(robot.depo.ARM_IN);
-            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-            wristMode = WristMode.VERT_IN;
+            robot.depo.setDepoIn();
+            /*robot.depo.setArmPos(robot.depo.ARM_IN);
+            robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);*/
+            wristMode = WristMode.IN;
             dOpen = false;
             dTilt = false;
             dTiltIn = false;
@@ -507,14 +469,14 @@ public class teleop2 extends OpMode {
 
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() < 460){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+65, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-20){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+100, 1);
             }
         }
 
         if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
-            if(robot.vSlides.vSlidesB.getCurrentPosition() > 55){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-50, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > 100){
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-90, 1);
             }
         }
 
@@ -590,10 +552,11 @@ public class teleop2 extends OpMode {
         // vSlides down
         if((gamepad2.left_trigger > 0.9 || gamepad1.dpad_down) && Button.BTN_SLIDE_DOWN.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-20){
-                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+120,1);
+                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+160,1);
             }
             robot.intake.in();
             slideGoBottom = true;
+            counter = 0;
             //robot.depoTilt.setIn();
             //robot.depoDoor.setOpen2();
             robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
@@ -659,8 +622,8 @@ public class teleop2 extends OpMode {
             vSlideLevel = 4;
             robot.intake.off();
             intakeMode = IntakeMode.OFF;
-            robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
-            robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+            //robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+            //robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
             fClawClosed = true;
             bClawClosed = true;
             robot.intakeDoor.setClosed();
@@ -676,38 +639,48 @@ public class teleop2 extends OpMode {
             firstTime = false;
         }
         if(depoTiltOutDelay && robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1 - 10 ){
-            robot.depo.setArmPos(robot.depo.ARM_OUT);
+            robot.depo.setDepoOutVert();//setArmPos(robot.depo.ARM_OUT);
+            wristMode = WristMode.VERT;
             dGoFlat = true;
             //robot.depoTilt.setOut();
             dTilt = true;
             depoTiltOutDelay = false;
         }
 
-        if(slideGoBottom){
-            if(System.currentTimeMillis() - depoTiltInDelay > 225){
-                robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
-                wristMode = WristMode.VERT_IN;
-            }
-        }
-
-        if(slideGoBottom)  {
-            if(System.currentTimeMillis() - depoTiltInDelay > 500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
-                //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
-                //robot.depoDoor.setClosed();
-                robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
-                robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
+        if(slideGoBottom && counter == 0){
+            if(System.currentTimeMillis() - depoTiltInDelay > 200){
+                robot.depo.setDepoOutVert();
+                //robot.depo.setWristPos(robot.depo.WRIST_IN_VERT);
+                wristMode = WristMode.IN;
+                robot.depo.setBothClawsClose();
+                //robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
+                //robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
                 fClawClosed = false;
                 bClawClosed = false;
-                robot.depo.setArmPos(robot.depo.ARM_IN);
-                //robot.depoTilt.setIn();
-                dTilt = false;
+                counter++;
             }
         }
 
-        if(slideGoBottom)  {
-            if(System.currentTimeMillis() - depoTiltInDelay > 1000){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+        if(slideGoBottom && counter == 1)  {
+            if(robot.depo.getArmVolt() > 2.3 || System.currentTimeMillis() - depoTiltInDelay > 1200){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+                //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
+                //robot.depoDoor.setClosed();
+                robot.depo.setDepoIn();
+                //robot.depo.setArmPos(robot.depo.ARM_IN);
+                wristMode = WristMode.IN;
+                //robot.depoTilt.setIn();
+                dTilt = false;
+                counter++;
+            }
+        }
+
+        if(slideGoBottom && counter==2)  {
+            if(robot.depo.getArmVolt() < 1.8 || System.currentTimeMillis() - depoTiltInDelay > 1500){//(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level2+ 20 && System.currentTimeMillis() - depoTiltInDelay > 100)
+                robot.depo.setFrontClawPos(robot.depo.FRONT_DUMP);
+                robot.depo.setBackClawPos(robot.depo.BACK_DUMP);
                 //|| (robot.vSlides.vSlidesB.getCurrentPosition() <= robot.vSlides.level2 + 20 && System.currentTimeMillis() - depoTiltInDelay > 200)) {
                 slideBottom();
+                //counter++;
             }
         }
 
@@ -823,6 +796,8 @@ public class teleop2 extends OpMode {
         telemetry.addData("intake", robot.intake.intake.getCurrentPosition());
         telemetry.addData("driveRB", robot.driveRightBack.getCurrentPosition());
         telemetry.addData("hslideOut", robot.hslides.slideIn());
+        telemetry.addData("vslidePowerF", robot.vSlides.vSlidesB.getPower());
+        telemetry.addData("vslidePowerB", robot.vSlides.vSlidesF.getPower());
         telemetry.addData("hslidePower", robot.hslides.getPower());
         telemetry.addData("hSlidePos", robot.hslides.hslides.getCurrentPosition());
         telemetry.update();

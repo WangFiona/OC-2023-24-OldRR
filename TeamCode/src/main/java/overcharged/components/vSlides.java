@@ -28,10 +28,10 @@ public class vSlides {
     public static int level3 = 1470;
     public static int level2 = 880;*/
     public static int autoLevel = 100;
-    public static int level1 = 200;
-    public static int level2 = 285;
-    public static int level3 = 380;
-    public static int level4 = 480;
+    public static int level1 = 300;//200;
+    public static int level2 = 515;
+    public static int level3 = 861;////380;
+    public static int level4 = 1177;//480;
     public static float factorR = 1;//0.957f;//0.963f;//1.015f;
     public static float factorL = 1f;
     //starting encoder reading
@@ -478,8 +478,8 @@ public class vSlides {
     }
 
     public void down(){
-        vSlidesF.setPower(-0.7f);
-        vSlidesB.setPower(-0.7f);
+        vSlidesF.setPower(-0.9f);
+        vSlidesB.setPower(-0.9f);
     }
 }
 

@@ -3,8 +3,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class intakeDoor {
     public OcServo intakeDoor;
-    public static final float CLOSED = 98f;
-    public static float OPEN = 123f;
+    public static final float CLOSED = 64f;
+    public static float OPEN = 205f;
 
     public intakeDoor(HardwareMap hardwareMap) {
         intakeDoor = new OcServo(hardwareMap, "intakeDoor", CLOSED);

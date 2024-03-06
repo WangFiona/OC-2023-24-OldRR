@@ -70,6 +70,7 @@ Tester
         MOTOR,
         DRIVE,
         SERVO_CALIBRATE,
+        DEPO_CALIBRATE,
         SERVO,
         //GYRO,
         //LED,
@@ -149,10 +150,10 @@ Tester
         servos.add(bClaw);
         OcServo fClaw = robot.depo.frontClaw;
         servos.add(fClaw);
-        OcServo wrist = robot.depo.wrist;
-        servos.add(wrist);
-        OcServo arm = robot.depo.arm;
-        servos.add(arm);
+        OcServo depoL = robot.depo.depoL;
+        servos.add(depoL);
+        OcServo depoR = robot.depo.depoR;
+        servos.add(depoR);
 
         servoTestInfos = new ServoTestInfo[]{
                 // claw
@@ -194,13 +195,13 @@ Tester
                         robot.depo.BACK_DUMP,
                         robot.depo.BACK_CLOSE),
                 new ServoTestInfo(
-                        wrist,
-                        robot.depo.WRIST_IN_VERT,
-                        robot.depo.WRIST_FLAT),
+                        depoL,
+                        robot.depo.LEFT_IN,
+                        robot.depo.L_VERT),
                 new ServoTestInfo(
-                        arm,
-                        robot.depo.ARM_IN,
-                        robot.depo.ARM_OUT),
+                        depoR,
+                        robot.depo.RIGHT_IN,
+                        robot.depo.R_VERT),
         };
 
         int testCounter = 0;
@@ -248,6 +249,9 @@ Tester
                         break;
                     case SERVO_CALIBRATE:
                         servoCalibrate(servos);
+                        break;
+                    case DEPO_CALIBRATE:
+                        depoCalibrate(servos);
                         break;
                     case SERVO:
                         servoTest(servoTestInfos);
@@ -452,6 +456,49 @@ Tester
             telemetry.addData("Test", "ServoCalibrate");
             telemetry.addData("Adjust", "+:B -:X Max:Y Min:A Mid:RStick");
             telemetry.addData("Position", integerFormatter.format(posJoy1));
+            telemetry.addData("Servo", servoCalibrateList.get(servoCalibrateCounter));
+            telemetry.addData("Select", "Next: RightTrigger Prev: LeftTrigger");
+            telemetry.addData("Back", "LeftStick");
+
+            telemetry.update();
+            idle();
+        }
+    }
+
+    private void depoCalibrate(List<OcServo> servoCalibrateList) {
+        int leftPos = (int)(robot.depo.depoL.getPosition());//(int)(servoCalibrateList.get(servoCalibrateCounter).getPosition());
+        int rightPos = (int)(robot.depo.depoR.getPosition());
+
+        while (opModeIsActive()) {
+            long timeStamp = System.currentTimeMillis();
+
+            ///Change servo position for calibration
+            if (gamepad1.x && Button.BTN_MINUS.canPress4Short(timeStamp)) {
+                leftPos -= MIN_SERVO_TICK;
+                rightPos -= MIN_SERVO_TICK;
+            } else if (gamepad1.b && Button.BTN_PLUS.canPress4Short(timeStamp)) {
+                leftPos += MIN_SERVO_TICK;
+                rightPos += MIN_SERVO_TICK;
+            } else if (gamepad1.y && Button.BTN_MAX.canPress(timeStamp)) {
+                leftPos -= MIN_SERVO_TICK;
+                rightPos += MIN_SERVO_TICK;
+            } else if (gamepad1.a && Button.BTN_MIN.canPress(timeStamp)) {
+                leftPos += MIN_SERVO_TICK;
+                rightPos -= MIN_SERVO_TICK;
+            } else if (gamepad1.right_stick_button && Button.BTN_MID.canPress(timeStamp)) {
+                leftPos = 128;
+            }
+            leftPos = Range.clip(leftPos, 0, 255);
+            rightPos = Range.clip(rightPos, 0, 255);
+            //servoCalibrateList.get(servoCalibrateCounter).setPosition(leftPos);
+            robot.depo.depoL.setPosition(leftPos);
+            robot.depo.depoR.setPosition(rightPos);
+
+            telemetry.addData("Test", "ServoCalibrate");
+            telemetry.addData("Adjust", "+:B -:X Max:Y Min:A Mid:RStick");
+            telemetry.addData("L Position", integerFormatter.format(leftPos));
+            telemetry.addData("R Position", integerFormatter.format(rightPos));
+            telemetry.addData("Volt", robot.depo.armVolt.getVoltage());
             telemetry.addData("Servo", servoCalibrateList.get(servoCalibrateCounter));
             telemetry.addData("Select", "Next: RightTrigger Prev: LeftTrigger");
             telemetry.addData("Back", "LeftStick");

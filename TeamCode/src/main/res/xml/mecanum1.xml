@@ -11,8 +11,8 @@
             <Servo name="rightHang" port="5" />
             <Servo name="frontClaw" port="4" />
             <Servo name="backClaw" port="2" />
-            <Servo name="wrist" port="0" />
-            <Servo name="arm" port="1" />
+            <Servo name="depoL" port="0" />
+            <Servo name="depoR" port="1" />
             <AnalogInput name="armVolt" port="0" />
             <RevColorSensorV3 name="sensorR" port="1" bus="1" />
         </LynxModule>
