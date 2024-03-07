@@ -53,7 +53,7 @@ public class auto8OneCycleNear extends LinearOpMode {
     float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xPark, yPark;
     TrajectorySequence test, dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, goToIntakeWall,
             dumpMYellowPixel, dumpLYellowPixel, dumpRYellowPixel, wallPark, goToIntake,
-            goToIntakeM, goToIntakeL, goToIntakeR, goToDump1, extraPush2, centerPark;
+            goToIntakeM, goToIntakeL, goToIntakeR, goToDump1, extraPush2, centerPark, goToIntake2, goToDump2;
     Pose2d start = new Pose2d();
 
     @Override
@@ -99,44 +99,44 @@ public class auto8OneCycleNear extends LinearOpMode {
 
             //initialize trajectories
             dumpMPurplePixel = drive.trajectorySequenceBuilder(start)
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(90, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xMPurpleDump, yMPurpleDump, Math.toRadians(Blue? 90 : -90)))
                     .build();
             dumpLPurplePixel = drive.trajectorySequenceBuilder(start)
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(90, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xLPurpleDump, yLPurpleDump, Math.toRadians(Blue? 90 : -90)))
                     .build();
             dumpRPurplePixel = drive.trajectorySequenceBuilder(start)
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(90, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xRPurpleDump, yRPurpleDump, Math.toRadians(Blue? 90 : -90)))
                     .build();
             extraForPurple = drive.trajectorySequenceBuilder(Blue? dumpRPurplePixel.end() : dumpLPurplePixel.end())
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(90, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(new Vector2d(Blue? xRPurpleDump : xLPurpleDump, Blue? yRPurpleDump+8.5 : yLPurpleDump-9))
                     .build();
             dumpMYellowPixel = drive.trajectorySequenceBuilder(dumpMPurplePixel.end())
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xMYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? yYellowDump+18:yYellowDump-18), () -> {
                         robot.depo.setDepoOutVert();
                     })
                     .build();
             dumpLYellowPixel = drive.trajectorySequenceBuilder(dumpLPurplePixel.end())
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xLYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? yYellowDump+18:yYellowDump-18), () -> {
                         robot.depo.setDepoOutVert();
                     })
                     .build();
             dumpRYellowPixel = drive.trajectorySequenceBuilder(dumpRPurplePixel.end())
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToLinearHeading(new Pose2d(xRYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .addSpatialMarker(new Vector2d(xMYellowDump, Blue? yYellowDump+18:yYellowDump-18), () -> {
                         robot.depo.setDepoOutVert();
                     })
                     .build();
             goToIntakeM = drive.trajectorySequenceBuilder((new Pose2d(dumpMYellowPixel.end().getX(), dumpMYellowPixel.end().getY(), Math.toRadians(92.5))))
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(new Vector2d(dumpMYellowPixel.end().getX(), dumpMYellowPixel.end().getY()+5))
                     .splineToConstantHeading(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake), Math.toRadians(Blue? 92.5 : -92.5))
                     .addSpatialMarker(new Vector2d(xIntake, Blue? -(yMidIntake+5):(yMidIntake+5)), () -> {
@@ -150,7 +150,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                     .lineTo(new Vector2d(xIntake, yIntake))
                     .build();
             goToIntakeL = drive.trajectorySequenceBuilder((new Pose2d(dumpLYellowPixel.end().getX(), dumpLYellowPixel.end().getY(), Math.toRadians(92.5))))
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(new Vector2d(dumpLYellowPixel.end().getX(), dumpLYellowPixel.end().getY()+5))
                     .splineToConstantHeading(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake), Math.toRadians(Blue? 92.5 : -92.5))
                     .addSpatialMarker(new Vector2d(xIntake, Blue? -(yMidIntake+5):(yMidIntake+5)), () -> {
@@ -164,7 +164,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                     .lineTo(new Vector2d(xIntake, yIntake))
                     .build();
             goToIntakeR = drive.trajectorySequenceBuilder((new Pose2d(dumpRYellowPixel.end().getX(), dumpRYellowPixel.end().getY(), Math.toRadians(92.5))))
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(new Vector2d(dumpRYellowPixel.end().getX(), dumpRYellowPixel.end().getY()+5))
                     .splineToConstantHeading(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake), Math.toRadians(Blue? 92.5 : -92.5))
                     .addSpatialMarker(new Vector2d(xIntake, Blue? -(yMidIntake+5):(yMidIntake+5)), () -> {
@@ -177,6 +177,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                     })
                     .lineTo(new Vector2d(xIntake, yIntake))
                     .build();
+
             /*goToIntake = drive.trajectorySequenceBuilder(Blue? (new Pose2d(dumpRYellowPixel.end().getX(), dumpRYellowPixel.end().getY()+5, Math.toRadians(92.5))) : new Pose2d(dumpLYellowPixel.end().getX(), dumpLYellowPixel.end().getY()-3, Math.toRadians(-92.5)))
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .splineToConstantHeading(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake), Math.toRadians(Blue? 92.5 : -92.5))
@@ -191,7 +192,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                     .lineTo(new Vector2d(xIntake, yIntake))
                     .build();*/
             goToDump1 = drive.trajectorySequenceBuilder(goToIntakeM.end())
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineTo(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake))
                     .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-3:-(yIntake-3)), () -> {
                         robot.intakeDoor.setClosed();
@@ -231,8 +232,57 @@ public class auto8OneCycleNear extends LinearOpMode {
                         robot.depo.setWristPos(robot.depo.WRIST_FLAT);
                     })*/
                     .build();
+            goToIntake2 = drive.trajectorySequenceBuilder(new Pose2d(extraPush2.end().getX(), extraPush2.end().getY(), Math.toRadians(Blue? 95:-95)))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineTo(new Vector2d(xMYellowDump, yYellowDump+5))
+                    .splineToConstantHeading(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake), Math.toRadians(Blue? 95 : -95))
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? -(yMidIntake+5):(yMidIntake+5)), () -> {
+                        robot.depo.setDepoIn();
+                        //robot.depo.setArmPos(robot.depo.ARM_IN);
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? -(yMidIntake+1):(yMidIntake+1)), () -> {
+                        slidesDown(lp);
+                        robot.hslides.moveEncoderTo(hSlideLength, 1);
+                    })
+                    .lineTo(new Vector2d(xIntake, yIntake))
+                    .build();
+            goToDump2 = drive.trajectorySequenceBuilder(goToIntake2.end())
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineTo(new Vector2d(xIntake, Blue? -yMidIntake:yMidIntake))
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-3:-(yIntake-3)), () -> {
+                        robot.intakeDoor.setClosed();
+                        robot.intakeBigTilt.setTransfer();
+                        robot.intakeSmallTilt.setTransfer();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-6:-(yIntake-6)), () -> {
+                        robot.intake.out();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-7:-(yIntake-7)), () -> {
+                        robot.intake.off();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-10:-(yIntake-10)), () -> {
+                        robot.intake.slowIn();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-15:-(yIntake-15)), () -> {
+                        robot.intake.slowIn();
+                        robot.intakeDoor.setOpen();
+                        // robot.depoDoor.setOpen2();
+                        robot.depo.setBothClawsOpen();
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? yIntake-44:-(yIntake-44)), () -> {
+                        robot.intakeDoor.setClosed();
+                        // robot.depoDoor.setClosed();
+                        robot.depo.setBothClawsClose();
+                        robot.intake.off();
+                        //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+                    })
+                    .addSpatialMarker(new Vector2d(xIntake, Blue? -19:19), () -> {
+                        robot.vSlides.moveEncoderTo(robot.vSlides.level1+200, 1);
+                    })
+                    .splineToConstantHeading(new Vector2d(Blue? -34: -34, Blue? (yYellowDump+13) : yYellowDump-13), Math.toRadians(Blue? 90:-90))
+                    .build();
             wallPark = drive.trajectorySequenceBuilder(new Pose2d(dumpMYellowPixel.end().getX(), Blue ? dumpMYellowPixel.end().getY()+7 : dumpMYellowPixel.end().getY()-7, Math.toRadians(Blue? 90 : -90)))
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToConstantHeading(new Vector2d(0, Blue? yYellowDump+2:yYellowDump-2))
                     .addSpatialMarker(new Vector2d(-15, Blue? yYellowDump:yYellowDump), () -> {
                         robot.depo.setDepoIn();
@@ -242,7 +292,7 @@ public class auto8OneCycleNear extends LinearOpMode {
                     })
                     .build();
             centerPark = drive.trajectorySequenceBuilder(new Pose2d(dumpMYellowPixel.end().getX(), Blue ? dumpMYellowPixel.end().getY()+7 : dumpMYellowPixel.end().getY()-7, Math.toRadians(Blue? 90 : -90)))
-                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(95, Math.PI * 2, DriveConstants.TRACK_WIDTH))
                     .lineToConstantHeading(new Vector2d(-50, Blue? yYellowDump+2:yYellowDump-2))
                     .addSpatialMarker(new Vector2d(-25, Blue? yYellowDump:yYellowDump), () -> {
                         robot.depo.setDepoIn();
@@ -445,7 +495,7 @@ public class auto8OneCycleNear extends LinearOpMode {
         robot.intakeBigTilt.setPosition(robot.intakeBigTilt.THIRD);
         robot.intake.slowIn();
         //robot.depo.setArmPos(robot.depo.ARM_IN);
-        drive.followTrajectorySequence(goToIntakeM);
+        drive.followTrajectorySequence(goToIntake2);
         lp.waitMillis(75);
         robot.intakeBigTilt.setPosition(robot.intakeBigTilt.SECOND);
         lp.waitMillis(200);
@@ -456,7 +506,7 @@ public class auto8OneCycleNear extends LinearOpMode {
         robot.intakeDoor.setClosed();
         robot.intakeBigTilt.setTransfer();
         robot.intakeSmallTilt.setTransfer();*/
-        drive.followTrajectorySequence(goToDump1);
+        drive.followTrajectorySequence(goToDump2);
         robot.depo.setDepoOutVert();
         drive.followTrajectorySequence(extraPush2);
         robot.depo.setBothClawsOpen();
