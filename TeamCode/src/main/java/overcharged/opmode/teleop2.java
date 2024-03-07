@@ -396,7 +396,7 @@ public class teleop2 extends OpMode {
                 bClawClosed = true;
             }
             else{
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+80, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+80, 0.9f);
                 depoTiltDelay = System.currentTimeMillis();
                 dTiltIn = true;
             }
@@ -470,13 +470,13 @@ public class teleop2 extends OpMode {
 //      UNCOMMENT THIS LATER
         if(gamepad2.y && Button.SLIGHT_UP.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-20){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+100, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())+100, 0.9f);
             }
         }
 
         if(gamepad2.a && Button.SLIGHT_DOWN.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() > 100){
-                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-90, 1);
+                robot.vSlides.moveEncoderTo((int)(robot.vSlides.vSlidesB.getCurrentPosition())-90, 0.9f);
             }
         }
 
@@ -552,7 +552,7 @@ public class teleop2 extends OpMode {
         // vSlides down
         if((gamepad2.left_trigger > 0.9 || gamepad1.dpad_down) && Button.BTN_SLIDE_DOWN.canPress(timestamp)){
             if(robot.vSlides.vSlidesB.getCurrentPosition() < robot.vSlides.level4-20){
-                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+160,1);
+                robot.vSlides.moveEncoderTo(robot.vSlides.vSlidesB.getCurrentPosition()+160,0.9f);
             }
             robot.intake.in();
             slideGoBottom = true;
@@ -632,10 +632,10 @@ public class teleop2 extends OpMode {
         }
 
         if(firstTime && depoTiltOutDelay && System.currentTimeMillis() - delayForClaw > 250){
-            if(vSlideLevel == 1){ robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);}
-            else if(vSlideLevel == 2){ robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);}
-            else if(vSlideLevel == 3){ robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);}
-            else {robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);}
+            if(vSlideLevel == 1){ robot.vSlides.moveEncoderTo(robot.vSlides.level1, 0.9f);}
+            else if(vSlideLevel == 2){ robot.vSlides.moveEncoderTo(robot.vSlides.level2, 0.9f);}
+            else if(vSlideLevel == 3){ robot.vSlides.moveEncoderTo(robot.vSlides.level3, 0.9f);}
+            else {robot.vSlides.moveEncoderTo(robot.vSlides.level4, 0.9f);}
             firstTime = false;
         }
         if(depoTiltOutDelay && robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1 - 10 ){

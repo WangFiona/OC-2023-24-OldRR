@@ -27,7 +27,7 @@ public class vSlides {
     /*public static int level4 = 1970;
     public static int level3 = 1470;
     public static int level2 = 880;*/
-    public static int autoLevel = 300;
+    public static int autoLevel = 220;
     public static int level1 = 300;//200;
     public static int level2 = 515;
     public static int level3 = 861;////380;
@@ -277,7 +277,8 @@ public class vSlides {
      * move the slide system up/down to the specified level at a calculated power using PID
      * @param pos encoder value of the level we want to reach
      */
-    public void moveEncoderTo(int pos, int p) {
+    public void moveEncoderTo(int pos, float p) {
+        p=0.85f;
         pidState = true;
         vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

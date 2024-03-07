@@ -24,12 +24,12 @@ public class HSVPipeline extends OpenCvPipeline {
     double rightY2 = 0.63;//0.35;
 
     //blues
-    double blueX1 = 0.69;
-    double blueX2 = 0.74;
+    double blueX1 = 0.66;//0.69;
+    double blueX2 = 0.71;//0.74;
     double blueY1 = 0.7;
     double blueY2 = 0.6;
-    double blueLeftX1 = 0.27;
-    double blueLeftX2 = 0.32;
+    double blueLeftX1 = 0.24;//0.27;
+    double blueLeftX2 = 0.29;//0.32;
     double blueLeftY1 = 0.73;
     double blueLeftY2 = 0.63;
     Scalar averageColor, rightAverageColor, blueAverageColor, blueLeftAverageColor;
@@ -149,8 +149,8 @@ public class HSVPipeline extends OpenCvPipeline {
 
     public propLocation getLocation(boolean red, boolean close) {
         if (red && !close) {
-      //      midColor = isColorInRange(averageColor, lowerRed1, upperRed1) || isColorInRange(averageColor, lowerRed2, upperRed2);
-        //    rightColor = isColorInRange(rightAverageColor, lowerRed1, upperRed1) || isColorInRange(rightAverageColor, lowerRed2, upperRed2);
+            //      midColor = isColorInRange(averageColor, lowerRed1, upperRed1) || isColorInRange(averageColor, lowerRed2, upperRed2);
+            //    rightColor = isColorInRange(rightAverageColor, lowerRed1, upperRed1) || isColorInRange(rightAverageColor, lowerRed2, upperRed2);
             if (midColor)
                 location = propLocation.Middle;
             else if (rightColor)
@@ -179,7 +179,7 @@ public class HSVPipeline extends OpenCvPipeline {
             }
         }
         if (!red&&!close) {
-           // blueMidColor = isColorInRange(blueAverageColor, lowerBlue, upperBlue);
+            // blueMidColor = isColorInRange(blueAverageColor, lowerBlue, upperBlue);
             //blueLeftColor = isColorInRange(blueLeftAverageColor, lowerBlue, upperBlue);
             if (blueMidColor)
                 location = propLocation.Middle;
