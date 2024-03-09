@@ -14,8 +14,8 @@ import org.opencv.imgproc.Imgproc;
 import overcharged.components.propLocation;
 
 public class HSVPipeline extends OpenCvPipeline {
-    double x1 = 0.44;//0.46;//0.35;//0.42;
-    double x2 = 0.49;//0.51;//0.4;//0.54;
+    double x1 = 0.435;//0.44;//0.46;//0.35;//0.42;
+    double x2 = 0.485;//0.51;//0.4;//0.54;
     double y1 = 0.7;//0.55;
     double y2 = 0.6;//0.29;
     double rightX1 = 0.86;//0.9;//0.85;//0.02;

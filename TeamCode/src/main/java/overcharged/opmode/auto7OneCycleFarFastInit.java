@@ -91,7 +91,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             //LEFT
             float xLPurpleDump = Blue? -25: -26;
             float yLPurpleDump = Blue? -2f: -3;//9.5f;
-            float xLYellowDump = Blue? -19f: -28.5f;//-18;
+            float xLYellowDump = Blue? -19f: -27.5f;//-28.5f;//-18;
 
             //RIGHT
             float xRPurpleDump = Blue? -26: -25;
@@ -267,6 +267,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     .build();
             cycleIntake1 = drive.trajectorySequenceBuilder(Blue? dumpRYellowPixel2.end() : dumpLYellowPixel2.end())
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(85, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineTo(new Vector2d(dumpRYellowPixel2.end().getX(), Blue?dumpRYellowPixel2.end().getY()+5:dumpRYellowPixel2.end().getY()-5)) // new
                     .splineToConstantHeading(new Vector2d(Blue? xIntake-22.5 :xIntake-22.5,Blue? -63:63), Math.toRadians(Blue? 90 : -90))
                     .addSpatialMarker(new Vector2d(Blue? xIntake-22.5 :xIntake-22,Blue? -55:55), () -> {
                         slidesDown(lp);
@@ -280,6 +281,11 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                             SampleMecanumDrive.getVelocityConstraint(50, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                             SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                     )
+                    .addSpatialMarker(new Vector2d(Blue?xIntake-25:xIntake-22, Blue? 10:-10), () -> {
+                        robot.intakeDoor.setClosed();
+                        robot.intakeBigTilt.setTransfer();
+                        robot.intakeSmallTilt.setTransfer();
+                    })
                     //.lineTo(new Vector2d(Blue? xIntake-24 :xIntake-22,Blue? -63:63))
                     .addSpatialMarker(new Vector2d(Blue? xIntake-25 :xIntake-22, Blue? -13:13), () -> {
                         robot.intake.out();
@@ -428,7 +434,10 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         keepHSlidesIn(lp, true);
 
         lp.waitMillis(waitTime);
-
+      //  robot.hslides.moveEncoderTo(1650, 1);
+  //      lp.waitMillis(5000);
+    //    robot.hslides.moveEncoderTo(hslides.START,-1);
+     //   lp.waitMillis(10000);
         //robot.depoDoor.setClosed();
         robot.depo.setBothClawsClose();
         robot.intakeDoor.setClosed();
@@ -525,7 +534,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             robot.intakeDoor.setClosed();
             drive.followTrajectorySequence(cycleIntake1);
             keepHSlidesIn(lp, false);
-            robot.hslides.moveEncoderTo(1900, 1);
+            robot.hslides.moveEncoderTo(1740, .85f);
             robot.intake.in();
 
             drive.followTrajectorySequence(cycleIntake2);
@@ -536,10 +545,11 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
 
             robot.hslides.moveEncoderTo(hslides.START,-1);
             keepHSlidesIn(lp, true);
+            //lp.waitMillis(5000);
             //robot.intake.off();
-            robot.intakeDoor.setClosed();
-            robot.intakeBigTilt.setTransfer();
-            robot.intakeSmallTilt.setTransfer();
+            //robot.intakeDoor.setClosed();
+            //robot.intakeBigTilt.setTransfer();
+            //robot.intakeSmallTilt.setTransfer();
             drive.followTrajectorySequence(additionalCycleDump);
             robot.vSlides.moveEncoderTo(robot.vSlides.level1-40, 1);
             drive.followTrajectorySequence(extraPush2);
