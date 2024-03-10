@@ -45,11 +45,13 @@ public class auto1NoCycleClose extends LinearOpMode {
     boolean Blue = true;
     double waitTime = 0;
     boolean DropHeight = true;
+    boolean ParkLocation = true;
     propLocation location = propLocation.Middle;
     FtcDashboard dashboard = FtcDashboard.getInstance();
     MultipleTelemetry telems;
     float xPurpleDump, yPurpleDump, xYellowDump, yYellowDump, xPark, yPark;
-    TrajectorySequence test, dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple, dumpMYellowPixel, dumpLYellowPixel, dumpRYellowPixel, park;
+    TrajectorySequence test, dumpMPurplePixel, dumpLPurplePixel, dumpRPurplePixel, extraForPurple,
+            dumpMYellowPixel, dumpLYellowPixel, dumpRYellowPixel, park, wallPark, centerPark;
     Pose2d start = new Pose2d();
 
     @Override
@@ -68,6 +70,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             else{robot.pixel.setRightIn();}
             DropHeight = sl.selectDropHeight(); //true = low, false = high drop
             waitTime = sl.adjustDelay();
+            ParkLocation = sl.selctParkingLocation();
 
             float yYellowDump = Blue? -38f:38;//91f;
             float xIntake = Blue ? -27.5f : -26;
@@ -85,7 +88,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             //RIGHT
             float xRPurpleDump = Blue? -26: -26;
             float yRPurpleDump = Blue? 4f: 10.5f;//-4;
-            float xRYellowDump = Blue? -33.5f: -18f;//-36;
+            float xRYellowDump = Blue? -33.5f: -17f;//-36;
 
             //initialize trajectories
             dumpMPurplePixel = drive.trajectorySequenceBuilder(start)
@@ -113,11 +116,18 @@ public class auto1NoCycleClose extends LinearOpMode {
             dumpRYellowPixel = drive.trajectorySequenceBuilder(dumpRPurplePixel.end())
                     .lineToLinearHeading(new Pose2d(xRYellowDump, yYellowDump, Math.toRadians(Blue? 90 : -90)))
                     .build();
-            park = drive.trajectorySequenceBuilder(new Pose2d(Blue? dumpLYellowPixel.end().getX() : dumpRYellowPixel.end().getX(), Blue ? dumpLYellowPixel.end().getY()+5 : dumpRYellowPixel.end().getY()-5, Math.toRadians(Blue? 90 : -90)))
+            wallPark = drive.trajectorySequenceBuilder(new Pose2d(Blue? dumpLYellowPixel.end().getX() : dumpRYellowPixel.end().getX(), Blue ? dumpLYellowPixel.end().getY()+9 : dumpRYellowPixel.end().getY()-9, Math.toRadians(Blue? 90 : -90)))
                     .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(75, Math.PI * 2, DriveConstants.TRACK_WIDTH))
-                    .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+5:yYellowDump-2))
+                    .lineToConstantHeading(new Vector2d(2, Blue? yYellowDump+7:yYellowDump-7))
                     .addSpatialMarker(new Vector2d(3, Blue? yYellowDump+3:yYellowDump), () -> {
                         //robot.depo.setArmPos(robot.depo.ARM_IN);
+                        robot.depo.setDepoIn();
+                    })
+                    .build();
+            centerPark = drive.trajectorySequenceBuilder(new Pose2d(dumpMYellowPixel.end().getX(), Blue ? dumpMYellowPixel.end().getY()+9 : dumpMYellowPixel.end().getY()-9, Math.toRadians(Blue? 90 : -90)))
+                    .setVelConstraint(SampleMecanumDrive.getVelocityConstraint(105, Math.PI * 2, DriveConstants.TRACK_WIDTH))
+                    .lineToConstantHeading(new Vector2d(-48, Blue? yYellowDump+7:yYellowDump-7))
+                    .addSpatialMarker(new Vector2d(-25, Blue? yYellowDump:yYellowDump), () -> {
                         robot.depo.setDepoIn();
                     })
                     .build();
@@ -277,7 +287,12 @@ public class auto1NoCycleClose extends LinearOpMode {
         robot.depo.setBothClawsOpen();
         lp.waitMillis(500);
 
-        drive.followTrajectorySequence(park);
+        //drive.followTrajectorySequence(park);
+        if(ParkLocation){
+            drive.followTrajectorySequence(wallPark);
+        } else {
+            drive.followTrajectorySequence(centerPark);
+        }
         lp.waitMillis(200);
 
         robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

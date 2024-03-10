@@ -14,8 +14,8 @@ import org.opencv.imgproc.Imgproc;
 import overcharged.components.propLocation;
 
 public class HSVPipeline extends OpenCvPipeline {
-    double x1 = 0.435;//0.44;//0.46;//0.35;//0.42;
-    double x2 = 0.485;//0.51;//0.4;//0.54;
+    double x1 = 0.4;//.415//0.44;//0.46;//0.35;//0.42;
+    double x2 = 0.45;//.475//0.51;//0.4;//0.54;
     double y1 = 0.7;//0.55;
     double y2 = 0.6;//0.29;
     double rightX1 = 0.86;//0.9;//0.85;//0.02;
@@ -24,8 +24,8 @@ public class HSVPipeline extends OpenCvPipeline {
     double rightY2 = 0.63;//0.35;
 
     //blues
-    double blueX1 = 0.66;//0.69;
-    double blueX2 = 0.71;//0.74;
+    double blueX1 = 0.64;//0.69;
+    double blueX2 = 0.69;//0.74;
     double blueY1 = 0.7;
     double blueY2 = 0.6;
     double blueLeftX1 = 0.24;//0.27;
@@ -37,7 +37,7 @@ public class HSVPipeline extends OpenCvPipeline {
     Scalar upperRed1 = new Scalar(15, 255, 255);
     Scalar lowerRed2 = new Scalar(113, 100, 70);
     Scalar upperRed2 = new Scalar(180, 255, 255);
-    Scalar lowerBlue = new Scalar(0, 0, 33);
+    Scalar lowerBlue = new Scalar(0, 140, 33);
     Scalar upperBlue = new Scalar(37, 255, 255);
     boolean midColor = false;
     boolean rightColor = false;

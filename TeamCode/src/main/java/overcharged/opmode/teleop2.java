@@ -568,67 +568,83 @@ public class teleop2 extends OpMode {
         }
         //Slide height 1
         if(gamepad2.dpad_left && Button.BTN_LEVEL1.canPress(timestamp)){
-            depoTiltOutDelay = true;
-            delayForClaw = System.currentTimeMillis();
-            firstTime = true;
-            vSlideLevel = 1;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
-            robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
-            fClawClosed = true;
-            bClawClosed = true;
-            robot.intakeDoor.setClosed();
-            iOpen = false;
-           //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1-10){
+                robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+            } else {
+                depoTiltOutDelay = true;
+                delayForClaw = System.currentTimeMillis();
+                firstTime = true;
+                vSlideLevel = 1;
+                robot.intake.off();
+                intakeMode = IntakeMode.OFF;
+                robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+                robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+                fClawClosed = true;
+                bClawClosed = true;
+                robot.intakeDoor.setClosed();
+                iOpen = false;
+                //robot.vSlides.moveEncoderTo(robot.vSlides.level1, 1);
+            }
         }
         //Slide height 2
         if(gamepad2.dpad_down && Button.BTN_LEVEL2.canPress(timestamp)){
-            depoTiltOutDelay = true;
-            delayForClaw = System.currentTimeMillis();
-            firstTime = true;
-            vSlideLevel = 2;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
-            robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
-            fClawClosed = true;
-            bClawClosed = true;
-            robot.intakeDoor.setClosed();
-            iOpen = false;
-            //robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1-10){
+                robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
+            } else {
+                depoTiltOutDelay = true;
+                delayForClaw = System.currentTimeMillis();
+                firstTime = true;
+                vSlideLevel = 2;
+                robot.intake.off();
+                intakeMode = IntakeMode.OFF;
+                robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+                robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+                fClawClosed = true;
+                bClawClosed = true;
+                robot.intakeDoor.setClosed();
+                iOpen = false;
+                //robot.vSlides.moveEncoderTo(robot.vSlides.level2, 1);
+            }
         }
         //Slide height 3
         if(gamepad2.dpad_right && Button.BTN_LEVEL3.canPress(timestamp)){
-            depoTiltOutDelay = true;
-            delayForClaw = System.currentTimeMillis();
-            firstTime = true;
-            vSlideLevel = 3;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
-            robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
-            fClawClosed = true;
-            bClawClosed = true;
-            robot.intakeDoor.setClosed();
-            iOpen = false;
-            //robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1-10){
+                robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
+            } else {
+                depoTiltOutDelay = true;
+                delayForClaw = System.currentTimeMillis();
+                firstTime = true;
+                vSlideLevel = 3;
+                robot.intake.off();
+                intakeMode = IntakeMode.OFF;
+                robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+                robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+                fClawClosed = true;
+                bClawClosed = true;
+                robot.intakeDoor.setClosed();
+                iOpen = false;
+                //robot.vSlides.moveEncoderTo(robot.vSlides.level3, 1);
+            }
         }
         //Slide height 4
         if(gamepad2.dpad_up && Button.BTN_LEVEL4.canPress(timestamp)){
-            depoTiltOutDelay = true;
-            delayForClaw = System.currentTimeMillis();
-            firstTime = true;
-            vSlideLevel = 4;
-            robot.intake.off();
-            intakeMode = IntakeMode.OFF;
-            //robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
-            //robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
-            fClawClosed = true;
-            bClawClosed = true;
-            robot.intakeDoor.setClosed();
-            iOpen = false;
-            //robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+            if(robot.vSlides.vSlidesB.getCurrentPosition() > robot.vSlides.level1-10){
+                robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+            } else {
+                depoTiltOutDelay = true;
+                delayForClaw = System.currentTimeMillis();
+                firstTime = true;
+                vSlideLevel = 4;
+                robot.intake.off();
+                intakeMode = IntakeMode.OFF;
+                //robot.depo.setFrontClawPos(robot.depo.FRONT_CLOSE);
+                //robot.depo.setBackClawPos(robot.depo.BACK_CLOSE);
+                fClawClosed = true;
+                bClawClosed = true;
+                robot.intakeDoor.setClosed();
+                iOpen = false;
+                //robot.vSlides.moveEncoderTo(robot.vSlides.level4, 1);
+            }
         }
 
         if(firstTime && depoTiltOutDelay && System.currentTimeMillis() - delayForClaw > 250){

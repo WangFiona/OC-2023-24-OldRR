@@ -13,8 +13,8 @@ public class newDepo {
     public static float FRONT_CLOSE = 34f;//9f;
     public static float FRONT_DUMP = 164f;//115f;
     //public static float FRONT_OPEN = 151f;
-    public static float BACK_CLOSE = 216f;
-    public static float BACK_DUMP = 98f;
+    public static float BACK_CLOSE = 212f;
+    public static float BACK_DUMP = 72f;
     //public static float BACK_OPEN = 98f;
 
     public static float WRIST_IN_VERT = 146f;//53f;
@@ -24,17 +24,17 @@ public class newDepo {
     public static float WRIST_R_DIAG= 117f;//107f;
     public static float WRIST_L_DIAG = 181f;//88f;
 
-    public static float LEFT_IN = 127f;
-    public static float RIGHT_IN = 18f;
+    public static float LEFT_IN = 133f;//131f;//127f;
+    public static float RIGHT_IN = 18f;//22f;//18f;`
 
     public static float L_VERT = 47f;
     public static float R_VERT = 106f;
     public static float L_FLAT = 118f;
     public static float R_FLAT = 177f;
-    public static float L_P_DIAG = 75f;
-    public static float R_P_DIAG = 134f;
-    public static float L_N_DIAG = 166f;
-    public static float R_N_DIAG = 225f;
+    public static float L_P_DIAG = 74f;//75f;
+    public static float R_P_DIAG = 133f;//134f;
+    public static float L_N_DIAG = 162f;//166f;
+    public static float R_N_DIAG = 221f;//225f;
     public static float L_OPP_VERT = 192f;
     public static float R_OPP_VERT = 251f;
 

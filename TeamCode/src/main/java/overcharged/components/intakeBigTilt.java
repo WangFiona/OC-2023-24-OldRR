@@ -13,7 +13,7 @@ public class intakeBigTilt {
     public static final float FIFTH = 68f;
     public static final float FOURTH = FIFTH-5;//63f;
     public static final float THIRD = FOURTH-6;
-    public static final float SECOND = THIRD-5;
+    public static final float SECOND = THIRD-6;
 
 
     public intakeBigTilt(HardwareMap hardwareMap) {

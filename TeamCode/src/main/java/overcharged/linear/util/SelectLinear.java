@@ -131,6 +131,16 @@ public class SelectLinear
         return index == 0;
     }
 
+    public boolean selectRV ()
+            throws InterruptedException {
+        RobotLog.i("entered alliance selection");
+
+        String[] RV = new String[] {"NO RV", "With RV"};
+        int index = select(RV,
+                "RV");
+        return index == 0;
+    }
+
     public boolean selectDropHeight ()
             throws InterruptedException {
         RobotLog.i("entered drop height selection");
