@@ -277,7 +277,11 @@ public class auto1NoCycleClose extends LinearOpMode {
             }
         }
 
-        robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
+        if(DropHeight){
+            robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel, 1);
+        } else {
+            robot.vSlides.moveEncoderTo(robot.vSlides.autoLevel+150, 1);
+        }
         lp.waitMillis(700);
 
         robot.depo.setDepoOutVert();
