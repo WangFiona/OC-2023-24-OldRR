@@ -174,11 +174,11 @@ public class auto6OneCycleFarSpline extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.hang.setLeftIn();
-                robot.hang.setRightIn();
+                robot.hang.setIn();
 
-                robot.vSlides.reset(robot.vSlides.vSlidesB);
-                robot.vSlides.reset(robot.vSlides.vSlidesF);
+
+                robot.vSlides.reset(robot.vSlides.vSlides);
+
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -529,13 +529,12 @@ public class auto6OneCycleFarSpline extends LinearOpMode {
     }
 
     public void slidesDown(WaitLinear lp){
-        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(!robot.vSlides.slideReachedBottom()){
             robot.vSlides.down();
         }
         robot.vSlides.forcestop();
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void lowerSlidesThread(WaitLinear lp) { // asynchronously start raising the slides

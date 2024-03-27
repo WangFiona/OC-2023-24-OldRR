@@ -121,11 +121,10 @@ public class auto3NoCycleFar extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.hang.setLeftIn();
-                robot.hang.setRightIn();
+                robot.hang.setIn();
 
-                robot.vSlides.reset(robot.vSlides.vSlidesB);
-                robot.vSlides.reset(robot.vSlides.vSlidesF);
+
+                robot.vSlides.reset(robot.vSlides.vSlides);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -322,19 +321,17 @@ public class auto3NoCycleFar extends LinearOpMode {
         robot.depoTilt.setIn();
         lp.waitMillis(500);
 
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
-            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
+            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlides.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
             robot.vSlides.moveToBottom();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
-        robot.vSlides.reset(robot.vSlides.vSlidesB);
-        robot.vSlides.reset(robot.vSlides.vSlidesF);
+        robot.vSlides.reset(robot.vSlides.vSlides);
 
         //lowerSlidesThread(lp);
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);

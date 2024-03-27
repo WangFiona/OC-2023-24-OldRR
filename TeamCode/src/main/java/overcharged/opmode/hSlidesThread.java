@@ -56,7 +56,8 @@ public class hSlidesThread implements Runnable {
         while(stayIn && System.currentTimeMillis()-loopTime > 1000){
             if(!robot.hslides.switchSlideDown.isTouch()){
                 while(!robot.hslides.switchSlideDown.isTouch()){
-                    robot.hslides.setPower(-1);
+                    robot.hslides.hslidesR.setPower(-1);
+                    robot.hslides.hslidesL.setPower(-1);
                 }
                 //robot.hslides.moveEncoderTo(hslides.START, -1);
                 if(safetyCounter > 15){

@@ -138,10 +138,8 @@ Tester
         servos.add(rightPixel);*/
         OcServo droneShooter = robot.droneShooter.droneShooter;
         servos.add(droneShooter);
-        OcServo rightHang = robot.hang.rightHang;
-        servos.add(rightHang);
-        OcServo leftHang = robot.hang.leftHang;
-        servos.add(leftHang);
+        OcServo Hang = robot.hang.Hang;
+        servos.add(Hang);
 
         OcServo pixel = robot.pixel.pixel;
         servos.add(pixel);
@@ -175,13 +173,9 @@ Tester
                         robot.droneShooter.INIT,
                         robot.droneShooter.SHOOT),
                 new ServoTestInfo(
-                        rightHang,
-                        robot.hang.RIGHT_IN,
-                        robot.hang.RIGHT_HANG),
-                new ServoTestInfo(
-                        leftHang,
-                        robot.hang.LEFT_IN,
-                        robot.hang.LEFT_HANG),
+                        Hang,
+                        robot.hang.IN,
+                        robot.hang.HANG),
                 new ServoTestInfo(
                         pixel,
                         robot.pixel.MIDDLE,
@@ -288,8 +282,7 @@ Tester
     private void encoderTest () {
         //Set all motors to FLOAT behavior while unpowered
         robot.drive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.vSlides.vSlidesB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.hslides.hslides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.vSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         while (opModeIsActive()) {
             long timeStamp = System.currentTimeMillis();
@@ -298,8 +291,9 @@ Tester
             if (gamepad1.start && Button.BTN_START.canPress(timeStamp)) {
 
                 robot.drive.resetPosition();
-                robot.vSlides.vSlidesB.resetPosition();
-                robot.hslides.hslides.resetPosition();
+                robot.vSlides.vSlides.resetPosition();
+                robot.hslides.hslidesR.resetPosition();
+                robot.hslides.hslidesL.resetPosition();
                 idle();
             }
             else if (gamepad1.left_stick_button && Button.BTN_BACK.canPress(timeStamp)) {
@@ -307,7 +301,7 @@ Tester
             }
 
             if (robot.vSlides.slideReachedBottom()) {
-                robot.vSlides.vSlidesB.resetPosition();
+                robot.vSlides.vSlides.resetPosition();
             }
             telemetry.addData("Test", "Encoders");
             telemetry.addData("Front",
@@ -317,9 +311,11 @@ Tester
                     //"Null:" + integerFormatter.format(robot.driveLeftFront.getCurrentPosition()) +
                     "Mid:" + integerFormatter.format(robot.driveRightBack.getCurrentPosition()));
             telemetry.addData("Slides:",
-                    "vSlides:" + integerFormatter.format(robot.vSlides.vSlidesB.getCurrentPosition()));
+                    "vSlides:" + integerFormatter.format(robot.vSlides.vSlides.getCurrentPosition()));
             telemetry.addData("Slides:",
-                    "hSlides:" + integerFormatter.format(robot.hslides.hslides.getCurrentPosition()));
+                    "hSlidesR:" + integerFormatter.format(robot.hslides.hslidesR.getCurrentPosition()));
+            telemetry.addData("Slides:",
+                    "hSlidesL:" + integerFormatter.format(robot.hslides.hslidesL.getCurrentPosition()));
             telemetry.addData("Reset", "Start");
             telemetry.addData("Back", "LeftStick");
 
@@ -388,7 +384,7 @@ Tester
      * Test the limit switches at the bottom and top of the slide system
      */
     private void switchTest () {
-        robot.vSlides.vSlidesB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.vSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         while (opModeIsActive()) {
             long timeStamp = System.currentTimeMillis();
@@ -698,12 +694,12 @@ Tester
 
     private void slideTest() {
         final int TIME = 1500;
-        final OcMotorEx motors[] = new OcMotorEx[]{robot.vSlides.vSlidesB};
+        final OcMotorEx motors[] = new OcMotorEx[]{robot.vSlides.vSlides};
 
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.vSlides.vSlidesB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        robot.vSlides.vSlidesB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.vSlides.vSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.vSlides.vSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // i = 1, slide down until touching the switch and reset the encoder
         // i = 2, slide up for 1.5 second and ignore the switch
@@ -738,7 +734,7 @@ Tester
             }
         }
 
-        robot.vSlides.vSlidesB.setPower(0);
+        robot.vSlides.vSlides.setPower(0);
         idle();
     }
 

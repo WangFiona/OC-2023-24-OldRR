@@ -3,12 +3,12 @@
     <Webcam name="Webcam 1" serialNumber="E155DF2F" />
     <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
         <LynxModule name="Expansion Hub 2" port="2">
-            <goBILDA5202SeriesMotor name="vSlidesF" port="0" />
+            <goBILDA5202SeriesMotor name="hslidesR" port="0" />
             <goBILDA5202SeriesMotor name="driveRB" port="1" />
             <goBILDA5202SeriesMotor name="driveRF" port="2" />
-            <goBILDA5202SeriesMotor name="vSlidesB" port="3" />
+            <goBILDA5202SeriesMotor name="hslidesL" port="3" />
             <Servo name="droneShooter" port="3" />
-            <Servo name="rightHang" port="5" />
+            <Servo name="Hang" port="5" />
             <Servo name="frontClaw" port="4" />
             <Servo name="backClaw" port="2" />
             <Servo name="depoL" port="0" />
@@ -19,14 +19,14 @@
         <LynxModule name="Control Hub" port="173">
             <goBILDA5202SeriesMotor name="driveLF" port="0" />
             <goBILDA5202SeriesMotor name="driveLB" port="1" />
-            <goBILDA5202SeriesMotor name="hSlides" port="2" />
-            <goBILDA5202SeriesMotor name="intake" port="3" />
+            <goBILDA5202SeriesMotor name="vSlides" port="3" />
+            <goBILDA5202SeriesMotor name="intake" port="2" />
             <Servo name="intakeSmallTilt" port="0" />
+            <Servo name="angular" port="1" />
             <Servo name="intakeBigTilt" port="2" />
             <Servo name="intakeDoor" port="3" />
             <!--<Servo name="leftPixel" port="4" />-->
             <Servo name="pixel" port="4" />
-            <Servo name="leftHang" port="5" />
             <DigitalDevice name="vlimitswitch" port="6" />
             <DigitalDevice name="hlimitswitch" port="7" />
             <LynxEmbeddedIMU name="imu" port="0" bus="0" />

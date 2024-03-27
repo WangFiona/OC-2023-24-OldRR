@@ -36,7 +36,7 @@ public class parkAuto extends LinearOpMode {
             waitForStart();
             //drive.resetAngle();
             if (opModeIsActive()) {
-                robot.vSlides.vSlidesB.setTargetPositionPIDFCoefficients(23,0,0,0);
+                robot.vSlides.vSlides.setTargetPositionPIDFCoefficients(23,0,0,0);
                 robot.intakeDoor.setClosed();
                 robot.intakeSmallTilt.setOut();
                 //function here
@@ -63,12 +63,12 @@ public class parkAuto extends LinearOpMode {
         robot.depoTilt.setIn();
         lp.waitMillis(1000);
         while (!robot.vSlides.slideReachedBottom()) {// && robot.vSlides.getCurrentPosition() > robot.vSlides.start){//!robot.vSlides.slideReachedBottom()){
-            robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.vSlides.down();
             RobotLog.ii(TAG_SL, "Going down");
         }
         robot.vSlides.forcestop();
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         /*robot.drive.setPower(-0.4f);
         lp.waitMillis(1200);

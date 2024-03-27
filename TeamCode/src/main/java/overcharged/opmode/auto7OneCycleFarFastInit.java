@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -34,7 +35,8 @@ import overcharged.test.EasyOpenCVExample;
 import overcharged.test.HSVPipeline;
 import overcharged.trajectorysequence.TrajectorySequence;
 
-@Config
+
+@Disabled
 @Autonomous(name="auto7OneCycleFarFastInit")
 public class auto7OneCycleFarFastInit extends LinearOpMode {
 
@@ -70,7 +72,7 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
             drive = new SampleMecanumDrive(hardwareMap);
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
-            robot.hang.setRightIn();
+            robot.hang.setIn();
 
             //initialize trajectories
 
@@ -392,11 +394,10 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.hang.setLeftIn();
-                robot.hang.setRightIn();
+                robot.hang.setIn();
 
-                robot.vSlides.reset(robot.vSlides.vSlidesB);
-                robot.vSlides.reset(robot.vSlides.vSlidesF);
+
+                robot.vSlides.reset(robot.vSlides.vSlides);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -593,19 +594,18 @@ public class auto7OneCycleFarFastInit extends LinearOpMode {
         }
         //lp.waitMillis(200);
         slidesDown(lp);
-        robot.hang.setRightIn();
+        robot.hang.setIn();
 
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 
     public void slidesDown(WaitLinear lp){
-        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while(!robot.vSlides.slideReachedBottom()){
             robot.vSlides.down();
         }
         robot.vSlides.forcestop();
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void lowerSlidesThread(WaitLinear lp) { // asynchronously start raising the slides

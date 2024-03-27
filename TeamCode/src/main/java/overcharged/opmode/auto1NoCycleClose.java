@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -30,6 +31,7 @@ import overcharged.test.HSVPipeline;
 import overcharged.trajectorysequence.TrajectorySequence;
 
 @Config
+@Disabled
 @Autonomous(name="auto1NoCycleClose")
 public class auto1NoCycleClose extends LinearOpMode {
 
@@ -54,7 +56,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             dumpMYellowPixel, dumpLYellowPixel, dumpRYellowPixel, park, wallPark, centerPark;
     Pose2d start = new Pose2d();
 
-    @Override
+ //   @Override
     public void runOpMode() throws InterruptedException {
         try {
             telems = new MultipleTelemetry(dashboard.getTelemetry(), telemetry);
@@ -62,7 +64,7 @@ public class auto1NoCycleClose extends LinearOpMode {
             drive = new SampleMecanumDrive(hardwareMap);
             WaitLinear lp = new WaitLinear(this);
             initCamera(); // initializes camera and sets up pipeline for team shipping element detection
-            robot.hang.setRightIn();
+            robot.hang.setIn();
             robot.intakeDoor.setOpen();
 
             Blue = sl.selectAlliance();
@@ -187,11 +189,9 @@ public class auto1NoCycleClose extends LinearOpMode {
                     currentTime = System.currentTimeMillis();
                 }
 
-                robot.hang.setLeftIn();
-                robot.hang.setRightIn();
+                robot.hang.setIn();
 
-                robot.vSlides.reset(robot.vSlides.vSlidesB);
-                robot.vSlides.reset(robot.vSlides.vSlidesF);
+                robot.vSlides.reset(robot.vSlides.vSlides);
 
                 //detector.reset();
                 telemetry.addData("Blue alliance", Blue);
@@ -299,21 +299,20 @@ public class auto1NoCycleClose extends LinearOpMode {
         }
         lp.waitMillis(200);
 
-        robot.vSlides.vSlidesB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.vSlides.vSlidesF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.vSlides.vSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         long slideDownTime = System.currentTimeMillis();
         RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
         while(!robot.vSlides.switchSlideDown.isTouch() && System.currentTimeMillis() - slideDownTime < 2000){
-            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlidesB.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
+            RobotLog.ii(RobotConstants.TAG_R, "reached bottom? " + robot.vSlides.switchSlideDown.isTouch() + " power " + robot.vSlides.vSlides.getPower() + " time elapsed " + (System.currentTimeMillis() - slideDownTime));
             robot.vSlides.down();
         }
         robot.vSlides.setPower(0);
         robot.vSlides.forcestop();
-        robot.vSlides.reset(robot.vSlides.vSlidesB);
-        robot.vSlides.reset(robot.vSlides.vSlidesF);
+        robot.vSlides.reset(robot.vSlides.vSlides);
 
-        robot.hang.setRightIn();
+
+        robot.hang.setIn();
         lp.waitMillis(30000-System.currentTimeMillis()+startTime);
     }
 
